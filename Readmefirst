@@ -187,3 +187,99 @@ If GitHub write access is available, use focused commits on a feature branch, op
 - Ask only for information genuinely required to proceed.
 
 Begin implementation now and proceed through the stages until the deliverables are complete.
+Inspect ALL attached UrduOfDani interface images and my existing source code, then implement a coherent, working UI based on them.
+
+Do not depend on an earlier ZIP, unavailable file paths, or images you cannot actually access.
+
+## 1. Check every attachment
+
+Create an inventory of every available image:
+- Actual filename.
+- Screen name and purpose.
+- Main sections, navigation, controls, and layout.
+- Whether it is a duplicate, earlier variation, or preferred reference.
+
+Inspect images visually, not only by filename or OCR. If an image is unreadable or missing, identify it precisely. Continue work on available screens.
+
+Do not claim to have reviewed an image you could not open.
+
+## 2. Understand the complete interface structure
+
+Group the screens into:
+- Home and document creation.
+- Writing and publishing editor.
+- Pages, layers, frames, and master pages.
+- Fonts, styles, keyboard, and language tools.
+- Elements, images, tables, shapes, and colors.
+- Plugins, templates, shortcuts, and settings.
+- Recovery, print/export, performance, and help.
+
+Map how users move between screens. Resolve duplicate designs into one consistent interface. Use the latest clearly identifiable reference; if ordering is unknown, explain your selection.
+
+## 3. Build one consistent design system
+
+Extract and standardize:
+- Navy, emerald, white, and neutral colors.
+- Typography, spacing, control sizes, borders, and corners.
+- Icons, tabs, sidebars, dialogs, buttons, and inspectors.
+- Loading, empty, disabled, error, and success states.
+- Keyboard focus and accessible contrast.
+- Urdu/English localization and RTL behavior.
+
+Preserve **Muhammad Danish [Dani] · DaniLabs** credit.
+
+Use the supplied approved logo/icon consistently. If unavailable, use a clearly identified temporary asset.
+
+Correct mistakes in generated references, including Urdu spelling, keyboard mappings, page counts, duplicated controls, inconsistent selections, and contradictory status messages.
+
+Do not reproduce mockup document text, photographs, or sample results as real user data.
+
+## 4. Inspect the existing implementation
+
+Before changing code, determine:
+- Existing technology and application entry points.
+- Working editor commands and services.
+- Current document format and persistence.
+- Available functionality behind each proposed control.
+- Which features need new core implementation.
+
+Preserve existing save/open, exports, fonts, typing, plugins, and document compatibility.
+
+Use a shared command/state interface. Avoid duplicating editor logic inside individual screens. Keep interface CSS separate from document and print CSS.
+
+## 5. Implement the UI
+
+Build reusable components and implement the screens in a sensible order.
+
+Connect every enabled button to a real operation. Preserve cursor position, selection, undo/redo, and document content when switching panels.
+
+Use responsive desktop layouts, collapsible panels, suitable scrolling, and display scaling. Test smaller windows as well as large monitors.
+
+When a reference shows a feature not supported by the current engine, either implement that capability or clearly disable the control. Do not simulate success or invent backend functionality.
+
+Keep advanced tools available without crowding everyday editing.
+
+## 6. Verify against the references and actual workflows
+
+After each major screen:
+- Capture a screenshot of the running application.
+- Compare its structure, spacing, hierarchy, and controls with the reference.
+- Fix clipping, overlap, unreadable text, and inconsistent styling.
+- Exercise its real actions and persistence.
+- Test Urdu and mixed Urdu/English content.
+- Check keyboard navigation and selection preservation.
+
+Real pagination, linked frames, and page management require a real document model; approximate visual page guides are not equivalent.
+
+## 7. Deliver
+
+Provide:
+- Updated working source.
+- Reference-image inventory and screen map.
+- Reusable design system.
+- Implemented/pending feature list.
+- Actual application screenshots.
+- Test results and remaining limitations.
+- A runnable build when the environment supports it.
+
+Start by inspecting the attached images and source, then implement. Do not stop at image analysis, a plan, or another static mockup.
