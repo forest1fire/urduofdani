@@ -2,6 +2,76 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.3 — 2026-10-06
+
+**Collapsible sidebar with three modes.** The sidebar can now be in
+"full" (default), "icon-only" (52px wide with hover tooltips), or
+"hidden" (only the activity bar shows). Brand mark + collapse button
+in the activity bar; Ctrl+B to cycle; state persisted to localStorage.
+
+### Added (ActivityBar)
+- **Brand mark button** at the top of the activity bar — clicking it
+  toggles the sidebar. Has a tiny pulsing dot to show it's clickable.
+- **Collapse button** (an arrow) beneath the brand mark — visible
+  when the sidebar is visible. Clicking it cycles the sidebar mode.
+- **Expand button** in the activity bar — only shown when the sidebar
+  is hidden. Has a pulsing emerald ring animation to draw attention.
+- `:active` scale-down (0.94) for tactile feedback.
+
+### Added (SideNav)
+- **Brand header** at the top of the full sidebar — UrduOfDani logo
+  + "UrduOfDani" + "Urdu · Arabic · RTL" tagline.
+- **Inline search** with a clear button (×) that appears when there's
+  text. Has a focus ring and a sunken background.
+- **Icon-only mode** — sidebar collapses to 52px wide, items become
+  40×40 rounded buttons. Hovering an item reveals a dark tooltip with
+  the item label (CSS-only, no JS).
+- **Mini footer** in icon mode — just a green status dot, indicating
+  "Offline ready".
+
+### Added (App.jsx)
+- `sidenavMode` state: `'full' | 'icon' | 'hidden'`.
+- `cycleSidenav()` function that cycles the mode and persists it to
+  `localStorage` under `uod:sidenavMode`.
+- **Ctrl+B keyboard shortcut** to cycle.
+- `app-shell` gets a `sidenav-{mode}` class so CSS can adjust the grid
+  template (full = 240px sidebar, icon = 52px sidebar, hidden = no
+  sidebar).
+- `ActivityBar` now receives `sidenavMode` + `onToggleSidenav` props.
+- `SideNav` now receives a `mode` prop.
+
+### Added (CSS)
+- `.activitybar-top` (flex column for brand + collapse).
+- `.activitybar-brand` (40×40 button with hover scale + status dot).
+- `.activitybar-collapse` (small arrow under the brand).
+- `.activitybar-expand` (pulsing green ring, only when hidden).
+- `.sidenav-brand` (logo + name + tagline block).
+- `.sidenav-search` + `.sidenav-search-icon` + `.sidenav-search-input`
+  + `.sidenav-search-clear` (full search input with focus ring).
+- `.sidenav.sidenav-icon` (52px-wide icon mode).
+- `.sidenav-icon .sidenav-item::after` (CSS-only hover tooltip with
+  dark background and shadow).
+- `.sidenav-icon .sidenav-footer-mini` (compact footer in icon mode).
+- `.app-shell.sidenav-icon .app-shell-body` (52px column in icon mode).
+- `@keyframes pulse` (1.5s ease-in-out infinite, used by `.activitybar-expand`).
+
+### Added (Brand.jsx)
+- The `mark` variant now uses the real UrduOfDani icon PNG (instead
+  of a CSS gradient) so the brand mark in the activity bar is the
+  actual logo, not a styled letter.
+
+### Added (tests)
+- 3 new smoke tests: ActivityBar ships a brand mark + collapse button;
+  App.jsx supports sidebar collapse via Ctrl+B; SideNav supports
+  icon-only mode with hover tooltips.
+- **56 / 56 tests pass.**
+
+### Verified
+- `npm test` → **56 / 56 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200; HMR serving
+  the new components.
+
 ## 1.2.2 — 2026-10-06
 
 **Rich home dashboard.** The Home page is now a real dashboard with

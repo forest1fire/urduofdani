@@ -82,8 +82,22 @@ function Shell() {
   }));
   const [sidenavOpen, setSidenavOpen] = useState(false);
   const [activityView, setActivityView] = useState('home');
+  // 'full' = full labels, 'icon' = icon-only, 'hidden' = no sidebar at all
+  const [sidenavMode, setSidenavMode] = useState(() => {
+    try { return localStorage.getItem('uod:sidenavMode') || 'full'; }
+    catch { return 'full'; }
+  });
 
-  // ⌘K / Esc / Ctrl+1..6 / Ctrl+,  global shortcuts
+  // Cycle: full → icon → hidden → full
+  const cycleSidenav = () => {
+    setSidenavMode(prev => {
+      const next = prev === 'full' ? 'icon' : prev === 'icon' ? 'hidden' : 'full';
+      try { localStorage.setItem('uod:sidenavMode', next); } catch {}
+      return next;
+    });
+  };
+
+  // ⌘K / Esc / Ctrl+1..6 / Ctrl+, / Ctrl+B  global shortcuts
   useEffect(() => {
     const handler = (e) => {
       const cmd = e.metaKey || e.ctrlKey;
@@ -92,6 +106,7 @@ function Shell() {
       if (k === 'k') { e.preventDefault(); dispatch({ type: 'open-cmd' }); return; }
       if (k === 'escape') { dispatch({ type: 'close-cmd' }); return; }
       if (k === ',') { e.preventDefault(); dispatch({ type: 'set-route', route: 'settings' }); return; }
+      if (k === 'b') { e.preventDefault(); cycleSidenav(); return; }
       if (k === '1') { e.preventDefault(); setActivityView('home');     return; }
       if (k === '2') { e.preventDefault(); setActivityView('editor');   return; }
       if (k === '3') { e.preventDefault(); setActivityView('review');   return; }
@@ -168,19 +183,26 @@ function Shell() {
   const Page = route.Page;
   const showInspector = route.inspector && !viewport.isMobile && !viewport.isTablet;
   const showActivity = !viewport.isMobile;     // hide activity bar on phones
-  const showSideNav   = !viewport.isMobile;     // hide side nav on phones (it becomes a sheet)
+  const showSideNav   = !viewport.isMobile && sidenavMode !== 'hidden';
   const isWideViewport = viewport.isXWide;
   const docName = state.documents.find(d => d.id === state.activeDocId)?.name;
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell sidenav-${sidenavMode}`}>
       <TitleBar docName={docName} />
       <TopBar />
       <div className={`app-shell-body${showInspector ? ' has-inspector' : ''}${isWideViewport && showInspector ? ' inspector-wide' : ''}`}>
-        {showActivity && <ActivityBar view={activityView} onView={setActivityView} />}
+        {showActivity && (
+          <ActivityBar
+            view={activityView}
+            onView={setActivityView}
+            sidenavMode={sidenavMode}
+            onToggleSidenav={cycleSidenav}
+          />
+        )}
         {viewport.isMobile && sidenavOpen && <div className="sidenav-backdrop" onClick={() => setSidenavOpen(false)} />}
         {showSideNav && (
-          <SideNav view={activityView} onOpenChange={(o) => setSidenavOpen(o)} />
+          <SideNav view={activityView} mode={sidenavMode} />
         )}
         <main className="main-area" role="main" onClick={() => setSidenavOpen(false)}>
           <Page />

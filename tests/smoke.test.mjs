@@ -375,6 +375,30 @@ test('ActivityBar: groups all 7 views and binds Ctrl+1..6', () => {
   }
 });
 
+test('ActivityBar: ships a brand mark + collapse button', () => {
+  const src = readFileSync('src/renderer/components/ActivityBar.jsx', 'utf8');
+  assert.ok(src.includes('activitybar-brand'), 'ActivityBar should have a brand mark button');
+  assert.ok(src.includes('activitybar-collapse'), 'ActivityBar should have a collapse button');
+  assert.ok(src.includes('onToggleSidenav'), 'ActivityBar should accept onToggleSidenav prop');
+  assert.ok(src.includes('sidenavMode'), 'ActivityBar should accept sidenavMode prop');
+});
+
+test('App.jsx: supports sidebar collapse via Ctrl+B and three modes (full/icon/hidden)', () => {
+  const src = readFileSync('src/renderer/App.jsx', 'utf8');
+  assert.ok(src.includes("k === 'b'"), 'App.jsx should bind Ctrl+B');
+  assert.ok(src.includes("uod:sidenavMode"), 'App.jsx should persist sidebar mode to localStorage');
+  assert.ok(src.includes("sidenav-${sidenavMode}"), 'App.jsx should add the sidenav-{mode} class');
+  assert.ok(src.includes("cycleSidenav"), 'App.jsx should define a cycleSidenav function');
+});
+
+test('SideNav: supports icon-only mode with hover tooltips', () => {
+  const src = readFileSync('src/renderer/components/SideNav.jsx', 'utf8');
+  assert.ok(src.includes("mode === 'icon'"), 'SideNav should branch on mode === "icon"');
+  assert.ok(src.includes("sidenav-icon"), 'SideNav should apply the sidenav-icon class');
+  assert.ok(src.includes("sidenav-brand"), 'SideNav should have a brand header');
+  assert.ok(src.includes("sidenav-search"), 'SideNav should have a search input');
+});
+
 test('design system tokens: new semantic aliases are present', () => {
   const t = readFileSync('src/renderer/styles/tokens.css', 'utf8');
   for (const name of ['--color-primary', '--color-text', '--color-text-muted',

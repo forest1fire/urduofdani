@@ -44,16 +44,13 @@ export default function Brand({ size = 28, wordmark, twoTone, parent, personal, 
   }
   if (mark) {
     return (
-      <span
+      <img
+        src={URDUOF_DANI_ICON}
+        alt={alt || 'UrduOfDani'}
         className={className}
-        style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          width: size, height: size, borderRadius: size * 0.22,
-          background: 'linear-gradient(135deg, var(--brand-navy-900), var(--brand-emerald-700))',
-          color: 'white', fontWeight: 800, fontSize: size * 0.45, ...style,
-        }}
+        style={{ width: size, height: size, borderRadius: size * 0.22, ...style }}
         {...rest}
-      >U</span>
+      />
     );
   }
   return (
