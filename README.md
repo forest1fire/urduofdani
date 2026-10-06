@@ -18,6 +18,9 @@
 
 **A DaniLabs product · by [Muhammad Danish](https://github.com/forest1fire)**
 
+<img src="resources
+/muhammad-danish-wordmark.png" alt="DaniLabs" width="64"/>
+
 </div>
 
 ---
