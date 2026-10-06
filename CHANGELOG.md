@@ -2,6 +2,96 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.5 — 2026-10-06
+
+**Editor upgrade — Word / InPage / CorelDRAW inspired.** The editor
+is now a real publishing workspace with a ribbon, ruler, page canvas,
+side panel, and a live status bar.
+
+### Added (EditorPage)
+- **Ribbon toolbar** with 6 tabs (Home / Insert / Layout / Type /
+  Review / View) and grouped tools (Clipboard, Font, Paragraph,
+  Styles, Pages, Tables, Media, Shapes, etc.). Tabs are toggleable;
+  the active tab is highlighted.
+- **Menu bar** above the ribbon with 6 file/UI menus (Home, Insert,
+  Layout, Type, Review, View) and right-side actions (Find, Hide
+  ribbon, Quick command, Export PDF).
+- **Ruler** below the ribbon with numbered tick marks.
+- **Tool rail** on the left with 8 tools (Select, Text frame, Image,
+  Table, Shape, Hyperlink, Pen, Comment) + Undo/Redo at the bottom.
+  Each tool has its keyboard shortcut shown in a tiny badge.
+- **Side panel** with 4 tabs (Pages / Layers / Assets / Outline).
+  Pages tab shows a 2-column grid of page thumbnails with proper
+  aspect ratio and Urdu word previews. Outline tab shows the document
+  structure.
+- **Canvas** with margin guides, page sheet shadow, 3 themes (white
+  paper / sepia / dark), and a Page nav (Prev / Next).
+- **Find & replace bar** (Ctrl+H) — appears as a sticky bar at the
+  top of the canvas with Find, Replace, Replace-all, and a Close
+  button.
+- **Editor status bar** at the bottom with: save indicator with
+  last-saved time, word count, character count, current page,
+  line/column, RTL/LTR, canvas theme, zoom controls, page size,
+  columns, version.
+- **8 page sizes** (A4P, A4L, A3P, A5P, Letter, Legal, B5, Custom)
+  with portrait/landscape toggle.
+- **3 margin presets** (Narrow 36pt, Normal 64pt, Wide 96pt) plus
+  custom.
+- **4 column layouts** (1, 2, 3, 4).
+- **3 canvas themes** (white paper, sepia, dark page) — toggleable
+  from the View ribbon.
+- **8 fonts** including Noto Nastaliq Urdu, Noto Naskh Arabic,
+  Scheherazade, Amiri, Inter, Roboto, Merriweather, JetBrains Mono.
+- **8 paragraph styles** (Body Urdu, Heading 1/2/3, Caption, Quote,
+  Subtitle, Code).
+- **Real text editing** — contenteditable title + body with proper
+  RTL, font selection, font size, bold/italic/underline (via
+  `document.execCommand`), alignment (4 options), RTL/LTR toggle,
+  multi-column, page break, list (bullet/ordered), indent/outdent,
+  blockquote, superscript, subscript, strikethrough.
+- **Tool keyboard shortcuts** — V/T/I/G/U/L/P/C without modifier.
+- **Zoom controls** — Ctrl+Plus/Ctrl-Minus/Ctrl-0 to reset, plus
+  in-ribbon zoom tools, status-bar zoom buttons, and zoom display.
+- **4 zoom levels** (40%, 80%, 100%, 200%) with smooth transitions.
+- **Persistence** — last saved time is tracked and shown in the
+  status bar.
+
+### Added (CSS)
+- New dedicated stylesheet `src/renderer/styles/editor.css`.
+- `.editor`, `.editor-menu`, `.editor-ribbon`, `.editor-ruler`,
+  `.editor-main`, `.editor-rail`, `.editor-side`, `.editor-canvas`,
+  `.editor-page-sheet`, `.editor-statusbar`.
+- `.ribbon-group`, `.ribbon-group-title`, `.ribbon-tool` (with
+  active/hover/disabled states).
+- `.editor-tool` with shortcut badge.
+- `.editor-side-tab`, `.editor-layer`, `.editor-outline-item`.
+- `.editor-findbar` (sticky find/replace bar).
+- `.margin-guide` (4 variants for top/bottom/left/right margin guides).
+- `.editor-page-nav` (Prev/Next floating button).
+- `[contenteditable]:hover` and `[contenteditable]:focus` (visual
+  feedback for editable areas).
+- Responsive: 3 breakpoints (1200px, 900px, 560px) shrink the ribbon,
+  tool rail, and finally hide the side panel on mobile.
+
+### Added (Icons)
+- 15 new editor icons: `Strike`, `Super`, `Sub`, `Indent`,
+  `Outdent`, `Columns`, `ColumnAdd`, `PageBreak`, `Ruler`,
+  `FontSize`, `FontColor`, `Highlight`, `TextColor`, `Spacing`,
+  `Increase`, `PageSize`.
+
+### Added (tests)
+- 3 new smoke tests: EditorPage ships a ribbon + 6 tabs + 8 page
+  sizes + 8 fonts + 3 themes + ruler; editor.css has the full
+  component + 3 responsive breakpoints; Icons.jsx exports
+  15 new editor icons.
+- **61 / 61 tests pass.**
+
+### Verified
+- `npm test` → **61 / 61 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200; HMR serving
+  the new editor.
+
 ## 1.2.4 — 2026-10-06
 
 **Full responsive audit.** The app now adapts cleanly from 320px

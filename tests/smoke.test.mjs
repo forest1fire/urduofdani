@@ -356,6 +356,16 @@ test('vite.config.js: declares a relative base path (so the .exe can be launched
     'vite.config.js should use a relative base path for desktop installs');
 });
 
+test('Icons.jsx: ships editor-tool icons (Strike, Super, Sub, Indent, Outdent, Columns, Ruler, etc.)', () => {
+  const src = readFileSync('src/renderer/components/Icons.jsx', 'utf8');
+  for (const name of ['Strike', 'Super', 'Sub', 'Indent', 'Outdent', 'Columns', 'Ruler',
+                       'FontSize', 'Highlight', 'TextColor', 'Spacing', 'Increase',
+                       'PageSize', 'Undo', 'Redo']) {
+    assert.ok(new RegExp('\\b' + name + ':\\s*make').test(src),
+      `Icons.jsx should export an Icon.${name}`);
+  }
+});
+
 test('Icons.jsx: ships a rich icon library (≥ 40 icons)', () => {
   const src = readFileSync('src/renderer/components/Icons.jsx', 'utf8');
   const matches = src.match(/^\s+(\w+):\s*make/gm) || [];
@@ -404,6 +414,62 @@ test('TopBar: ships an inspector toggle button when a toggle handler is provided
   const src = readFileSync('src/renderer/components/TopBar.jsx', 'utf8');
   assert.ok(src.includes('onToggleInspector'), 'TopBar should accept onToggleInspector prop');
   assert.ok(src.includes('Toggle inspector'), 'TopBar should render a Toggle inspector button');
+});
+
+test('EditorPage: ships a ribbon-style toolbar with 6 tabs, 8 page sizes, 8 fonts, 3 themes, and a ruler', () => {
+  const src = readFileSync('src/renderer/pages/EditorPage.jsx', 'utf8');
+  for (const marker of [
+    'editor-menu',                 // menu bar
+    'editor-ribbon',               // ribbon
+    'editor-ruler',                // ruler
+    'editor-rail',                 // tool rail
+    'editor-side',                 // side panel
+    'editor-canvas',               // canvas
+    'editor-page-sheet',           // page
+    'editor-statusbar',            // status bar
+    "'Home'",                      // ribbon tabs
+    "'Insert'",
+    "'Layout'",
+    "'Type'",
+    "'Review'",
+    "'View'",
+    'PAGE_SIZES',                  // 8 page sizes
+    'FONTS',                       // font list
+    "theme === 'paper'",           // 3 themes
+    'ribbon-tool',                 // tool helper
+    "Ctrl+H",                      // find shortcut
+    "Ctrl+S",                      // save shortcut
+    "Ctrl+0",                      // reset zoom
+    "document.execCommand",              // bold/italic via execCommand
+    'margin-guide',                // margin guides
+    'editor-page-nav',             // page nav
+  ]) {
+    assert.ok(src.includes(marker), `EditorPage should include "${marker}"`);
+  }
+});
+
+test('EditorPage CSS: dedicated editor stylesheet with responsive breakpoints', () => {
+  const src = readFileSync('src/renderer/styles/editor.css', 'utf8');
+  for (const marker of [
+    '.editor {',
+    '.editor-ribbon',
+    '.ribbon-group',
+    '.ribbon-tool',
+    '.editor-ruler',
+    '.editor-rail',
+    '.editor-side',
+    '.editor-canvas',
+    '.editor-page-sheet',
+    '.editor-statusbar',
+    '@media (max-width: 1199.98px)',
+    '@media (max-width: 899.98px)',
+    '@media (max-width: 559.98px)',
+  ]) {
+    assert.ok(src.includes(marker), `editor.css should include "${marker}"`);
+  }
+  // main.jsx imports the editor stylesheet
+  const main = readFileSync('src/renderer/main.jsx', 'utf8');
+  assert.ok(main.includes("'./styles/editor.css'"), 'main.jsx should import editor.css');
 });
 
 test('responsive.css: ships 6 breakpoints, inspector drawer, reduced-motion, landscape phones', () => {
