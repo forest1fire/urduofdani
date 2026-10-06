@@ -1,0 +1,9 @@
+{
+  "id":      "com.danilabs.diacritics-remover",
+  "name":    "Diacritics remover",
+  "version": "1.0.0",
+  "author":  "DaniLabs",
+  "license": "MIT",
+  "permissions": ["document.text", "document.replace", "ui.toast"],
+  "entry":   "plugin.js"
+}

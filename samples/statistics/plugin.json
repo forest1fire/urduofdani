@@ -1,0 +1,9 @@
+{
+  "id":      "com.danilabs.statistics",
+  "name":    "Document statistics",
+  "version": "1.0.0",
+  "author":  "DaniLabs",
+  "license": "MIT",
+  "permissions": ["document.text", "ui.toast", "ui.panel"],
+  "entry":   "plugin.js"
+}
