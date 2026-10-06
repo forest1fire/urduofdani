@@ -86,7 +86,11 @@ export default function HelpPage() {
             <h4 style={{ margin: 0, color: 'var(--emerald-600)' }}>Muhammad Danish [Dani]</h4>
           </div>
           <p style={{ color: 'var(--slate-500)', fontSize: 12, margin: '2px 0 0' }}>DaniLabs</p>
-          <span className="chip" style={{ background: 'var(--emerald-50)', color: 'var(--emerald-600)', marginTop: 8 }}>Design concept</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 12 }}>
+            <Brand parent size={28} light />
+            <span style={{ fontSize: 12, color: 'var(--slate-500)' }}>A DaniLabs product</span>
+          </div>
+          <span className="chip" style={{ background: 'var(--emerald-50)', color: 'var(--emerald-600)', marginTop: 12 }}>Design concept</span>
           <div style={{ marginTop: 16, textAlign: 'left' }}>
             <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 8, width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: 6 }} onMouseEnter={e => e.currentTarget.style.background='var(--slate-50)'} onMouseLeave={e => e.currentTarget.style.background='transparent'}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Icon.Doc style={{ color: 'var(--slate-500)' }} /> Third-party licenses</span>

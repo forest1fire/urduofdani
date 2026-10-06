@@ -12,6 +12,16 @@
 
 ---
 
+<div align="center">
+
+<img src="design/brands/danilabs-icon.png" alt="DaniLabs" width="64"/>
+
+**A DaniLabs product · by [Muhammad Danish](https://github.com/forest1fire)**
+
+</div>
+
+---
+
 UrduOfDani is a desktop publishing application for Urdu, Arabic and other
 right-to-left languages. The workflow is modelled on InPage, but the
 stack is modern: React + Vite for the UI, Electron for the desktop

@@ -2,6 +2,27 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.0.2 — 2026-10-06
+
+Real brand assets from the DaniLabs design system.
+
+### Added
+- **`design/brands/`** — 7 official brand files from the user:
+  - `urduofdani-icon.png` / `urduofdani-wordmark.png` — the actual app icon and wordmark (replacing the SVG approximations)
+  - `danilabs-icon.png` / `danilabs-icon-light.png` / `danilabs-wordmark.svg` — the parent DaniLabs brand
+  - `muhammad-danish-wordmark.png` / `md-monogram.png` — the personal brand of Muhammad Danish [Dani]
+- **`resources/`** now serves the real PNGs:
+  - `icon.png` / `icon-{32,48,64,128,256,512}.png` / `favicon-{16,32}.png` / `apple-touch-icon.png` from the real `urduofdani-icon.png`
+  - `wordmark-1100.png` / `wordmark-600.png` from the real `urduofdani-wordmark.png`
+  - `danilabs-icon.png` / `danilabs-icon-light.png` / `muhammad-danish-wordmark.png`
+- **Help/About card** now shows the DaniLabs "D" mark with "A DaniLabs product" line.
+- **README** has a "A DaniLabs product · by Muhammad Danish" footer banner.
+
+### Changed
+- **`src/renderer/components/Brand.jsx`** rewritten to use the real PNGs and support new modes: `parent` (DaniLabs mark), `personal` (Muhammad Danish wordmark), `light` (alternate bg).
+- **`index.html`** no longer references the removed `logo-icon.svg`; uses the real favicon-32/16 PNGs and apple-touch-icon.
+- **Removed** the SVG-recreated `resources/logo-icon.svg` and `resources/logo-wordmark.svg` (replaced by the real brand PNGs).
+
 ## 1.0.1 — 2026-10-06
 
 Repo hygiene + brand identity + auto-`.exe` release pipeline.

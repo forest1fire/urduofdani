@@ -4,6 +4,22 @@ The 26 PNG files in this folder are the UI mockups that drive the UrduOfDani des
 Each file maps 1-to-1 to a screen shipped as a real, clickable React page in
 `src/renderer/pages/`.
 
+## Brand assets (`design/brands/`)
+
+The 7 brand files live in `design/brands/` so the repo root stays clean. The
+production assets are copied to `resources/` at build time so Vite can serve
+them from `/resources/*`.
+
+| File | Purpose | Used as |
+|---|---|---|
+| `urduofdani-icon.png` | App icon (emerald pen, rounded plate) | `resources/icon.png` for Electron / favicon / apple-touch |
+| `urduofdani-wordmark.png` | "UrduOfDani — Created by Dani" banner | `resources/wordmark-1100.png`, README banner |
+| `danilabs-icon.png` | DaniLabs "D" mark on navy | About card, parent-brand badge |
+| `danilabs-icon-light.png` | DaniLabs "D" mark on dark | About card, light-background variant |
+| `danilabs-wordmark.svg` | "DaniLabs" animated header SVG | Marketing site (not currently in app) |
+| `muhammad-danish-wordmark.png` | "Muhammad Danish — WordPress Developer" | About card personal credit |
+| `md-monogram.png` | 3D metallic "MD" mark | Splash / marketing |
+
 | # | File | Screen | Implemented in |
 |---|---|---|---|
 | 01 | `01-home-and-quick-start.png` | Home / quick start (with the original concept art) | `HomePage.jsx` |
