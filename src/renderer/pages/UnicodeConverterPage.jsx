@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 const SAMPLE = `اردو ہماری خوبصورت زبان ہے۔
 یہ زبان ہماری تہذیب، ثقافت اور شاند کی علامت ہے۔
@@ -10,16 +11,12 @@ export default function UnicodeConverterPage() {
   const { dispatch } = useStore();
   const [src, setSrc] = useState(SAMPLE);
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Unicode converter</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
+    <div className="page">
+      <PageHeader title={"Unicode converter"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
       <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
         <Icon.Refresh /> Convert Urdu text
       </h2>
-      <p style={{ color: 'var(--slate-500)' }}>Preview the result before inserting it.</p>
+      <p style={{ color: 'var(--color-text-muted)' }}>Preview the result before inserting it.</p>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', margin: '16px 0' }}>
         <label>Source encoding</label>
         <select className="select" style={{ width: 240 }}><option>Legacy Urdu encoding</option><option>Auto-detect</option></select>
@@ -30,16 +27,16 @@ export default function UnicodeConverterPage() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 16 }}>
         <div className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Original text</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Original text</h3>
           <textarea className="textarea with-rtl" value={src} onChange={e => setSrc(e.target.value)}
                     style={{ minHeight: 200, fontSize: 18 }} dir="rtl" />
-          <div style={{ color: 'var(--slate-500)', fontSize: 12, marginTop: 8 }}>Input: 3 lines</div>
+          <div style={{ color: 'var(--color-text-muted)', fontSize: 12, marginTop: 8 }}>Input: 3 lines</div>
         </div>
         <div className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Unicode preview</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Unicode preview</h3>
           <textarea className="textarea with-rtl" readOnly value={src}
                     style={{ minHeight: 200, fontSize: 18 }} dir="rtl" />
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--slate-500)', marginTop: 8 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--color-text-muted)', marginTop: 8 }}>
             <span>Preview: 3 lines</span>
             <span>Review punctuation and spacing.</span>
           </div>
@@ -53,7 +50,7 @@ export default function UnicodeConverterPage() {
         </div>
       </div>
       <div className="statusbar" style={{ marginTop: 24 }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--info-500)' }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--color-info)' }}>
           <Icon.Help_O /> Text conversion only. Supported encodings depend on the converter.
         </span>
         <div className="right">

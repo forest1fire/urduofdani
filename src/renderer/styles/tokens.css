@@ -53,13 +53,13 @@
   --color-bg-inverse:     var(--brand-navy-900);
 
   --color-text:           var(--brand-navy-900);
-  --color-text-muted:     var(--slate-500);
-  --color-text-subtle:    var(--slate-400);
+  --color-text-muted:     var(--color-text-muted);
+  --color-text-subtle:    var(--color-text-subtle);
   --color-text-on-dark:   #F1F5F9;
   --color-text-on-primary: #FFFFFF;
 
-  --color-border:         var(--slate-200);
-  --color-border-strong:  var(--slate-300);
+  --color-border:         var(--color-border);
+  --color-border-strong:  var(--color-text-subtle);
   --color-border-focus:   var(--brand-emerald-500);
 
   --color-danger:         var(--brand-crimson-500);
@@ -73,14 +73,14 @@
 
   /* ---------- Neutrals ---------- */
   --white:        #FFFFFF;
-  --slate-50:     #F8FAFC;
-  --slate-100:    #E2E8F0;
-  --slate-200:    #CBD5E1;
-  --slate-300:    #94A3B8;
-  --slate-400:    #94A3B8;
-  --slate-500:    #64748B;
-  --slate-700:    #334155;
-  --slate-900:    #0F172A;
+  --color-bg-sunken:     #F8FAFC;
+  --color-border:    #E2E8F0;
+  --color-border:    #CBD5E1;
+  --color-text-subtle:    #94A3B8;
+  --color-text-subtle:    #94A3B8;
+  --color-text-muted:    #64748B;
+  --color-text-muted:    #334155;
+  --color-text:    #0F172A;
   --black:        #0A0E1A;
 
   /* ---------- Typography ---------- */
@@ -186,13 +186,13 @@
 
   --color-primary-soft: rgba(0, 143, 118, 0.15);
 
-  --slate-50:   #0F172A;
-  --slate-100:  #1E293B;
-  --slate-200:  #334155;
-  --slate-300:  #475569;
-  --slate-500:  #94A3B8;
-  --slate-700:  #CBD5E1;
-  --slate-900:  #F1F5F9;
+  --color-bg-sunken:   #0F172A;
+  --color-border:  #1E293B;
+  --color-border:  #334155;
+  --color-text-subtle:  #475569;
+  --color-text-muted:  #94A3B8;
+  --color-text-muted:  #CBD5E1;
+  --color-text:  #F1F5F9;
   --white:      #152033;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -203,8 +203,8 @@
 /* ---------- High-contrast / accessibility ---------- */
 @media (prefers-contrast: more) {
   :root {
-    --color-border:        var(--slate-300);
-    --color-border-strong: var(--slate-500);
+    --color-border:        var(--color-text-subtle);
+    --color-border-strong: var(--color-text-muted);
   }
 }
 @media (prefers-reduced-motion: reduce) {

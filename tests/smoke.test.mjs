@@ -356,6 +356,66 @@ test('vite.config.js: declares a relative base path (so the .exe can be launched
     'vite.config.js should use a relative base path for desktop installs');
 });
 
+test('Icons.jsx: ships a rich icon library (≥ 40 icons)', () => {
+  const src = readFileSync('src/renderer/components/Icons.jsx', 'utf8');
+  const matches = src.match(/^\s+(\w+):\s*make/gm) || [];
+  assert.ok(matches.length >= 40,
+    `Icons.jsx should have at least 40 icons, found ${matches.length}`);
+  // Spot-check a few that the design relies on
+  for (const name of ['Pen', 'Home', 'Search', 'Download', 'Print', 'Settings', 'Sun', 'Moon', 'Copy', 'External']) {
+    assert.ok(new RegExp('\\b' + name + ':\\s*make').test(src),
+      `Icons.jsx should export an Icon.${name}`);
+  }
+});
+
+test('ActivityBar: groups all 7 views and binds Ctrl+1..6', () => {
+  const src = readFileSync('src/renderer/components/ActivityBar.jsx', 'utf8');
+  for (const view of ['home', 'editor', 'review', 'design', 'insert', 'publish', 'settings']) {
+    assert.ok(src.includes(`id: '${view}'`), `ActivityBar should include the "${view}" view`);
+  }
+});
+
+test('design system tokens: new semantic aliases are present', () => {
+  const t = readFileSync('src/renderer/styles/tokens.css', 'utf8');
+  for (const name of ['--color-primary', '--color-text', '--color-text-muted',
+                       '--color-border', '--color-bg-sunken', '--color-info',
+                       '--color-danger', '--color-warning']) {
+    assert.ok(t.includes(name + ':'),
+      `tokens.css should declare the semantic alias ${name}`);
+  }
+});
+
+test('component library: ships modern primitives (button, card, chip, kbd, toast)', () => {
+  const c = readFileSync('src/renderer/styles/components.css', 'utf8');
+  for (const name of ['.btn-primary', '.btn-group', '.card-hoverable', '.chip',
+                       '.input-search', 'kbd {', '.toast', '.cmdk', '.activitybar-item',
+                       '.sidenav', '.inspector', '.empty-state', '.tpl-card', '.doc-thumb']) {
+    assert.ok(c.includes(name), `components.css should define ${name}`);
+  }
+});
+
+test('all 23 inner pages use the new design system (no legacy page-header div, no legacy emerald/slate CSS vars)', () => {
+  const pagesDir = 'src/renderer/pages';
+  const files = readdirSync(pagesDir).filter(f => f.endsWith('.jsx'));
+  // These 6 pages are core shell pages that don't use PageHeader (they ARE the shell)
+  const shellPages = new Set(['HomePage.jsx', 'EditorPage.jsx', 'NewDocPage.jsx', 'TemplatesPage.jsx', 'SettingsPage.jsx', 'HelpPage.jsx']);
+  for (const f of files) {
+    if (shellPages.has(f)) continue;
+    const src = readFileSync(join(pagesDir, f), 'utf8');
+    // 1) No legacy <div className="page-header">
+    assert.ok(!src.includes('className="page-header"'),
+      `${f} should use <PageHeader /> instead of the legacy <div className="page-header">`);
+    // 2) No legacy CSS-var tokens (--emerald-, --navy-, --slate-, --ivory-, --info-, --warning-, --danger-)
+    const legacyVars = src.match(/--(emerald|navy|slate|ivory|info|warning|danger)-\d+/g);
+    assert.ok(!legacyVars || legacyVars.length === 0,
+      `${f} still uses legacy CSS-var tokens: ${(legacyVars || []).slice(0, 3).join(', ')}`);
+    // 3) Should import PageHeader
+    assert.ok(src.includes("import PageHeader"),
+      `${f} should import PageHeader from '../components/PageHeader.jsx'`);
+  }
+  assert.ok(files.length >= 20, `expected 20+ pages, found ${files.length}`);
+});
+
 test('electron-builder config: bundles docs and packages the app icon', () => {
   const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
   const b   = pkg.build || {};

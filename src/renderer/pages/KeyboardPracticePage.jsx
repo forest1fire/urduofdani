@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 const ROW1 = [
   { l: 'ض', k: 'q' }, { l: 'ص', k: 'w' }, { l: 'ث', k: 'e' }, { l: 'ق', k: 'r' }, { l: 'ف', k: 't' }, { l: 'غ', k: 'y' }, { l: 'ع', k: 'u' }, { l: 'ہ', k: 'i' }, { l: 'خ', k: 'o' }, { l: 'ح', k: 'p' }, { l: 'ج', k: '[' }, { l: 'چ', k: ']' },
@@ -25,16 +26,12 @@ export default function KeyboardPracticePage() {
   };
 
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Urdu keyboard</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <h2 style={{ margin: 0, color: 'var(--navy-900)', display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div className="page">
+      <PageHeader title={"Urdu keyboard"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <h2 style={{ margin: 0, color: 'var(--color-text)', display: 'flex', alignItems: 'center', gap: 8 }}>
         <Icon.Keyboard /> Type Urdu with confidence
       </h2>
-      <p style={{ color: 'var(--slate-500)' }}>Use the on-screen keyboard to practice Urdu typing. Choose a layout, type below, and see your Urdu text instantly.</p>
+      <p style={{ color: 'var(--color-text-muted)' }}>Use the on-screen keyboard to practice Urdu typing. Choose a layout, type below, and see your Urdu text instantly.</p>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center', margin: '16px 0' }}>
         <select className="select" style={{ width: 200 }}><option>Urdu Phonetic</option><option>Urdu (Traditional)</option></select>
         <button className="btn btn-secondary"><Icon.Tiles /> View traditional layout</button>
@@ -44,29 +41,29 @@ export default function KeyboardPracticePage() {
           <span>On</span>
         </div>
       </div>
-      <div className="page-2col" style={{ padding: '16px 32px' }}>
+      <div className="page-2col">
         <main>
           <section className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Try your keyboard</h3>
+              <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Try your keyboard</h3>
               <button className="btn btn-ghost btn-sm" onClick={() => setText('')}><Icon.Trash /> Clear</button>
             </div>
-            <p style={{ color: 'var(--slate-500)', fontSize: 13 }}>Type here using your keyboard or the on-screen keyboard below.</p>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>Type here using your keyboard or the on-screen keyboard below.</p>
             <textarea className="textarea with-rtl" value={text} onChange={e => setText(e.target.value)}
                       style={{ minHeight: 80, fontSize: 18 }} dir="rtl" />
           </section>
 
           <section className="card" style={{ marginTop: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>On-screen keyboard</h3>
-              <span style={{ color: 'var(--slate-500)' }}>Layout preview (Urdu Phonetic)</span>
+              <h3 style={{ margin: 0, color: 'var(--color-text)' }}>On-screen keyboard</h3>
+              <span style={{ color: 'var(--color-text-muted)' }}>Layout preview (Urdu Phonetic)</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
               <div style={{ display: 'flex', gap: 4 }}>
                 {ROW1.map(u => (
                   <button key={u.l} className="btn btn-secondary" style={{ flex: 1, padding: '12px 4px', flexDirection: 'column', height: 56 }}>
-                    <span style={{ fontFamily: 'var(--font-urdu)', fontSize: 20, color: 'var(--navy-900)' }}>{u.l}</span>
-                    {latin && <span style={{ fontSize: 11, color: 'var(--slate-500)' }}>{u.k}</span>}
+                    <span style={{ fontFamily: 'var(--font-urdu)', fontSize: 20, color: 'var(--color-text)' }}>{u.l}</span>
+                    {latin && <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>{u.k}</span>}
                   </button>
                 ))}
               </div>
@@ -75,7 +72,7 @@ export default function KeyboardPracticePage() {
                 {ROW2.map(u => (
                   <button key={u.l} className="btn btn-secondary" style={{ flex: 1, padding: '12px 4px', flexDirection: 'column', height: 56 }}>
                     <span style={{ fontFamily: 'var(--font-urdu)', fontSize: 20 }}>{u.l}</span>
-                    {latin && <span style={{ fontSize: 11, color: 'var(--slate-500)' }}>{u.k}</span>}
+                    {latin && <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>{u.k}</span>}
                   </button>
                 ))}
               </div>
@@ -84,7 +81,7 @@ export default function KeyboardPracticePage() {
                 {ROW3.map(u => (
                   <button key={u.l} className="btn btn-secondary" style={{ flex: 1, padding: '12px 4px', flexDirection: 'column', height: 56 }}>
                     <span style={{ fontFamily: 'var(--font-urdu)', fontSize: 20 }}>{u.l}</span>
-                    {latin && <span style={{ fontSize: 11, color: 'var(--slate-500)' }}>{u.k}</span>}
+                    {latin && <span style={{ fontSize: 11, color: 'var(--color-text-muted)' }}>{u.k}</span>}
                   </button>
                 ))}
                 <button className="btn btn-secondary" style={{ width: 80, height: 56 }}>Enter</button>
@@ -101,19 +98,19 @@ export default function KeyboardPracticePage() {
           </section>
         </main>
         <aside className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Typing tools</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Typing tools</h3>
           <label className="label" style={{ marginTop: 8 }}>Font</label>
           <select className="select"><option>Noto Nastaliq Urdu</option></select>
           <label className="label" style={{ marginTop: 8 }}>Font size</label>
           <select className="select" value={size} onChange={e => setSize(+e.target.value)}><option>14 pt</option><option>18 pt</option><option>24 pt</option></select>
           <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between' }}><span>Show Latin hints</span><label className="toggle"><input type="checkbox" checked={latin} onChange={e => setLatin(e.target.checked)} /><span className="toggle-track" /><span className="toggle-thumb" /></label><span>On</span></div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}><span>Show diacritics row</span><label className="toggle"><input type="checkbox" checked={diac} onChange={e => setDiac(e.target.checked)} /><span className="toggle-track" /><span className="toggle-thumb" /></label><span>Off</span></div>
-          <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
+          <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--color-border)' }} />
           <h4 style={{ margin: 0 }}>💡 Tips</h4>
-          <p style={{ fontSize: 13, color: 'var(--slate-500)' }}>Switch language: <kbd>Ctrl + Space</kbd></p>
-          <p style={{ fontSize: 13, color: 'var(--slate-500)' }}>Open on-screen keyboard</p>
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>Switch language: <kbd>Ctrl + Space</kbd></p>
+          <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>Open on-screen keyboard</p>
           <button className="btn btn-secondary btn-sm" style={{ marginTop: 6 }}><Icon.Keyboard /> Open keyboard</button>
-          <p style={{ fontSize: 12, color: 'var(--slate-500)' }}>Shortcuts can be customized.</p>
+          <p style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>Shortcuts can be customized.</p>
           <button className="btn btn-ghost btn-sm" style={{ marginTop: 8 }}><Icon.Cog /> Customize shortcuts</button>
           <button className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}><Icon.Doc /> Return to editor</button>
         </aside>

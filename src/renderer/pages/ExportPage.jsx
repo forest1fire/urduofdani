@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 import { useDocActions } from '../lib/useDocActions.js';
 
 const PRESETS = [
@@ -45,7 +46,7 @@ export default function ExportPage() {
     return (
       <div className="page" style={{ padding: 32, textAlign: 'center' }}>
         <h1 className="page-title">No document open</h1>
-        <p style={{ color: 'var(--slate-500)' }}>Open a .udani file or create a new document to export it as PDF.</p>
+        <p style={{ color: 'var(--color-text-muted)' }}>Open a .udani file or create a new document to export it as PDF.</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 16 }}>
           <button className="btn btn-primary" onClick={() => dispatch({ type: 'set-route', route: 'new' })}>
             <Icon.Plus /> New document
@@ -56,24 +57,18 @@ export default function ExportPage() {
   }
 
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}>
-          <Icon.ArrowLeft /> Back to editor
-        </button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Print &amp; export</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
+    <div className="page">
+      <PageHeader title={"Print &amp; export"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
 
-      <div className="page-3col" style={{ padding: '16px 32px' }}>
+      <div className="page-3col">
         <aside>
           <div className="tabs" style={{ padding: 0 }}>
             <button className={`tab${tab === 'pdf' ? ' active' : ''}`} onClick={() => setTab('pdf')}>PDF export</button>
             <button className={`tab${tab === 'print' ? ' active' : ''}`} onClick={() => setTab('print')}>Print</button>
           </div>
           <div className="card" style={{ marginTop: 12 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Export settings</h3>
-            <p style={{ color: 'var(--slate-500)', fontSize: 13 }}>Choose how you want to export your document.</p>
+            <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Export settings</h3>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>Choose how you want to export your document.</p>
 
             <label className="label">Preset</label>
             <select className="select" value={presetId} onChange={e => setPresetId(e.target.value)}>
@@ -103,11 +98,11 @@ export default function ExportPage() {
             <label style={{ display: 'flex', gap: 8, marginTop: 12 }}>
               <input type="checkbox" defaultChecked={preset.embed} /> Embed fonts
             </label>
-            <p style={{ fontSize: 12, color: 'var(--slate-500)' }}>Where font licensing permits.</p>
+            <p style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>Where font licensing permits.</p>
 
             <details style={{ marginTop: 8 }}>
-              <summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Advanced settings</summary>
-              <p style={{ fontSize: 13, color: 'var(--slate-500)' }}>Bleed and crop marks, Accessibility.</p>
+              <summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Advanced settings</summary>
+              <p style={{ fontSize: 13, color: 'var(--color-text-muted)' }}>Bleed and crop marks, Accessibility.</p>
             </details>
           </div>
         </aside>
@@ -116,7 +111,7 @@ export default function ExportPage() {
           <div className="page-sheet" style={{ margin: '0 auto', minHeight: 480 }}>
             {doc.pages?.[0]?.frames?.find(f => f.kind === 'text' && f.content) ? (
               <>
-                <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 18, color: 'var(--navy-900)', textAlign: 'center', margin: '8px 0' }}>
+                <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 18, color: 'var(--color-text)', textAlign: 'center', margin: '8px 0' }}>
                   {doc.pages[0].frames.find(f => f.content)?.content?.split('\n')[0] || 'اردو'}
                 </div>
                 <div className="urdu rtl" style={{ fontSize: 12, lineHeight: 1.8 }}>
@@ -124,7 +119,7 @@ export default function ExportPage() {
                 </div>
               </>
             ) : (
-              <div style={{ color: 'var(--slate-500)', textAlign: 'center', padding: 32 }}>
+              <div style={{ color: 'var(--color-text-muted)', textAlign: 'center', padding: 32 }}>
                 <Icon.Doc style={{ fontSize: 32, opacity: 0.4 }} />
                 <p style={{ marginTop: 8 }}>This page is empty.</p>
               </div>
@@ -140,8 +135,8 @@ export default function ExportPage() {
 
         <aside>
           <div className="card">
-            <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Document check</h3>
-            <p style={{ color: 'var(--slate-500)', fontSize: 13 }}>Review before exporting.</p>
+            <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Document check</h3>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>Review before exporting.</p>
             <div className="banner banner-success" style={{ marginTop: 8 }}>
               <Icon.Check /> <strong>No overflowing text</strong>
               <br /><span style={{ fontSize: 12 }}>All text fits within page boundaries.</span>
@@ -157,15 +152,15 @@ export default function ExportPage() {
           </div>
 
           <div className="card" style={{ marginTop: 12 }}>
-            <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Output</h3>
-            <p style={{ color: 'var(--slate-500)', fontSize: 13 }}>Choose file name and location.</p>
+            <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Output</h3>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>Choose file name and location.</p>
             <label className="label">File name</label>
             <input className="input" defaultValue={(meta.title || 'document') + '.pdf'} />
 
-            <div className="card" style={{ marginTop: 12, background: 'var(--slate-50)' }}>
+            <div className="card" style={{ marginTop: 12, background: 'var(--color-bg-sunken)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
                 <span>{pageCount} pages · {meta.page?.size || 'A4'} · PDF</span>
-                <span style={{ color: 'var(--slate-500)' }}>~{estimated}</span>
+                <span style={{ color: 'var(--color-text-muted)' }}>~{estimated}</span>
               </div>
             </div>
 
@@ -177,10 +172,10 @@ export default function ExportPage() {
             )}
 
             {building && (
-              <div style={{ marginTop: 8, fontSize: 13, color: 'var(--slate-500)' }}>
+              <div style={{ marginTop: 8, fontSize: 13, color: 'var(--color-text-muted)' }}>
                 Building PDF… {progress.n}/{progress.total}
-                <div style={{ height: 4, background: 'var(--slate-100)', borderRadius: 2, marginTop: 4, overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${(progress.n / Math.max(1, progress.total)) * 100}%`, background: 'var(--emerald-500)', transition: 'width 0.2s' }} />
+                <div style={{ height: 4, background: 'var(--color-border)', borderRadius: 2, marginTop: 4, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${(progress.n / Math.max(1, progress.total)) * 100}%`, background: 'var(--color-primary)', transition: 'width 0.2s' }} />
                 </div>
               </div>
             )}

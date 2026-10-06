@@ -12,16 +12,24 @@ import { useDocActions } from '../lib/useDocActions.js';
  *   - Help:       search help topics
  */
 const ACTIONS = [
-  { id: 'a-new',     label: 'New blank document',       sub: 'A4',  Icon: Icon.Plus,     shortcut: 'Ctrl+N', run: ({ newDoc }) => newDoc('Untitled', {}) },
-  { id: 'a-open',    label: 'Open .udani file…',        sub: 'File',Icon: Icon.Upload,   shortcut: 'Ctrl+O', run: ({ openFile }) => openFile() },
-  { id: 'a-save',    label: 'Save',                     sub: 'Save current document',Icon: Icon.Download, shortcut: 'Ctrl+S', run: ({ save }) => save() },
-  { id: 'a-pdf',     label: 'Export as PDF…',           sub: 'PDF',Icon: Icon.Print,    shortcut: 'Ctrl+E', run: ({ exportPdf }) => exportPdf() },
-  { id: 'a-home',    label: 'Go to Home',               sub: 'Dashboard',         Icon: Icon.Home,    shortcut: 'Ctrl+1', run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'home' }) },
-  { id: 'a-theme',   label: 'Toggle light / dark theme',sub: 'Appearance',        Icon: Icon.Sparkle,             run: ({ state, dispatch }) => dispatch({ type: 'set-theme', theme: state.theme === 'dark' ? 'light' : 'dark' }) },
-  { id: 'a-lang',    label: 'Toggle language',          sub: 'EN / اردو',         Icon: Icon.Globe,              run: ({ state, dispatch }) => dispatch({ type: 'set-lang', lang: state.lang === 'en' ? 'ur' : 'en' }) },
-  { id: 'a-help',    label: 'Open Help',                sub: 'Guides, search, contact',Icon:Icon.Help,     shortcut: 'F1',    run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'help' }) },
-  { id: 'a-settings',label: 'Open Settings',            sub: 'App preferences',   Icon: Icon.Settings,shortcut: 'Ctrl+,', run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'settings' }) },
-  { id: 'a-tour',    label: 'Start onboarding tour',    sub: '4-step intro',      Icon: Icon.Sparkle,             run: ({ dispatch }) => dispatch({ type: 'start-tour' }) },
+  { id: 'a-new',      label: 'New blank document',       sub: 'A4',  Icon: Icon.Plus,     shortcut: 'Ctrl+N', run: ({ newDoc }) => newDoc('Untitled', {}) },
+  { id: 'a-open',     label: 'Open .udani file…',        sub: 'File',Icon: Icon.Upload,   shortcut: 'Ctrl+O', run: ({ openFile }) => openFile() },
+  { id: 'a-save',     label: 'Save',                     sub: 'Save current document',Icon: Icon.Download, shortcut: 'Ctrl+S', run: ({ save }) => save() },
+  { id: 'a-pdf',      label: 'Export as PDF…',           sub: 'PDF',Icon: Icon.Print,    shortcut: 'Ctrl+E', run: ({ exportPdf }) => exportPdf() },
+  { id: 'a-home',     label: 'Go to Home',               sub: 'Dashboard',         Icon: Icon.Home,    shortcut: 'Ctrl+1', run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'home' }) },
+  { id: 'a-editor',   label: 'Open the editor',          sub: 'Work on a document',Icon: Icon.Edit,    shortcut: 'Ctrl+2', run: ({ dispatch, state }) => state.activeDocId ? null : null },
+  { id: 'a-theme',    label: 'Toggle light / dark theme',sub: 'Appearance',        Icon: Icon.Sparkle,             run: ({ state, dispatch }) => dispatch({ type: 'set-theme', theme: state.theme === 'dark' ? 'light' : 'dark' }) },
+  { id: 'a-theme-l',  label: 'Use light theme',          sub: 'Appearance',        Icon: Icon.Sun,                 run: ({ dispatch }) => dispatch({ type: 'set-theme', theme: 'light' }) },
+  { id: 'a-theme-d',  label: 'Use dark theme',           sub: 'Appearance',        Icon: Icon.Moon,                run: ({ dispatch }) => dispatch({ type: 'set-theme', theme: 'dark' }) },
+  { id: 'a-lang',     label: 'Toggle language',          sub: 'EN / اردو',         Icon: Icon.Globe,              run: ({ state, dispatch }) => dispatch({ type: 'set-lang', lang: state.lang === 'en' ? 'ur' : 'en' }) },
+  { id: 'a-help',     label: 'Open Help',                sub: 'Guides, search, contact',Icon:Icon.Help,  shortcut: 'F1',    run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'help' }) },
+  { id: 'a-settings', label: 'Open Settings',            sub: 'App preferences',   Icon: Icon.Settings,shortcut: 'Ctrl+,', run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'settings' }) },
+  { id: 'a-tour',     label: 'Start onboarding tour',    sub: '4-step intro',      Icon: Icon.Sparkle,             run: ({ dispatch }) => dispatch({ type: 'start-tour' }) },
+  { id: 'a-templates',label: 'Browse templates',         sub: '12 ready-made designs', Icon: Icon.Tiles,           run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'templates' }) },
+  { id: 'a-fonts',    label: 'Manage fonts',             sub: 'Add Urdu / Arabic fonts',Icon: Icon.Type,            run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'fonts' }) },
+  { id: 'a-plugins',  label: 'Open Plugins',             sub: '.udaniplugin packages',Icon: Icon.Plug,              run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'plugins' }) },
+  { id: 'a-recovery', label: 'Document recovery',        sub: 'Restore autosaved work',Icon: Icon.Recovery,         run: ({ dispatch }) => dispatch({ type: 'set-route', route: 'recovery' }) },
+  { id: 'a-feedback', label: 'Send feedback',            sub: 'hello.danilabs@gmail.com',Icon:Icon.Mail,              run: () => window.open('mailto:hello.danilabs@gmail.com?subject=UrduOfDani%20feedback', '_blank') },
 ];
 
 const TOOLS = [
@@ -94,15 +102,35 @@ export default function CommandPalette() {
       };
     }).filter(Boolean).filter(d => !ql || d.label.toLowerCase().includes(ql));
 
+    // Recent documents (all known docs, but capped)
+    const recents = state.documents.slice(0, 8).map(doc => ({
+      id: 'r-' + doc.id,
+      label: doc.name,
+      sub: `${doc.kind || 'document'} · ${doc.lastOpened}`,
+      Icon: Icon.Clock,
+      group: 'Recent documents',
+      onRun: () => { dispatch({ type: 'open-doc', id: doc.id }); dispatch({ type: 'close-cmd' }); },
+    })).filter(d => !ql || d.label.toLowerCase().includes(ql) || d.sub.toLowerCase().includes(ql));
+
+    // Settings
+    const settingHits = ql ? [
+      { id: 's-theme',     label: 'Change theme',                  sub: 'Settings → General → Theme',         Icon: Icon.Sparkle,  group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'settings' }); dispatch({ type: 'close-cmd' }); } },
+      { id: 's-font',      label: 'Default Urdu font',              sub: 'Settings → General → Default font',  Icon: Icon.Type,     group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'fonts' }); dispatch({ type: 'close-cmd' }); } },
+      { id: 's-scale',     label: 'UI scale',                      sub: 'Settings → General → UI scale',      Icon: Icon.Plus,     group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'settings' }); dispatch({ type: 'close-cmd' }); } },
+      { id: 's-autosave',  label: 'Autosave settings',             sub: 'Settings → Saving',                   Icon: Icon.Download, group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'settings' }); dispatch({ type: 'close-cmd' }); } },
+      { id: 's-perf',      label: 'Performance settings',          sub: 'Settings → Performance',              Icon: Icon.Sparkle,  group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'performance' }); dispatch({ type: 'close-cmd' }); } },
+      { id: 's-shortcuts', label: 'Keyboard shortcuts',            sub: 'Customize Ctrl+S, Ctrl+K, etc.',      Icon: Icon.Keyboard, group: 'Settings',   onRun: ({ dispatch }) => { dispatch({ type: 'set-route', route: 'shortcuts' }); dispatch({ type: 'close-cmd' }); } },
+    ].filter(s => s.label.toLowerCase().includes(ql) || s.sub.toLowerCase().includes(ql)) : [];
+
     // Tools
     const tools = TOOLS.filter(t => !ql || t.label.toLowerCase().includes(ql))
       .map(t => ({ ...t, sub: t.group, onRun: () => { dispatch({ type: 'set-route', route: t.route }); dispatch({ type: 'close-cmd' }); } }));
 
-    return { actions, docs, tools, total: actions.length + docs.length + tools.length };
+    return { actions, docs, recents, settings: settingHits, tools, total: actions.length + docs.length + recents.length + settingHits.length + tools.length };
   }, [q, state, dispatch, save, openFile, exportPdf, newDoc]);
 
   // Flat list for keyboard nav
-  const flat = [...results.actions, ...results.docs, ...results.tools];
+  const flat = [...results.actions, ...results.docs, ...results.recents, ...results.settings, ...results.tools];
 
   // Clamp active index
   useEffect(() => {
@@ -146,7 +174,7 @@ export default function CommandPalette() {
             <div className="cmdk-empty">
               <Icon.Search style={{ width: 32, height: 32, marginBottom: 8, opacity: 0.4 }} />
               <div>No results for &ldquo;{q}&rdquo;</div>
-              <div className="text-sm mt-2">Try: <kbd>new</kbd>, <kbd>save</kbd>, <kbd>export</kbd>, <kbd>help</kbd></div>
+              <div className="text-sm mt-2">Try: <kbd>new</kbd>, <kbd>save</kbd>, <kbd>export</kbd>, <kbd>help</kbd>, <kbd>theme</kbd>, <kbd>font</kbd></div>
             </div>
           ) : (
             <>
@@ -164,10 +192,24 @@ export default function CommandPalette() {
                   ))}
                 </Group>
               )}
+              {results.recents.length > 0 && (
+                <Group title="Recent documents">
+                  {results.recents.map((r, i) => (
+                    <Item key={r.id} r={r} index={results.actions.length + results.docs.length + i} active={active === results.actions.length + results.docs.length + i} onRun={r.onRun} setActive={setActive} />
+                  ))}
+                </Group>
+              )}
+              {results.settings.length > 0 && (
+                <Group title="Settings & preferences">
+                  {results.settings.map((r, i) => (
+                    <Item key={r.id} r={r} index={results.actions.length + results.docs.length + results.recents.length + i} active={active === results.actions.length + results.docs.length + results.recents.length + i} onRun={r.onRun} setActive={setActive} />
+                  ))}
+                </Group>
+              )}
               {results.tools.length > 0 && (
                 <Group title="Pages & tools">
                   {results.tools.map((r, i) => (
-                    <Item key={r.id} r={r} index={results.actions.length + results.docs.length + i} active={active === results.actions.length + results.docs.length + i} onRun={r.onRun} setActive={setActive} />
+                    <Item key={r.id} r={r} index={results.actions.length + results.docs.length + results.recents.length + results.settings.length + i} active={active === results.actions.length + results.docs.length + results.recents.length + results.settings.length + i} onRun={r.onRun} setActive={setActive} />
                   ))}
                 </Group>
               )}

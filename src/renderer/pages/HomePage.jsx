@@ -264,7 +264,7 @@ function DocThumb({ doc, onOpen }) {
             {doc.thumb}
           </div>
         ) : (
-          <div className="page-mock urdu" style={{ width: '60%', height: '78%', background: 'white', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--slate-500)' }}>
+          <div className="page-mock urdu" style={{ width: '60%', height: '78%', background: 'white', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-muted)' }}>
             <Icon.Doc style={{ width: 32, height: 32 }} />
           </div>
         )}

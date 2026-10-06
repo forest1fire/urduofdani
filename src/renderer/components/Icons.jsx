@@ -61,6 +61,87 @@ export const Icon = {
   Mail:       make(<><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>),
   Heart:      make(<><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" /></>),
   Coffee:     make(<><path d="M3 8h14v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z" /><path d="M17 10h2a2 2 0 0 1 0 4h-2" /><path d="M7 4c0 1.5 1 1.5 1 3M11 4c0 1.5 1 1.5 1 3" /></>),
+
+  // ----- Editor toolbar -----
+  Pointer:    make(<><path d="m3 3 7 19 2-8 8-2Z" /></>),
+  TextBox:    make(<><rect x="3" y="6" width="18" height="12" rx="2" /><path d="M7 12h10" /></>),
+  Rect:       make(<><rect x="3" y="5" width="18" height="14" rx="1" /></>),
+  Circle:     make(<><circle cx="12" cy="12" r="9" /></>),
+  Line:       make(<><path d="M5 19 19 5" /></>),
+  ArrowShape: make(<><path d="M5 12h14M13 6l6 6-6 6" /></>),
+  Polygon:    make(<><path d="M12 3 21 9 18 20 6 20 3 9Z" /></>),
+  PenTool:    make(<><path d="M12 19l7-7 3 3-7 7-3-3z" /><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" /><path d="M2 2l7.586 7.586" /><circle cx="11" cy="11" r="2" /></>),
+  StickyNote: make(<><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11l5-5V5a2 2 0 0 0-2-2Z" /><path d="M16 3v5h5" /></>),
+  Comment:    make(<><path d="M21 12a8 8 0 0 1-12 7l-5 1 1-4a8 8 0 1 1 16-4Z" /></>),
+
+  // ----- File / folder -----
+  Folder:     make(<><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z" /></>),
+  FolderOpen: make(<><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2H3Z" /><path d="M3 9h18l-3 9H6Z" /></>),
+  File:       make(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /><path d="M9 13h6M9 17h4" /></>),
+  PDF:        make(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /><path d="M9 13h2a1 1 0 0 1 0 2H9v-2Zm0 0v4" /><path d="M14 13h1.5a1 1 0 0 1 0 2H14v-2Zm0 0v4" /></>),
+  NewFile:    make(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /><path d="M12 18v-6m-3 3h6" /></>),
+  Export:     make(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" /><path d="M14 2v6h6" /><path d="M12 11v8m-3-3 3 3 3-3" /></>),
+
+  // ----- Direction / writing -----
+  RTL:        make(<><path d="M3 5h14M3 9h10M3 13h14M3 17h10" /><path d="m17 8 4 4-4 4" /></>),
+  LTR:        make(<><path d="M21 5H7M21 9H11M21 13H7M21 17H11" /><path d="m3 8 4 4-4 4" /></>),
+  List:       make(<><path d="M8 6h13M8 12h13M8 18h13" /><circle cx="3.5" cy="6" r="1.5" fill="currentColor"/><circle cx="3.5" cy="12" r="1.5" fill="currentColor"/><circle cx="3.5" cy="18" r="1.5" fill="currentColor"/></>),
+  ListOrdered:make(<><path d="M10 6h11M10 12h11M10 18h11" /><path d="M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" /></>),
+  Quote:      make(<><path d="M7 7H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v2a2 2 0 0 1-2 2H3" /><path d="M20 7h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2v2a2 2 0 0 1-2 2h-1" /></>),
+
+  // ----- Media -----
+  Video:      make(<><rect x="3" y="6" width="14" height="12" rx="2" /><path d="m21 8-4 4 4 4Z" /></>),
+  Audio:      make(<><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></>),
+  Camera:     make(<><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" /><circle cx="12" cy="13" r="3" /></>),
+  Mic:        make(<><rect x="9" y="2" width="6" height="12" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" /></>),
+  Volume:     make(<><path d="M11 5 6 9H2v6h4l5 4Z" /><path d="M15 9a4 4 0 0 1 0 6" /><path d="M18 6a8 8 0 0 1 0 12" /></>),
+  Play:       make(<><path d="m6 4 14 8-14 8Z" fill="currentColor" /></>),
+  Pause:      make(<><rect x="6" y="4" width="4" height="16" fill="currentColor" /><rect x="14" y="4" width="4" height="16" fill="currentColor" /></>),
+  Stop:       make(<><rect x="5" y="5" width="14" height="14" fill="currentColor" /></>),
+  SkipFwd:    make(<><path d="m5 4 10 8-10 8Z" fill="currentColor" /><rect x="16" y="4" width="3" height="16" fill="currentColor" /></>),
+  SkipBack:   make(<><path d="m19 4-10 8 10 8Z" fill="currentColor" /><rect x="5" y="4" width="3" height="16" fill="currentColor" /></>),
+
+  // ----- Misc UI -----
+  Filter:     make(<><path d="M3 4h18l-7 9v7l-4-2v-5Z" /></>),
+  Sort:       make(<><path d="M3 6h18M6 12h12M10 18h4" /></>),
+  More:       make(<><circle cx="5" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="19" cy="12" r="1.5" fill="currentColor" /></>),
+  MoreV:      make(<><circle cx="12" cy="5" r="1.5" fill="currentColor" /><circle cx="12" cy="12" r="1.5" fill="currentColor" /><circle cx="12" cy="19" r="1.5" fill="currentColor" /></>),
+  Drag:       make(<><circle cx="9" cy="6"  r="1.5" fill="currentColor" /><circle cx="15" cy="6"  r="1.5" fill="currentColor" /><circle cx="9" cy="12" r="1.5" fill="currentColor" /><circle cx="15" cy="12" r="1.5" fill="currentColor" /><circle cx="9" cy="18" r="1.5" fill="currentColor" /><circle cx="15" cy="18" r="1.5" fill="currentColor" /></>),
+  Bell:       make(<><path d="M6 8a6 6 0 0 1 12 0c0 7 3 7 3 9H3c0-2 3-2 3-9Z" /><path d="M10 21a2 2 0 0 0 4 0" /></>),
+  Calendar:   make(<><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 9h18M8 3v4M16 3v4" /></>),
+  User:       make(<><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></>),
+  Users:      make(<><circle cx="9" cy="8" r="3" /><path d="M3 21a6 6 0 0 1 12 0" /><circle cx="17" cy="8" r="2.5" /><path d="M15 21a5 5 0 0 1 6.5-4.7" /></>),
+  Lock:       make(<><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></>),
+  Unlock:     make(<><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 7-2.7" /></>),
+  Power:      make(<><path d="M12 2v10" /><path d="M5.5 7a8 8 0 1 0 13 0" /></>),
+  Info:       make(<><circle cx="12" cy="12" r="9" /><path d="M12 8h.01M11 12h1v5h1" /></>),
+  Warning:    make(<><path d="M12 3 2 21h20Z" /><path d="M12 10v4M12 17h.01" /></>),
+  Error:      make(<><circle cx="12" cy="12" r="9" /><path d="m8 8 8 8M16 8l-8 8" /></>),
+  StarOutline:make(<><path d="m12 3 2.7 6 6.3.6-4.8 4.2 1.4 6.2L12 17l-5.6 3 1.4-6.2L3 9.6 9.3 9Z" /></>),
+
+  // ----- Branding / social -----
+  GitHub:     make(<><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-2c-2.8.6-3.4-1.2-3.4-1.2-.5-1.1-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.5 9.5 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0 0 12 2Z" /></>),
+  Send:       make(<><path d="m22 2-11 11M22 2 15 22l-4-9Z" /></>),
+  External:   make(<><path d="M14 4h6v6" /><path d="M10 14 20 4" /><path d="M20 14v6H4V4h6" /></>),
+  Share:      make(<><circle cx="6" cy="12" r="3" /><circle cx="18" cy="6" r="3" /><circle cx="18" cy="18" r="3" /><path d="m8.5 10.5 7-3M8.5 13.5l7 3" /></>),
+  Copy:       make(<><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></>),
+  Cut:        make(<><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12" /></>),
+  Paste:      make(<><rect x="6" y="4" width="12" height="16" rx="2" /><path d="M9 4V3a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1" /></>),
+  Undo:       make(<><path d="M9 14 4 9l5-5" /><path d="M4 9h11a5 5 0 0 1 0 10h-4" /></>),
+  Redo:       make(<><path d="m15 14 5-5-5-5" /><path d="M20 9H9a5 5 0 0 0 0 10h4" /></>),
+  ZoomIn:     make(<><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3M8 11h6M11 8v6" /></>),
+  ZoomOut:    make(<><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3M8 11h6" /></>),
+
+  // ----- Misc -----
+  LockO:      make(<><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></>),
+  Pin:        make(<><path d="M12 17v5M9 2h6l-1 5 4 4H6l4-4Z" /></>),
+  Tag:        make(<><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z" /><circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" /></>),
+  Bookmark:   make(<><path d="M6 3h12v18l-6-4-6 4Z" /></>),
+  Flag:       make(<><path d="M5 21V4M5 4h13l-3 4 3 4H5" /></>),
+  Bulb:       make(<><path d="M9 18h6M10 22h4" /><path d="M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.4 1 2.3v1h6v-1c0-.9.3-1.7 1-2.3A7 7 0 0 0 12 2Z" /></>),
+  Zoom:       make(<><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></>),
+  Moon:       make(<><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10Z" /></>),
+  Sun:        make(<><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>),
 };
 
 export default Icon;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 const FRAMES = [
   { id: 1, label: 'Page 3, right column' },
@@ -13,20 +14,16 @@ export default function TextFlowPage() {
   const { dispatch } = useStore();
   const [sel, setSel] = useState(2);
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Text flow</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <div className="page-3col" style={{ padding: '16px 32px' }}>
+    <div className="page">
+      <PageHeader title={"Text flow"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <div className="page-3col">
         <aside>
           <h3 style={{ margin: 0 }}>Story frames</h3>
           <div style={{ marginTop: 12 }}>
             {FRAMES.map(f => (
               <div key={f.id} className={`card card-hoverable${sel === f.id ? ' selected' : ''}`}
                    style={{ padding: 10, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Icon.Move style={{ color: 'var(--slate-300)' }} />
+                <Icon.Move style={{ color: 'var(--color-text-subtle)' }} />
                 <span style={{ fontSize: 13 }}>{f.id} · {f.label}</span>
               </div>
             ))}
@@ -36,7 +33,7 @@ export default function TextFlowPage() {
           <div className="spread">
             <div className="page-sheet">
               <div className="page-num" style={{ textAlign: 'left' }}>3</div>
-              <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 16, color: 'var(--navy-900)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
+              <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 16, color: 'var(--color-text)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
               <div className="frame selected" style={{ position: 'relative' }}>
                 <span className="frame-number">2</span>
                 <div className="urdu rtl" style={{ fontSize: 11, lineHeight: 1.8 }}>
@@ -53,7 +50,7 @@ export default function TextFlowPage() {
             </div>
             <div className="page-sheet">
               <div className="page-num" style={{ textAlign: 'left' }}>4</div>
-              <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 16, color: 'var(--navy-900)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
+              <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 16, color: 'var(--color-text)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
               <div className="frame" style={{ position: 'relative' }}>
                 <span className="frame-number">3</span>
                 <div className="urdu rtl" style={{ fontSize: 11, lineHeight: 1.8 }}>
@@ -71,24 +68,24 @@ export default function TextFlowPage() {
           </div>
         </main>
         <aside className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Frame {sel}</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Frame {sel}</h3>
           <div style={{ marginTop: 8, display: 'grid', gridTemplateColumns: '80px 1fr', gap: 6, fontSize: 13 }}>
-            <span style={{ color: 'var(--slate-500)' }}>Page</span><span>{FRAMES[sel - 1].label}</span>
-            <span style={{ color: 'var(--slate-500)' }}>Previous</span><span>Frame {sel - 1}</span>
-            <span style={{ color: 'var(--slate-500)' }}>Next</span>
+            <span style={{ color: 'var(--color-text-muted)' }}>Page</span><span>{FRAMES[sel - 1].label}</span>
+            <span style={{ color: 'var(--color-text-muted)' }}>Previous</span><span>Frame {sel - 1}</span>
+            <span style={{ color: 'var(--color-text-muted)' }}>Next</span>
             <select className="select"><option>Frame {sel + 1 <= FRAMES.length ? sel + 1 : 1}</option></select>
           </div>
           <button className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}><Icon.Link /> Link next frame</button>
           <button className="btn btn-secondary" style={{ width: '100%', marginTop: 8 }}>Unlink next</button>
-          <hr style={{ margin: '16px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
+          <hr style={{ margin: '16px 0', border: 0, borderTop: '1px solid var(--color-border)' }} />
           <strong>Overflow</strong>
           <div className="banner banner-warning" style={{ marginTop: 6 }}>⚠ 12 words need a frame</div>
           <button className="btn btn-secondary" style={{ width: '100%', marginTop: 8 }}>Add linked frame</button>
-          <hr style={{ margin: '16px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
+          <hr style={{ margin: '16px 0', border: 0, borderTop: '1px solid var(--color-border)' }} />
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <input type="checkbox" /> Create document when overflow occurs
           </label>
-          <p style={{ fontSize: 12, color: 'var(--slate-500)', margin: '4px 0 0' }}>Continue this story across linked frames.</p>
+          <p style={{ fontSize: 12, color: 'var(--color-text-muted)', margin: '4px 0 0' }}>Continue this story across linked frames.</p>
         </aside>
       </div>
       <div className="statusbar">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function FindReplacePage() {
   const { dispatch } = useStore();
@@ -8,13 +9,9 @@ export default function FindReplacePage() {
   const [find, setFind] = useState('زبان');
   const [replace, setReplace] = useState('پول');
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Find &amp; replace</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <div className="page-3col" style={{ padding: '16px 32px' }}>
+    <div className="page">
+      <PageHeader title={"Find &amp; replace"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <div className="page-3col">
         <aside className="card">
           <div className="tabs" style={{ padding: 0 }}>
             <button className={`tab${tab === 'find' ? ' active' : ''}`} onClick={() => setTab('find')}>Find</button>
@@ -35,10 +32,10 @@ export default function FindReplacePage() {
             ['Page 5', '…ہماری زبان ہماری شناخت…'],
           ].map(([p, l], idx) => (
             <div key={p} className={`card card-hoverable${idx === 1 ? ' selected' : ''}`} style={{ padding: 8, marginBottom: 6, display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Icon.Doc style={{ color: 'var(--emerald-500)' }} />
+              <Icon.Doc style={{ color: 'var(--color-primary)' }} />
               <div style={{ flex: 1, fontSize: 13 }}>
-                <div style={{ color: 'var(--navy-900)', fontWeight: 600 }}>{p}</div>
-                <div className="urdu rtl" style={{ color: 'var(--slate-500)' }}>{l}</div>
+                <div style={{ color: 'var(--color-text)', fontWeight: 600 }}>{p}</div>
+                <div className="urdu rtl" style={{ color: 'var(--color-text-muted)' }}>{l}</div>
               </div>
             </div>
           ))}
@@ -49,7 +46,7 @@ export default function FindReplacePage() {
         <main>
           <div className="page-sheet" style={{ width: '100%', maxWidth: 500, minHeight: 600 }}>
             <div className="page-num" style={{ textAlign: 'left' }}>اردو</div>
-            <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 18, color: 'var(--navy-900)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
+            <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 18, color: 'var(--color-text)', textAlign: 'right' }}>اردو کی خوبصورتی</div>
             <div className="frame">
               <div className="urdu rtl" style={{ fontSize: 13, lineHeight: 1.9 }}>
                 <p>اردو مرف ایک <mark style={{ background: '#FEF3C7' }}>زبان</mark> ہے۔ یہ ایک ایسی <mark style={{ background: '#FEF3C7' }}>زبان</mark> ہے جو ہکے ہزاروں لوگوں کی <mark style={{ background: '#FEF3C7' }}>زبان</mark> ہے۔ اردو کے الفاظ کا چناؤ اور اس کے ڈھانچے کی بناوٹ اسے منفرد بناتی ہے۔</p>
@@ -61,7 +58,7 @@ export default function FindReplacePage() {
           </div>
         </main>
         <aside className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Page</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Page</h3>
           <label className="label" style={{ marginTop: 8 }}>Size</label>
           <select className="select"><option>A4 (210 × 297 mm)</option></select>
           <label className="label" style={{ marginTop: 8 }}>Orientation</label>
@@ -73,10 +70,10 @@ export default function FindReplacePage() {
           <select className="select"><option>20 mm (Normal)</option></select>
           <label className="label" style={{ marginTop: 8 }}>Columns</label>
           <select className="select"><option>2</option></select>
-          <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
-          <details><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Styles</summary></details>
-          <details><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Document</summary></details>
-          <details><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Page background</summary></details>
+          <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--color-border)' }} />
+          <details><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Styles</summary></details>
+          <details><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Document</summary></details>
+          <details><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Page background</summary></details>
         </aside>
       </div>
       <div className="statusbar">

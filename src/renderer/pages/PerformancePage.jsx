@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function PerformancePage() {
   const { state, dispatch } = useStore();
   const [tab, setTab] = React.useState('performance');
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Performance</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <div className="page-2col" style={{ padding: '16px 32px' }}>
+    <div className="page">
+      <PageHeader title={"Performance"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <div className="page-2col">
         <main>
-          <h2 style={{ margin: 0 }}>Performance</h2>
-          <p style={{ color: 'var(--slate-500)' }}>Balance editing speed and preview detail.</p>
+          <header style={{ marginBottom: 16 }}>
+        <h2 style={{ margin: 0 }}>Performance</h2>
+        <p className="text-muted" style={{ margin: "4px 0 0" }}>Balance editing speed and preview detail.</p>
+      </header>
           <div className="tabs" style={{ padding: 0, marginBottom: 16 }}>
             {['general','editing','saving','performance'].map(t => (
               <button key={t} className={`tab${tab === t ? ' active' : ''}`} onClick={() => setTab(t)} style={{ textTransform: 'capitalize' }}>{t}</button>
@@ -29,7 +28,7 @@ export default function PerformancePage() {
             </div>
             <label className="label" style={{ marginTop: 8 }}>Image preview quality</label>
             <select className="select" style={{ width: 200 }}><option>Balanced</option><option>High</option><option>Fast</option></select>
-            <p style={{ color: 'var(--slate-500)', fontSize: 12 }}>Original images remain unchanged in export.</p>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 12 }}>Original images remain unchanged in export.</p>
           </section>
           <section className="card" style={{ marginTop: 16 }}>
             <h3 style={{ margin: 0 }}>Large documents</h3>
@@ -46,21 +45,21 @@ export default function PerformancePage() {
             <h3 style={{ margin: 0 }}>Rendering</h3>
             <label className="label" style={{ marginTop: 8 }}>Hardware acceleration</label>
             <select className="select" style={{ width: 200 }}><option>Auto</option><option>On</option><option>Off</option></select>
-            <p style={{ color: 'var(--slate-500)', fontSize: 12 }}>Uses supported graphics hardware.</p>
+            <p style={{ color: 'var(--color-text-muted)', fontSize: 12 }}>Uses supported graphics hardware.</p>
           </section>
           <section className="card" style={{ marginTop: 16 }}>
             <h3 style={{ margin: 0 }}>Diagnostics</h3>
             <button className="btn btn-secondary" style={{ marginTop: 8 }}>▶ Run performance check</button>
-            <span style={{ marginLeft: 12, color: 'var(--slate-500)' }}>● No results yet.</span>
+            <span style={{ marginLeft: 12, color: 'var(--color-text-muted)' }}>● No results yet.</span>
           </section>
         </main>
         <aside>
           <div className="card">
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-              <span style={{ color: 'var(--emerald-500)' }}><Icon.Help_O style={{ fontSize: 22 }} /></span>
+              <span style={{ color: 'var(--color-primary)' }}><Icon.Help_O style={{ fontSize: 22 }} /></span>
               <div>
-                <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Keep writing responsive</h3>
-                <p style={{ color: 'var(--slate-500)', fontSize: 13 }}>Preview settings affect screen detail. Export settings are configured separately.</p>
+                <h3 style={{ margin: 0, color: 'var(--color-text)' }}>Keep writing responsive</h3>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>Preview settings affect screen detail. Export settings are configured separately.</p>
               </div>
             </div>
             <button className="btn btn-secondary" style={{ width: '100%', marginTop: 12 }}><Icon.Refresh /> Restore recommended settings</button>
@@ -68,7 +67,7 @@ export default function PerformancePage() {
         </aside>
       </div>
       <div className="statusbar">
-        <span style={{ color: 'var(--info-500)' }}><Icon.Help_O /> Changes apply after saving.</span>
+        <span style={{ color: 'var(--color-info)' }}><Icon.Help_O /> Changes apply after saving.</span>
         <div className="right">
           <button className="btn btn-secondary">Cancel</button>
           <button className="btn btn-primary">Save changes</button>

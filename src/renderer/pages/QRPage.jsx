@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 // Tiny QR-like pattern renderer (placeholder; real QR generation would use a lib).
 function FakeQR({ fg, bg }) {
@@ -34,15 +35,13 @@ export default function QRPage() {
   const [fg, setFg] = useState('navy');
   const [bg, setBg] = useState('white');
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>QR code generator</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <h2 style={{ margin: 0 }}>Add a QR code to your page</h2>
-      <p style={{ color: 'var(--slate-500)' }}>Create a code for a link or text.</p>
-      <div className="page-2col" style={{ padding: '16px 32px' }}>
+    <div className="page">
+      <PageHeader title={"QR code generator"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <header style={{ marginBottom: 16 }}>
+        <h2 style={{ margin: 0 }}>Add a QR code to your page</h2>
+        <p className="text-muted" style={{ margin: "4px 0 0" }}>Create a code for a link or text.</p>
+      </header>
+      <div className="page-2col">
         <main>
           <div className="chip-row">
             <button className={`chip${tab === 'link' ? ' active' : ''}`} onClick={() => setTab('link')}><Icon.Link /> Link</button>
@@ -64,23 +63,23 @@ export default function QRPage() {
             <div><label className="label">Margin (quiet zone)</label><div style={{ display: 'flex' }}><input className="input" defaultValue="4" /><select className="select"><option>modules</option></select></div></div>
             <div><label className="label">Error correction</label><select className="select"><option>Medium</option><option>Low</option><option>High</option></select></div>
           </div>
-          <p style={{ marginTop: 8, color: 'var(--info-500)', fontSize: 13 }}><Icon.Help_O /> Keep strong contrast and clear space around the code.</p>
-          <details style={{ marginTop: 12 }}><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Advanced options</summary></details>
+          <p style={{ marginTop: 8, color: 'var(--color-info)', fontSize: 13 }}><Icon.Help_O /> Keep strong contrast and clear space around the code.</p>
+          <details style={{ marginTop: 12 }}><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Advanced options</summary></details>
         </main>
         <aside>
           <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 240 }}>
             <FakeQR fg={fg === 'navy' ? '#102A43' : fg === 'emerald' ? '#008F76' : '#000'} bg={bg === 'white' ? '#fff' : '#F7F5EF'} />
           </div>
-          <p style={{ color: 'var(--slate-500)', fontSize: 13, marginTop: 8, textAlign: 'center' }}>Preview concept — generate and test before use.</p>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: 13, marginTop: 8, textAlign: 'center' }}>Preview concept — generate and test before use.</p>
           <div className="card" style={{ marginTop: 12 }}>
             <h4 style={{ margin: 0 }}>Summary</h4>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
               <div>
                 <Icon.Link /> <strong>Link</strong>
-                <div style={{ color: 'var(--slate-500)', fontSize: 13 }}>{url}</div>
+                <div style={{ color: 'var(--color-text-muted)', fontSize: 13 }}>{url}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div style={{ color: 'var(--slate-500)' }}>Size</div>
+                <div style={{ color: 'var(--color-text-muted)' }}>Size</div>
                 <div><strong>30 × 30 mm</strong></div>
               </div>
             </div>

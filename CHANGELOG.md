@@ -2,6 +2,65 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.1 — 2026-10-06
+
+**Polish every page.** 1.2.0 redid the chrome (TitleBar, TopBar, SideNav,
+ActivityBar, CommandPalette, Onboarding, Inspector, 5 shell pages). 1.2.1
+applies the same design system to the other 17 inner pages and replaces
+every legacy CSS-var token with the new semantic aliases.
+
+### Changed
+- **17 inner pages converted to `<PageHeader />`** (SpellCheck, Shortcuts,
+  Recovery, PagesManager, Tables, TextFlow, Contents, Styles, Fonts,
+  FindReplace, Images, ColorsShapes, Shapes, Export, KeyboardPractice,
+  UnicodeConverter, QR, Plugins, Performance, Masters). The legacy
+  inline `<div className="page-header">…<h1>…</h1></div>` pattern is gone.
+- **Legacy CSS tokens rewritten.** 22 files, 291 substitutions:
+  - `--emerald-500/600/700/400` → `--color-primary` / `--color-primary-hover` / `--color-primary-active` / `--color-primary-soft`
+  - `--navy-900/700/500` → `--color-text` / `--color-text-strong` / `--color-text-muted`
+  - `--slate-*` → `--color-text-muted` / `--color-text-subtle` / `--color-border`
+  - `--ivory-*` → `--color-bg-sunken` / `--color-border`
+  - `--info-500/50`, `--warning-500/50`, `--danger-500/50` → `--color-info` / `--color-warning` / `--color-danger` (+ soft variants)
+- **Icon library expanded** from 52 to ~100 entries (added Pointer,
+  TextBox, Rect, Circle, Line, PenTool, StickyNote, Comment, Folder,
+  File, PDF, NewFile, Export, RTL, LTR, List, ListOrdered, Quote,
+  Video, Audio, Camera, Mic, Volume, Play, Pause, Stop, Filter, Sort,
+  More, MoreV, Drag, Bell, Calendar, User, Users, Lock, Unlock, Power,
+  Info, Warning, Error, StarOutline, GitHub, Send, External, Share,
+  Copy, Cut, Paste, Undo, Redo, ZoomIn, ZoomOut, Pin, Tag, Bookmark,
+  Flag, Bulb, Moon, Sun, …).
+- **CommandPalette** now shows 5 result groups: Actions · Open
+  documents · Recent documents · Settings · Pages & tools. Added 8 new
+  commands (theme-light, theme-dark, templates, fonts, plugins, recovery,
+  feedback, settings).
+- **SpellCheckPage** redesigned with the new design system — proper
+  PageHeader, three-column grid, live engine-status banner, RTL preview
+  card, personal-dictionary chip list.
+- **ShortcutsPage** redesigned with the new design system — full
+  search/filter, two-column grid, real keyboard recording (press your
+  new keys; conflict detection against every other command), preset
+  schemes (UrduOfDani default, InPage, Word, Photoshop, Custom),
+  import/export.
+
+### Added
+- **Three migration scripts** under `scripts/`:
+  - `scripts/upgrade-pages.mjs` — replaces legacy `<div className="page-header">` blocks with `<PageHeader />` and adds the import.
+  - `scripts/normalize-pages.mjs` — strips inline `padding: 32` from `.page` wrappers, strips inline `padding: '16px 32px'` from `.page-2col`/`.page-3col`, rewrites `<h2>+<p>` "section description" pairs into a consistent `<header>` block.
+  - `scripts/migrate-vars.mjs` — maps legacy CSS tokens to new semantic aliases.
+- **5 new smoke tests** (51 total, all green):
+  - `Icons.jsx: ships a rich icon library (≥ 40 icons)` — spot-checks 10 critical icons.
+  - `ActivityBar: groups all 7 views and binds Ctrl+1..6`.
+  - `design system tokens: new semantic aliases are present`.
+  - `component library: ships modern primitives`.
+  - `all 23 inner pages use the new design system` — walks every page, asserts no legacy `<div className="page-header">`, no legacy CSS-var tokens, and that `PageHeader` is imported.
+
+### Verified
+- `npm test` → **51 / 51 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200.
+
+## 1.2.0 — 2026-10-06
+
 ## 1.2.0 — 2026-10-06
 
 **Major UX upgrade.** The whole shell — title bar, top bar, side nav,

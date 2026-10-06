@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import PageHeader from '../components/PageHeader.jsx';
 
 export default function ColorsShapesPage() {
   const { state, dispatch } = useStore();
@@ -8,13 +9,9 @@ export default function ColorsShapesPage() {
   const [sel, setSel] = useState('c2');
   const c = state.colors.find(x => x.id === sel);
   return (
-    <div className="page" style={{ padding: 32 }}>
-      <div className="page-header">
-        <button className="page-back" onClick={() => dispatch({ type: 'set-route', route: 'editor' })}><Icon.ArrowLeft /> Back to editor</button>
-        <h1 className="page-title" style={{ marginLeft: 16 }}>Colors &amp; shapes</h1>
-        <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
-      </div>
-      <div className="page-3col" style={{ padding: '16px 32px' }}>
+    <div className="page">
+      <PageHeader title={"Colors &amp; shapes"} back onBack={() => dispatch({ type: 'set-route', route: "editor" })} />
+      <div className="page-3col">
         <aside>
           {tab === 'colors' ? [
             ['doc','Document colors', true], ['pal','Saved palettes', false], ['recent','Recent colors', false]
@@ -38,10 +35,10 @@ export default function ColorsShapesPage() {
           {tab === 'colors' && (
             <>
               <h2 style={{ marginTop: 12 }}>Keep your design consistent</h2>
-              <p style={{ color: 'var(--slate-500)' }}>Reuse colors throughout your document.</p>
+              <p style={{ color: 'var(--color-text-muted)' }}>Reuse colors throughout your document.</p>
               <div style={{ display: 'flex', gap: 12 }}>
                 <div style={{ position: 'relative', flex: 1 }}>
-                  <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
+                  <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--color-text-subtle)' }} />
                   <input className="input" placeholder="Search colors…" style={{ paddingLeft: 32 }} />
                 </div>
                 <button className="btn btn-primary"><Icon.Plus /> Add color</button>
@@ -51,8 +48,8 @@ export default function ColorsShapesPage() {
                   <div key={col.id} className={`card card-hoverable${sel === col.id ? ' selected' : ''}`}
                        style={{ padding: 8, textAlign: 'center' }} onClick={() => setSel(col.id)}>
                     <div style={{ height: 80, background: col.hex, borderRadius: 6, marginBottom: 8 }} />
-                    <div style={{ fontWeight: 600, color: 'var(--navy-900)' }}>{col.name}</div>
-                    <div style={{ fontSize: 12, color: 'var(--slate-500)' }}>{col.hex}</div>
+                    <div style={{ fontWeight: 600, color: 'var(--color-text)' }}>{col.name}</div>
+                    <div style={{ fontSize: 12, color: 'var(--color-text-muted)' }}>{col.hex}</div>
                   </div>
                 ))}
               </div>
@@ -66,7 +63,7 @@ export default function ColorsShapesPage() {
                 </div>
                 <div style={{ marginLeft: 'auto' }}><button className="btn btn-secondary"><Icon.Doc /> Save palette</button></div>
               </div>
-              <p style={{ marginTop: 12, color: 'var(--info-500)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <p style={{ marginTop: 12, color: 'var(--color-info)', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Icon.Help_O /> Preview colors before print export.
               </p>
             </>
@@ -74,7 +71,7 @@ export default function ColorsShapesPage() {
           {tab === 'shapes' && <ShapesBody sel={sel} setSel={setSel} />}
         </main>
         <aside className="card">
-          <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>{tab === 'colors' ? 'Edit color' : 'Shape properties'}</h3>
+          <h3 style={{ margin: 0, color: 'var(--color-text)' }}>{tab === 'colors' ? 'Edit color' : 'Shape properties'}</h3>
           {tab === 'colors' ? (
             <>
               <div style={{ height: 60, background: c.hex, borderRadius: 8, margin: '12px 0' }} />
@@ -88,7 +85,7 @@ export default function ColorsShapesPage() {
               </div>
               <label className="label" style={{ marginTop: 8 }}>Opacity</label>
               <input type="range" defaultValue={100} style={{ width: '100%' }} />
-              <div style={{ marginTop: 12, color: 'var(--slate-500)' }}><Icon.Layers style={{ fontSize: 12 }} /> Used in 8 objects</div>
+              <div style={{ marginTop: 12, color: 'var(--color-text-muted)' }}><Icon.Layers style={{ fontSize: 12 }} /> Used in 8 objects</div>
               <button className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}>Apply to selection</button>
               <button className="btn btn-secondary" style={{ width: '100%', marginTop: 8 }}>Save changes</button>
             </>
@@ -96,12 +93,12 @@ export default function ColorsShapesPage() {
             <>
               <label className="label">Fill color</label>
               <div style={{ display: 'flex', gap: 6 }}>
-                <div style={{ width: 36, height: 24, background: 'var(--emerald-500)', borderRadius: 4 }} />
+                <div style={{ width: 36, height: 24, background: 'var(--color-primary)', borderRadius: 4 }} />
                 <input className="input" defaultValue="#008F76" />
               </div>
               <label className="label" style={{ marginTop: 8 }}>Border color</label>
               <div style={{ display: 'flex', gap: 6 }}>
-                <div style={{ width: 36, height: 24, background: 'var(--navy-900)', borderRadius: 4 }} />
+                <div style={{ width: 36, height: 24, background: 'var(--color-text)', borderRadius: 4 }} />
                 <input className="input" defaultValue="#102A43" />
               </div>
               <label className="label" style={{ marginTop: 8 }}>Border width</label>
@@ -114,8 +111,8 @@ export default function ColorsShapesPage() {
               <input className="input" defaultValue="4 mm" />
               <label className="label" style={{ marginTop: 8 }}>Opacity</label>
               <input type="range" defaultValue={100} style={{ width: '100%' }} />
-              <details><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Position</summary></details>
-              <details><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Alignment</summary></details>
+              <details><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Position</summary></details>
+              <details><summary style={{ fontWeight: 600, color: 'var(--color-text)' }}>Alignment</summary></details>
               <button className="btn btn-primary" style={{ width: '100%', marginTop: 12 }}><Icon.Plus /> Insert into document</button>
               <button className="btn btn-secondary" style={{ width: '100%', marginTop: 8 }}><Icon.Doc /> Save shape</button>
             </>
@@ -134,9 +131,9 @@ function ShapesBody({ sel, setSel }) {
   return (
     <>
       <h2 style={{ marginTop: 12 }}>Build clean layouts with shapes</h2>
-      <p style={{ color: 'var(--slate-500)' }}>Add simple shapes to your document and customize them.</p>
+      <p style={{ color: 'var(--color-text-muted)' }}>Add simple shapes to your document and customize them.</p>
       <div style={{ position: 'relative' }}>
-        <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
+        <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--color-text-subtle)' }} />
         <input className="input" placeholder="Search shapes…" style={{ paddingLeft: 32 }} />
       </div>
       <div className="grid-4" style={{ gap: 12, marginTop: 16 }}>
@@ -144,21 +141,21 @@ function ShapesBody({ sel, setSel }) {
           <div key={s.id} className={`card card-hoverable${sel === s.id ? ' selected' : ''}`}
                style={{ padding: 16, textAlign: 'center' }} onClick={() => setSel(s.id)}>
             <div style={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {s.name === 'Rectangle' && <div style={{ width: 60, height: 40, border: '2px solid var(--navy-900)' }} />}
-              {s.name === 'Rounded rectangle' && <div style={{ width: 60, height: 40, border: '2px solid var(--navy-900)', borderRadius: 12, background: 'var(--emerald-100)' }} />}
-              {s.name === 'Circle' && <div style={{ width: 50, height: 50, border: '2px solid var(--navy-900)', borderRadius: '50%' }} />}
-              {s.name === 'Triangle' && <div style={{ width: 0, height: 0, borderLeft: '30px solid transparent', borderRight: '30px solid transparent', borderBottom: '52px solid var(--navy-900)' }} />}
-              {s.name === 'Line' && <div style={{ width: 60, height: 2, background: 'var(--navy-900)' }} />}
-              {s.name === 'Arrow' && <div style={{ fontSize: 32, color: 'var(--navy-900)' }}>→</div>}
-              {s.name === 'Diamond' && <div style={{ width: 36, height: 36, border: '2px solid var(--navy-900)', transform: 'rotate(45deg)' }} />}
-              {s.name === 'Star' && <div style={{ fontSize: 36, color: 'var(--navy-900)' }}>★</div>}
+              {s.name === 'Rectangle' && <div style={{ width: 60, height: 40, border: '2px solid var(--color-text)' }} />}
+              {s.name === 'Rounded rectangle' && <div style={{ width: 60, height: 40, border: '2px solid var(--color-text)', borderRadius: 12, background: 'var(--color-primary-soft)' }} />}
+              {s.name === 'Circle' && <div style={{ width: 50, height: 50, border: '2px solid var(--color-text)', borderRadius: '50%' }} />}
+              {s.name === 'Triangle' && <div style={{ width: 0, height: 0, borderLeft: '30px solid transparent', borderRight: '30px solid transparent', borderBottom: '52px solid var(--color-text)' }} />}
+              {s.name === 'Line' && <div style={{ width: 60, height: 2, background: 'var(--color-text)' }} />}
+              {s.name === 'Arrow' && <div style={{ fontSize: 32, color: 'var(--color-text)' }}>→</div>}
+              {s.name === 'Diamond' && <div style={{ width: 36, height: 36, border: '2px solid var(--color-text)', transform: 'rotate(45deg)' }} />}
+              {s.name === 'Star' && <div style={{ fontSize: 36, color: 'var(--color-text)' }}>★</div>}
             </div>
-            <div style={{ marginTop: 8, fontWeight: 600, color: 'var(--navy-900)' }}>{s.name}</div>
+            <div style={{ marginTop: 8, fontWeight: 600, color: 'var(--color-text)' }}>{s.name}</div>
           </div>
         ))}
       </div>
-      <div className="card" style={{ marginTop: 16, padding: 32, background: 'var(--slate-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 }}>
-        <div style={{ width: 200, height: 80, background: 'var(--emerald-500)', borderRadius: 8, border: '2px dashed var(--slate-200)' }} />
+      <div className="card" style={{ marginTop: 16, padding: 32, background: 'var(--color-bg-sunken)', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 180 }}>
+        <div style={{ width: 200, height: 80, background: 'var(--color-primary)', borderRadius: 8, border: '2px dashed var(--color-border)' }} />
       </div>
     </>
   );
