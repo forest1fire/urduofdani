@@ -117,9 +117,24 @@ body { max-width: 100vw; }
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* Hide the text labels of file-ops buttons; show only the icon. */
+  .topbar-btn span, .topbar-btn-primary span { display: none; }
 }
 @media (max-width: 559.98px) {
   .topbar-tab { max-width: 120px; }
+}
+
+/* Primary action button in the top bar (Save → emerald outline, PDF → emerald fill). */
+.topbar-btn-primary {
+  background: var(--emerald-500) !important;
+  color: var(--white) !important;
+  border: 1px solid var(--emerald-500) !important;
+  font-weight: 600;
+}
+.topbar-btn-primary:hover { background: var(--emerald-600) !important; }
+.topbar-btn:disabled, .topbar-btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ---------- Generic responsive 3-column page shell ---------- */

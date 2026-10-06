@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from './Icons.jsx';
 import Brand from './Brand.jsx';
+import { useDocActions } from '../lib/useDocActions.js';
 
 export default function TopBar() {
   const { state, dispatch } = useStore();
+  const { save, openFile, exportPdf } = useDocActions();
   const saved = state.openDocs.length > 0 && !state.openDocs.some(d => d.unsaved);
+
+  // Cmd/Ctrl + S/O/E keyboard shortcuts
+  useEffect(() => {
+    const onKey = (e) => {
+      const cmd = e.metaKey || e.ctrlKey;
+      if (!cmd) return;
+      const k = e.key.toLowerCase();
+      if (k === 's') { e.preventDefault(); save(); }
+      else if (k === 'o') { e.preventDefault(); openFile(); }
+      else if (k === 'e') { e.preventDefault(); exportPdf(); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [save, openFile, exportPdf]);
+
+  const hasDoc = state.activeDoc != null;
 
   return (
     <header className="topbar" role="banner">
@@ -14,7 +32,7 @@ export default function TopBar() {
         <span>UrduOfDani</span>
       </div>
 
-      {state.openDocs.length > 0 && state.openDocs.map(d => {
+      {state.openDocs.length > 0 && state.openDocs.slice(0, 5).map(d => {
         const doc = state.documents.find(x => x.id === d.id);
         if (!doc) return null;
         const isActive = state.activeDocId === d.id;
@@ -30,12 +48,27 @@ export default function TopBar() {
         );
       })}
 
-      {state.openDocs.length > 0 && (
-        <button className="topbar-btn" title="New tab"
-                onClick={() => dispatch({ type: 'set-route', route: 'new' })}>+</button>
-      )}
+      <button className="topbar-btn" title="New document (Ctrl+N)"
+              onClick={() => dispatch({ type: 'set-route', route: 'new' })}>+</button>
 
       <div className="topbar-spacer" />
+
+      {/* File operations */}
+      <button className="topbar-btn" title="Open .udani file (Ctrl+O)"
+              onClick={openFile} aria-label="Open file">
+        <Icon.Upload style={{ marginRight: 4 }} /> Open
+      </button>
+      <button className="topbar-btn" title="Save (Ctrl+S)"
+              disabled={!hasDoc}
+              onClick={save} aria-label="Save">
+        {saved ? <Icon.Check style={{ marginRight: 4 }} /> : <Icon.Download style={{ marginRight: 4 }} />}
+        {saved ? 'Saved' : 'Save'}
+      </button>
+      <button className="topbar-btn topbar-btn-primary" title="Export PDF (Ctrl+E)"
+              disabled={!hasDoc}
+              onClick={exportPdf} aria-label="Export PDF">
+        <Icon.Print style={{ marginRight: 4 }} /> PDF
+      </button>
 
       <input className="topbar-search" placeholder="Search…" readOnly
              onClick={() => dispatch({ type: 'open-cmd' })} />

@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import { useDocActions } from '../lib/useDocActions.js';
+import { emptyDocument } from '../lib/document.js';
+
+const MENUS = ['File', 'Edit', 'Insert', 'Layout', 'Typography', 'Review'];
+const MODES = ['Write', 'Design', 'Print'];
 
 const SAMPLE_URDU = `اردو کی خوبصورتی اس کی روائیت میں ہے۔ یہ زبان صرف ایک زبان نہیں بلکہ ایک ایسی تہذیب اور ثقافت ہے جو صدیوں سے چلی آ رہی ہے۔ اس کے الفاظ اپنے اندر ایک گہرائی رکھتے ہیں جو اسے دوسری زبانوں سے ممتاز کرتی ہے۔
 
@@ -8,15 +13,37 @@ const SAMPLE_URDU = `اردو کی خوبصورتی اس کی روائیت می�
 
 یہ ایک نمونہ متن ہے جو آپ کی دستاویز میں ترمیم اور تبدیلی کے لیے حاضر ہے۔ آپ اسے حذف کر کے اپنا مواد شامل کر سکتے ہیں۔`;
 
-const MENUS = ['File', 'Edit', 'Insert', 'Layout', 'Typography', 'Review'];
-const MODES = ['Write', 'Design', 'Print'];
-
 export default function EditorPage() {
   const { state, dispatch } = useStore();
+  const { save, exportPdf, autosaveDoc } = useDocActions();
   const [mode, setMode] = useState('Design');
   const [tool, setTool] = useState('select');
   const [tab, setTab] = useState('pages');
   const doc = state.documents.find(d => d.id === state.activeDocId);
+
+  // If we land on the editor with no active document, create one.
+  useEffect(() => {
+    if (!state.activeDoc && !state.activeDocId) {
+      dispatch({ type: 'new-doc', name: 'Untitled', udani: emptyDocument('Untitled') });
+    }
+  }, [state.activeDoc, state.activeDocId, dispatch]);
+
+  const activeDoc = state.activeDoc;
+  const titleText = activeDoc?.meta?.title || doc?.name || 'Untitled';
+  const firstTextFrame = activeDoc?.pages?.[0]?.frames?.find(f => f.kind === 'text');
+  const bodyText = firstTextFrame?.content || SAMPLE_URDU;
+
+  // Update a frame's content.  Persists to store + schedules autosave.
+  const setFrameContent = (frameId, content) => {
+    if (!activeDoc) return;
+    const next = JSON.parse(JSON.stringify(activeDoc));
+    for (const p of next.pages) {
+      const f = p.frames.find(fr => fr.id === frameId);
+      if (f) { f.content = content; break; }
+    }
+    dispatch({ type: 'set-doc', udani: next });
+    autosaveDoc();
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -33,8 +60,10 @@ export default function EditorPage() {
           ))}
         </div>
         <div className="topbar-spacer" />
-        <span style={{ color: 'var(--slate-500)', fontSize: 13 }}>{doc?.kind === 'book' ? 'اردو' : 'EN'}</span>
-        <button className="btn btn-primary"><Icon.Print /> Export PDF</button>
+        <span style={{ color: 'var(--slate-500)', fontSize: 13 }}>{(doc?.kind || 'urdu') === 'book' ? 'اردو' : 'EN'}</span>
+        <button className="btn btn-primary" onClick={exportPdf}>
+          <Icon.Print /> Export PDF
+        </button>
       </div>
 
       <div style={{ display: 'flex', gap: 8, padding: '6px 16px', borderBottom: '1px solid var(--slate-100)', background: 'var(--white)' }}>
@@ -119,54 +148,47 @@ export default function EditorPage() {
         <main style={{ background: 'var(--slate-50)', overflow: 'auto', padding: 24 }}>
           <div className="spread">
             <div className="page-sheet">
-              <div className="page-num" style={{ textAlign: 'left' }}>3</div>
+              <div className="page-num" style={{ textAlign: 'left' }}>1</div>
               <div className="frame">
-                <h1>زبان اور ثقافت</h1>
+                <h1
+                  contentEditable
+                  suppressContentEditableWarning
+                  onBlur={(e) => firstTextFrame && setFrameContent(firstTextFrame.id, e.currentTarget.textContent)}
+                  style={{ outline: 'none' }}
+                >{titleText}</h1>
               </div>
               <div className="frame">
                 <div className="urdu rtl" style={{ fontSize: 14, lineHeight: 1.8 }}>
-                  {SAMPLE_URDU.split('\n\n')[0]}
+                  {bodyText.split('\n\n')[0]}
                 </div>
-              </div>
-              <div className="frame selected">
-                <div className="urdu rtl" style={{ fontSize: 14, lineHeight: 1.8 }}>
-                  {SAMPLE_URDU.split('\n\n')[1]}
-                </div>
-              </div>
-              <div className="page-num">3</div>
-            </div>
-            <div className="page-sheet">
-              <div className="page-num" style={{ textAlign: 'left' }}>4</div>
-              <div className="frame">
-                <h1>روشن مستقبل</h1>
-              </div>
-              <div className="frame" style={{ position: 'relative' }}>
-                <span className="frame-number">2</span>
-                <div style={{
-                  background: 'linear-gradient(135deg,#fdbb74,#fc8d4f)',
-                  height: 140, borderRadius: 4,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#fff', fontWeight: 600,
-                }}>Mountain.jpg</div>
               </div>
               <div className="frame">
-                <span className="frame-number">1</span>
-                <div className="urdu rtl" style={{ fontSize: 13, lineHeight: 1.8 }}>
-                  اردو مرف ایک زبان ہے۔ یہ ایک ایسی زبان ہے جو ہکے ہزاروں لوگوں کی زبان ہے۔
-                </div>
+                <div
+                  className="urdu rtl"
+                  contentEditable
+                  suppressContentEditableWarning
+                  onBlur={(e) => firstTextFrame && setFrameContent(firstTextFrame.id, e.currentTarget.textContent)}
+                  style={{ fontSize: 14, lineHeight: 1.8, outline: 'none' }}
+                >{bodyText.split('\n\n')[1] || bodyText}</div>
               </div>
-              <div className="page-num">4</div>
+              <div className="page-num">1</div>
             </div>
           </div>
         </main>
       </div>
 
       <div className="statusbar">
-        <button className="toolbar-btn" style={{ width: 24, height: 24 }}><Icon.ArrowLeft style={{ fontSize: 12 }} /></button>
-        <span>Page 3-4 of 12</span>
+        <button className="toolbar-btn" style={{ width: 24, height: 24 }} onClick={save} title="Save (Ctrl+S)">
+          <Icon.Download style={{ fontSize: 12 }} />
+        </button>
+        <span>Page 1 of {activeDoc?.pages?.length || 1}</span>
         <button className="toolbar-btn" style={{ width: 24, height: 24 }}><Icon.Arrow style={{ fontSize: 12 }} /></button>
         <div className="right">
-          <span>اردو</span><span>Focus</span><span>—</span><span>80%</span>
+          <span>{(activeDoc?.meta?.title || doc?.name || 'Untitled')}</span>
+          <span>·</span>
+          <span>{state.lastSavedAt ? `Saved ${new Date(state.lastSavedAt).toLocaleTimeString()}` : 'Unsaved'}</span>
+          <span>—</span>
+          <span>80%</span>
         </div>
       </div>
     </div>

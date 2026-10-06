@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
 import Brand from '../components/Brand.jsx';
+import { useDocActions } from '../lib/useDocActions.js';
+import { listAutosaves, loadAutosave, clearAutosaves } from '../lib/document.js';
 
 export default function HomePage() {
   const { state, dispatch } = useStore();
+  const { openFile, newDoc } = useDocActions();
+  const [autosaves, setAutosaves] = useState([]);
+
+  useEffect(() => {
+    setAutosaves(listAutosaves('default'));
+    const id = setInterval(() => setAutosaves(listAutosaves('default')), 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  const restore = (stamp) => {
+    const doc = loadAutosave(stamp, 'default');
+    if (!doc) return;
+    const id = 'd-' + Math.random().toString(36).slice(2, 9);
+    dispatch({ type: 'open-doc-data', id, udani: doc, name: doc.meta?.title || 'Recovered' });
+    dispatch({ type: 'toast', t: { kind: 'ok', msg: 'Recovered from autosave' } });
+  };
 
   return (
     <div className="page" style={{ padding: 32, background: 'var(--white)' }}>
@@ -22,11 +40,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
         <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'set-route', route: 'new' })}>
           <Icon.Plus /> New document
         </button>
-        <button className="btn btn-secondary btn-lg"><Icon.Doc /> Open document</button>
+        <button className="btn btn-secondary btn-lg" onClick={openFile}>
+          <Icon.Upload /> Open .udani
+        </button>
+        <button className="btn btn-secondary btn-lg" onClick={() => newDoc('Quick start', { pages: 1 })}>
+          <Icon.Sparkle /> Quick start
+        </button>
       </div>
 
       <div className="page-2col" style={{ padding: '16px 32px' }}>
@@ -43,7 +66,11 @@ export default function HomePage() {
             <table className="table">
               <thead><tr><th>Name</th><th>Type</th><th>Last opened</th><th></th></tr></thead>
               <tbody>
-                {state.documents.map(d => (
+                {state.documents.length === 0 ? (
+                  <tr><td colSpan="4" style={{ textAlign: 'center', color: 'var(--slate-500)', padding: 32 }}>
+                    No documents yet. Click <strong>New document</strong> or <strong>Open .udani</strong> to get started.
+                  </td></tr>
+                ) : state.documents.map(d => (
                   <tr key={d.id} style={{ cursor: 'pointer' }} onClick={() => dispatch({ type: 'open-doc', id: d.id })}>
                     <td>
                       <span style={{ color: 'var(--emerald-500)', marginRight: 8 }}><Icon.Doc /></span>
@@ -89,6 +116,41 @@ export default function HomePage() {
         </div>
 
         <aside>
+          {autosaves.length > 0 && (
+            <section className="card" style={{ marginBottom: 16 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h3 style={{ margin: 0, fontSize: 18, color: 'var(--navy-900)' }}>Recovered drafts</h3>
+                <button className="btn btn-ghost btn-sm" onClick={() => { clearAutosaves('default'); setAutosaves([]); }}>
+                  Clear
+                </button>
+              </div>
+              <p style={{ color: 'var(--slate-500)', margin: '4px 0 8px', fontSize: 13 }}>
+                Auto-saved copies from your last session.
+              </p>
+              {autosaves.slice(0, 3).map((s, i) => (
+                <button key={s.ts}
+                        onClick={() => restore(s)}
+                        style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', padding: 8,
+                                 background: 'transparent', border: 'none', textAlign: 'left',
+                                 borderRadius: 6, cursor: 'pointer', marginTop: 4 }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'var(--slate-50)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                  <span style={{ color: 'var(--emerald-500)' }}><Icon.Doc style={{ fontSize: 18 }} /></span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy-900)',
+                                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {s.name}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--slate-500)' }}>
+                      {new Date(s.ts).toLocaleString()} · {Math.round(s.size / 1024)} KB
+                    </div>
+                  </div>
+                  <Icon.Arrow style={{ color: 'var(--slate-300)', fontSize: 14 }} />
+                </button>
+              ))}
+            </section>
+          )}
+
           <section className="card" style={{ marginBottom: 16 }}>
             <h3 style={{ margin: 0, fontSize: 22, color: 'var(--navy-900)' }}>Quick start</h3>
             <p style={{ color: 'var(--slate-500)', margin: '4px 0 16px' }}>Choose a document type to get started.</p>
