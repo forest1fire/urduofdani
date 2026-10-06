@@ -2,6 +2,93 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.0 — 2026-10-06
+
+**Major UX upgrade.** The whole shell — title bar, top bar, side nav,
+command palette, command palette results, home dashboard, onboarding tour,
+inspector, and 5 of the most-used pages (Home, New, Templates, Settings,
+Help, Editor) — has been redesigned with inspiration from CorelDRAW,
+Photoshop, VS Code, Word, Notion, Figma, and InPage.
+
+### New design system
+- **`src/renderer/styles/tokens.css`** rewritten. The new system has a
+  Pakistani palette (navy + emerald + gold + ivory), a 4px-base spacing
+  scale (`--sp-1`..`--sp-24`), 7 shape radii, 5 shadow levels, a
+  full motion system (`--ease-out`, `--ease-bounce`, `--t-fast/med/slow`),
+  and a dark theme that mirrors every token.
+- **`src/renderer/styles/components.css`** rewritten with modern
+  component primitives: `.btn-primary/secondary/ghost/danger` with
+  `.btn-sm/lg/xl` modifiers, `.card-*` variants, `.chip-*` color
+  variants, `.btn-group` (segmented), `.avatar-*`, `.kbd`, `.progress`,
+  `.spinner`, `.tabs`, `.empty-state`, `.hero`, `.tpl-card`,
+  `.doc-thumb`, `.cmdk`, `.toast`, `.toolbar`, `.statusbar`.
+- **`src/renderer/styles/responsive.css`** rewritten. Breakpoints:
+  < 560 / 560-899 / 900-1199 / 1200-1919 / 1920+. Each page reflows
+  gracefully; the activity bar hides on phones (becomes a bottom bar);
+  the side nav becomes a slide-in sheet; the inspector hides on
+  narrow viewports.
+
+### New components
+- **`TitleBar.jsx`** — window chrome with app name, current doc name,
+  and OS window controls (min / max / close).
+- **`ActivityBar.jsx`** — VS Code–style vertical icon strip on the
+  far left, with `Home / Edit / Review / Design / Insert / Publish /
+  Settings` views. Each click is also bound to `Ctrl+1..6`.
+- **`Inspector.jsx`** — Photoshop/Word–style right panel with
+  tabbed sections (Page / Text / Object / Pages / Filters / Tip).
+  Each tab renders real form controls.
+- **`Onboarding.jsx`** — 5-step intro tour that fires on first launch
+  (and on demand via the command palette). The user sees the popover
+  over the app; "Skip" dismisses forever (saved in `localStorage`).
+- **`PageHeader.jsx`** — uniform back / title / subtitle / actions
+  header used by every inner page.
+- **`CommandPalette`** rewritten with grouped results (Actions / Open
+  documents / Pages & tools), real keyboard navigation (↑/↓/↵/Esc),
+  footer with counts, and a rich empty state.
+
+### Reworked pages
+- **HomePage** — full redesign. Hero with the brand mark, value prop,
+  and three big CTAs (New / Open / Quick start). Quick-start pills.
+  Searchable recent-docs grid with proper thumbnails (one per kind:
+  book, magazine, card, newsletter, etc). Visual template gallery.
+  Recovered-drafts card (only if autosaves exist). Learn-the-basics
+  tips grid.
+- **NewDocPage** — type selector with mini preview swatches, form
+  fields grouped into cards (Document / Page / Layout / Writing), a
+  live page preview on the right.
+- **TemplatesPage** — category filters, search, visual template
+  gallery with 12 templates (Urdu Book, Editorial Magazine, Wedding
+  Invitation, School Newsletter, Research Report, Poetry Collection,
+  Event Poster, Tech Magazine, Business Card, Corporate News, Annual
+  Report, Mosque Poster).
+- **SettingsPage** — unified tabbed layout (General / Editing /
+  Saving / Performance) using the new card + field + toggle pattern.
+- **HelpPage** — sidebar of topics with search, guided-tutorial
+  cards, popular-articles list, and a redesigned About card.
+- **EditorPage** — full editor with menu bar, style toolbar, tool
+  rail, page list, and zoomable canvas. All buttons restyled with
+  the new `.toolbar-btn` and `.btn-group` primitives.
+- **TopBar** — modernised with new doc tabs, real Ctrl+S/O/E/N
+  shortcuts, language toggle, profile chip.
+- **SideNav** — replaced with grouped sections (Create / Edit /
+  Review / Design / Insert / Publish / Settings), each with a search
+  input at the top. Backed by the new activity-bar view system.
+
+### Store improvements
+- `toast` action now queues toasts (up to 3 at once) with auto-dismiss
+  after 4 s. The `Toast` component renders the queue with kind-coloured
+  left borders (ok / warn / err / info).
+- New reducer cases: `start-tour`, `end-tour` (persists `udani:tourDone`
+  to localStorage), `dismiss-toast`, `set-doc` (replaces the active
+  document body — fixes a regression in EditorPage), `mark-saved`
+  (now also sets `lastSavedAt` for the status bar), `mark-dirty`,
+  `open-doc-data` (load from a .udani / autosave).
+
+### Audit / tests
+- 2 stale smoke tests for the old responsive.css were updated to the
+  new breakpoint / grid-helper conventions.
+- 46/46 tests pass. `npm run audit` is clean.
+
 ## 1.1.8 — 2026-10-06
 
 **White-screen fix.** The Electron app was launching but the renderer

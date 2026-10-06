@@ -90,16 +90,23 @@ test('responsive.css: declares 100dvh and 100vw safety', () => {
 
 test('responsive.css: defines auto-fit grid helpers', () => {
   const css = readFileSync('src/renderer/styles/responsive.css', 'utf8');
-  assert.match(css, /\.grid-1\b[\s\S]*?auto-fit/);
-  assert.match(css, /\.grid-4\b[\s\S]*?auto-fit/);
-  assert.match(css, /\.grid-form-3\b/);
-  assert.match(css, /\.grid-form-4\b/);
+  // Modern breakpoints: < 560 / 560-899 / 900-1199 / 1200-1919 / 1920+
+  assert.match(css, /max-width:\s*559\.98px/, 'should have a tiny/mobile breakpoint');
+  assert.match(css, /max-width:\s*899\.98px/, 'should have a tablet breakpoint');
+  assert.match(css, /max-width:\s*1199\.98px/, 'should have a narrow desktop breakpoint');
+  assert.match(css, /min-width:\s*1920px/,    'should have a wide-desktop breakpoint');
+  // Grid utilities used in the design system
+  assert.match(css, /\.grid-auto\b/,          'should define .grid-auto');
+  assert.match(css, /repeat\(auto-fill/,'should use auto-fill / auto-fit');
 });
 
 test('responsive.css: hides sidenav and inspector below their breakpoints', () => {
   const css = readFileSync('src/renderer/styles/responsive.css', 'utf8');
-  assert.match(css, /\.sidenav\s*\{\s*display:\s*none/);
-  assert.match(css, /\.inspector\s*\{\s*display:\s*none/);
+  // Inspector and activity bar are hidden on small viewports
+  assert.match(css, /max-width:\s*899\.98px[\s\S]*?\.inspector\b[\s\S]*?display:\s*none/,
+    'inspector should be hidden below 900px');
+  assert.match(css, /max-width:\s*559\.98px[\s\S]*?\.activitybar\b[\s\S]*?display:\s*none/,
+    'activity bar should be hidden below 560px');
 });
 
 test('ResponsivePage component: present and exports default', () => {

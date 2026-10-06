@@ -1,43 +1,38 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useStore } from '../store/Store.jsx';
+import Icon from './Icons.jsx';
 
-const COLORS = {
-  ok:    { bg: '#008F76', fg: '#FFFFFF' },
-  info:  { bg: '#1E3A5F', fg: '#FFFFFF' },
-  warn:  { bg: '#C69B47', fg: '#102A43' },
-  error: { bg: '#C53030', fg: '#FFFFFF' },
-};
-
+/**
+ * Toast — a small ephemeral notification, top-right or bottom-right.
+ * Use dispatch({ type: 'toast', t: { kind: 'ok'|'warn'|'err'|'info', msg: 'Saved!' } }).
+ */
 export function Toast() {
   const { state, dispatch } = useStore();
-  useEffect(() => {
-    if (!state.toast) return;
-    const t = setTimeout(() => dispatch({ type: 'toast', t: null }), 2400);
-    return () => clearTimeout(t);
-  }, [state.toast]);
-
-  if (!state.toast) return null;
-
-  // Support both old string and new { kind, msg } shape.
-  const isObj = typeof state.toast === 'object';
-  const kind  = isObj ? (state.toast.kind || 'ok')  : 'ok';
-  const msg   = isObj ? state.toast.msg  : state.toast;
-  const palette = COLORS[kind] || COLORS.ok;
+  const toasts = state.toasts || [];
 
   return (
-    <div role="status" aria-live="polite" style={{
-      position: 'fixed', bottom: 24, right: 24,
-      background: palette.bg, color: palette.fg,
-      padding: '10px 16px', borderRadius: 10, boxShadow: 'var(--shadow-lg)',
-      fontSize: 14, zIndex: 2000, display: 'flex', alignItems: 'center', gap: 8,
-      animation: 'toast-in 0.18s ease-out',
-    }}>
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        width: 18, height: 18, borderRadius: '50%',
-        background: 'rgba(255,255,255,0.2)', fontSize: 12, fontWeight: 700,
-      }}>{kind === 'ok' ? '✓' : kind === 'error' ? '!' : kind === 'warn' ? '⚠' : 'i'}</span>
-      <span>{msg}</span>
+    <div className="toast-host" aria-live="polite" aria-atomic="false">
+      {toasts.map(t => {
+        const IconCmp = t.kind === 'err' ? Icon.Close
+                      : t.kind === 'warn' ? Icon.Help_O
+                      : t.kind === 'ok'   ? Icon.Check
+                      : Icon.Sparkle;
+        return (
+          <div key={t.id} className={`toast ${t.kind || 'info'}`} role="status">
+            <IconCmp className="icon" />
+            <div className="msg">{t.msg}</div>
+            {t.action && (
+              <button className="btn btn-ghost btn-sm" onClick={t.action.onClick}>
+                {t.action.label}
+              </button>
+            )}
+            <button className="btn btn-ghost btn-icon btn-sm close-btn" aria-label="Dismiss"
+                    onClick={() => dispatch({ type: 'dismiss-toast', id: t.id })}>
+              <Icon.Close style={{ width: 12, height: 12 }} />
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 }

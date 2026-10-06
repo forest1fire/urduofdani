@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { StoreProvider, useStore } from './store/Store.jsx';
+import TitleBar from './components/TitleBar.jsx';
 import TopBar from './components/TopBar.jsx';
+import ActivityBar from './components/ActivityBar.jsx';
 import SideNav from './components/SideNav.jsx';
 import CommandPalette from './components/CommandPalette.jsx';
 import { Toast } from './components/Toast.jsx';
+import Onboarding from './components/Onboarding.jsx';
+import Inspector from './components/Inspector.jsx';
 
 import HomePage from './pages/HomePage.jsx';
 import NewDocPage from './pages/NewDocPage.jsx';
@@ -32,54 +36,68 @@ import SettingsPage from './pages/SettingsPage.jsx';
 import PerformancePage from './pages/PerformancePage.jsx';
 import HelpPage from './pages/HelpPage.jsx';
 
+/**
+ * Route → shell config:
+ *   home  — landing dashboard (no inspector, no sidenav for activity bar, sidebar shows welcome)
+ *   tool  — single-page tool (sidenav tools, inspector on the right)
+ *   editor — full editor with side rail of frame types, full properties on the right
+ */
 const ROUTES = {
-  home:           { Page: HomePage,           shell: 'home'    },
-  new:            { Page: NewDocPage,         shell: 'tool'    },
-  templates:      { Page: TemplatesPage,      shell: 'tool'    },
-  recovery:       { Page: RecoveryPage,       shell: 'tool'    },
-  editor:         { Page: EditorPage,         shell: 'editor'  },
-  pages:          { Page: PagesManagerPage,   shell: 'editor'  },
-  masters:        { Page: MastersPage,        shell: 'editor'  },
-  textflow:       { Page: TextFlowPage,       shell: 'editor'  },
-  contents:       { Page: ContentsPage,       shell: 'editor'  },
-  styles:         { Page: StylesPage,         shell: 'editor'  },
-  fonts:          { Page: FontsPage,          shell: 'tool'    },
-  find:           { Page: FindReplacePage,    shell: 'editor'  },
-  spell:          { Page: SpellCheckPage,     shell: 'editor'  },
-  images:         { Page: ImagesPage,         shell: 'tool'    },
-  colors:         { Page: ColorsShapesPage,   shell: 'tool'    },
-  shapes:         { Page: ShapesPage,         shell: 'tool'    },
-  tables:         { Page: TablesPage,         shell: 'editor'  },
-  export:         { Page: ExportPage,         shell: 'editor'  },
-  keyboard:       { Page: KeyboardPracticePage, shell: 'tool'  },
-  unicode:        { Page: UnicodeConverterPage,  shell: 'tool'  },
-  qr:             { Page: QRPage,             shell: 'tool'    },
-  shortcuts:     { Page: ShortcutsPage,      shell: 'tool'    },
-  plugins:        { Page: PluginsPage,        shell: 'tool'    },
-  settings:       { Page: SettingsPage,       shell: 'tool'    },
-  performance:    { Page: PerformancePage,    shell: 'tool'    },
-  help:           { Page: HelpPage,           shell: 'tool'    },
+  home:         { Page: HomePage,           shell: 'home',     view: 'home',     inspector: false },
+  new:          { Page: NewDocPage,         shell: 'tool',     view: 'home',     inspector: true  },
+  templates:    { Page: TemplatesPage,      shell: 'tool',     view: 'home',     inspector: true  },
+  recovery:     { Page: RecoveryPage,       shell: 'tool',     view: 'home',     inspector: false },
+  editor:       { Page: EditorPage,         shell: 'editor',   view: 'editor',   inspector: true  },
+  pages:        { Page: PagesManagerPage,   shell: 'tool',     view: 'editor',   inspector: true  },
+  masters:      { Page: MastersPage,        shell: 'tool',     view: 'design',   inspector: false },
+  textflow:     { Page: TextFlowPage,       shell: 'tool',     view: 'editor',   inspector: false },
+  contents:     { Page: ContentsPage,       shell: 'tool',     view: 'design',   inspector: false },
+  styles:       { Page: StylesPage,         shell: 'tool',     view: 'design',   inspector: false },
+  fonts:        { Page: FontsPage,          shell: 'tool',     view: 'design',   inspector: false },
+  find:         { Page: FindReplacePage,    shell: 'tool',     view: 'editor',   inspector: false },
+  spell:        { Page: SpellCheckPage,     shell: 'tool',     view: 'review',   inspector: false },
+  images:       { Page: ImagesPage,         shell: 'tool',     view: 'insert',   inspector: true  },
+  colors:       { Page: ColorsShapesPage,   shell: 'tool',     view: 'design',   inspector: true  },
+  shapes:       { Page: ShapesPage,         shell: 'tool',     view: 'design',   inspector: true  },
+  tables:       { Page: TablesPage,         shell: 'tool',     view: 'insert',   inspector: true  },
+  export:       { Page: ExportPage,         shell: 'tool',     view: 'publish',  inspector: true  },
+  keyboard:     { Page: KeyboardPracticePage, shell: 'tool',   view: 'editor',   inspector: false },
+  unicode:      { Page: UnicodeConverterPage,  shell: 'tool',   view: 'insert',   inspector: false },
+  qr:           { Page: QRPage,             shell: 'tool',     view: 'insert',   inspector: true  },
+  shortcuts:    { Page: ShortcutsPage,      shell: 'tool',     view: 'settings', inspector: false },
+  plugins:      { Page: PluginsPage,        shell: 'tool',     view: 'settings', inspector: false },
+  settings:     { Page: SettingsPage,       shell: 'tool',     view: 'settings', inspector: false },
+  performance:  { Page: PerformancePage,    shell: 'tool',     view: 'settings', inspector: false },
+  help:         { Page: HelpPage,           shell: 'tool',     view: 'settings', inspector: false },
 };
 
 function Shell() {
   const { state, dispatch } = useStore();
   const [viewport, setViewport] = useState(() => ({
-    isMobile:  typeof window !== 'undefined' && window.matchMedia('(max-width: 899.98px)').matches,
+    isMobile:  typeof window !== 'undefined' && window.matchMedia('(max-width: 559.98px)').matches,
+    isTablet:  typeof window !== 'undefined' && window.matchMedia('(min-width: 560px) and (max-width: 899.98px)').matches,
     isNarrow:  typeof window !== 'undefined' && window.matchMedia('(min-width: 900px) and (max-width: 1199.98px)').matches,
     isWide:    typeof window !== 'undefined' && window.matchMedia('(min-width: 1200px)').matches,
     isXWide:   typeof window !== 'undefined' && window.matchMedia('(min-width: 1920px)').matches,
   }));
+  const [sidenavOpen, setSidenavOpen] = useState(false);
+  const [activityView, setActivityView] = useState('home');
 
-  // Keyboard shortcut: Ctrl/Cmd + K opens the palette.
+  // ⌘K / Esc / Ctrl+1..6 / Ctrl+,  global shortcuts
   useEffect(() => {
     const handler = (e) => {
-      const isCmdK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k';
-      if (isCmdK) {
-        e.preventDefault();
-        dispatch({ type: 'open-cmd' });
-      } else if (e.key === 'Escape') {
-        dispatch({ type: 'close-cmd' });
-      }
+      const cmd = e.metaKey || e.ctrlKey;
+      if (!cmd) return;
+      const k = e.key.toLowerCase();
+      if (k === 'k') { e.preventDefault(); dispatch({ type: 'open-cmd' }); return; }
+      if (k === 'escape') { dispatch({ type: 'close-cmd' }); return; }
+      if (k === ',') { e.preventDefault(); dispatch({ type: 'set-route', route: 'settings' }); return; }
+      if (k === '1') { e.preventDefault(); setActivityView('home');     return; }
+      if (k === '2') { e.preventDefault(); setActivityView('editor');   return; }
+      if (k === '3') { e.preventDefault(); setActivityView('review');   return; }
+      if (k === '4') { e.preventDefault(); setActivityView('design');   return; }
+      if (k === '5') { e.preventDefault(); setActivityView('insert');   return; }
+      if (k === '6') { e.preventDefault(); setActivityView('publish');  return; }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
@@ -91,8 +109,7 @@ function Shell() {
     document.body.style.zoom = String(state.scale / 100);
   }, [state.theme, state.scale]);
 
-  // Persist theme + scale to localStorage so the user's choice survives
-  // reloads. Failure is silent (private mode, quota exceeded, etc).
+  // Persist theme + scale to localStorage.
   useEffect(() => {
     try {
       if (typeof localStorage !== 'undefined') {
@@ -102,12 +119,23 @@ function Shell() {
     } catch { /* ignore */ }
   }, [state.theme, state.scale]);
 
-  // Track viewport size so we can skip rendering the side nav / inspector at
-  // sizes where they'd be hidden by CSS. (CSS still hides them as a fallback.)
+  // Auto-start tour on first run
+  useEffect(() => {
+    try {
+      const seen = localStorage.getItem('udani:tourDone');
+      if (!seen) {
+        // small delay so the UI renders first
+        setTimeout(() => dispatch({ type: 'start-tour' }), 800);
+      }
+    } catch { /* ignore */ }
+  }, [dispatch]);
+
+  // Watch viewport for layout decisions
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const queries = [
-      { key: 'isMobile', mq: window.matchMedia('(max-width: 899.98px)') },
+      { key: 'isMobile', mq: window.matchMedia('(max-width: 559.98px)') },
+      { key: 'isTablet', mq: window.matchMedia('(min-width: 560px) and (max-width: 899.98px)') },
       { key: 'isNarrow', mq: window.matchMedia('(min-width: 900px) and (max-width: 1199.98px)') },
       { key: 'isWide',   mq: window.matchMedia('(min-width: 1200px)') },
       { key: 'isXWide',  mq: window.matchMedia('(min-width: 1920px)') },
@@ -130,97 +158,50 @@ function Shell() {
     };
   }, []);
 
+  // When route changes, set the activity view to match
+  useEffect(() => {
+    const r = ROUTES[state.route];
+    if (r) setActivityView(r.view);
+  }, [state.route]);
+
   const route = ROUTES[state.route] || ROUTES.home;
   const Page = route.Page;
-  const shell = route.shell;
-  const showInspector = (shell === 'editor' || shell === 'tool') && !viewport.isMobile && !viewport.isNarrow;
-  const showSideNav    = !viewport.isMobile;
+  const showInspector = route.inspector && !viewport.isMobile && !viewport.isTablet;
+  const showActivity = !viewport.isMobile;     // hide activity bar on phones
+  const showSideNav   = !viewport.isMobile;     // hide side nav on phones (it becomes a sheet)
+  const isWideViewport = viewport.isXWide;
+  const docName = state.documents.find(d => d.id === state.activeDocId)?.name;
 
   return (
     <div className="app-shell">
+      <TitleBar docName={docName} />
       <TopBar />
-      <div className={`app-shell-body ${showInspector ? 'has-inspector' : ''}`}>
-        {showSideNav && <SideNav mode={shell} />}
-        <main className="main-area" role="main">
+      <div className={`app-shell-body${showInspector ? ' has-inspector' : ''}${isWideViewport && showInspector ? ' inspector-wide' : ''}`}>
+        {showActivity && <ActivityBar view={activityView} onView={setActivityView} />}
+        {viewport.isMobile && sidenavOpen && <div className="sidenav-backdrop" onClick={() => setSidenavOpen(false)} />}
+        {showSideNav && (
+          <SideNav view={activityView} onOpenChange={(o) => setSidenavOpen(o)} />
+        )}
+        <main className="main-area" role="main" onClick={() => setSidenavOpen(false)}>
           <Page />
         </main>
-        {showInspector && <InspectorSlot route={state.route} />}
+        {showInspector && <Inspector route={state.route} />}
       </div>
+      <div className="statusbar" role="status">
+        <span className="status-item"><span className="dot" />Offline ready</span>
+        <span className="status-item">v{state.version || "1.2.0"}</span>
+        <span className="spacer" />
+        <span className="status-item">Page <strong style={{ color: 'white' }}>1 of 1</strong></span>
+        <span className="status-item">Auto-save: <strong style={{ color: 'var(--color-success)' }}>on</strong></span>
+        <span className="status-item">UTF-8 · RTL</span>
+        <span className="status-item">{state.lang === 'en' ? 'English' : 'اردو'}</span>
+        <span className="status-item">Muhammad Danish [Dani] · DaniLabs</span>
+      </div>
+
       <CommandPalette />
       <Toast />
+      <Onboarding />
     </div>
-  );
-}
-
-function InspectorSlot({ route }) {
-  switch (route) {
-    case 'editor': return <EditorInspector />;
-    default: return null;
-  }
-}
-
-function EditorInspector() {
-  const { state } = useStore();
-  if (!state.activeDocId) return null;
-  return (
-    <aside className="inspector" aria-label="Properties">
-      <h3>Image</h3>
-      <details className="inspector-section" open>
-        <summary>Crop / Fit</summary>
-        <div className="body">
-          <div className="thumb" style={{ background: 'linear-gradient(135deg,#d1f2eb,#fff7e6)', height: 90, borderRadius: 8, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748B', fontSize: 12 }}>
-            No image selected
-          </div>
-          <button className="btn btn-secondary" style={{ width: '100%' }}><span>Crop</span></button>
-          <button className="btn btn-secondary" style={{ width: '100%', marginTop: 8 }}><span>Replace</span></button>
-        </div>
-      </details>
-      <details className="inspector-section">
-        <summary>Dimensions</summary>
-        <div className="body">
-          <div className="field-row">
-            <div><label className="label">W</label><input className="input" defaultValue="170 mm" /></div>
-            <div><label className="label">H</label><input className="input" defaultValue="96 mm" /></div>
-          </div>
-          <label className="label">Resolution</label>
-          <select className="select"><option>300 DPI</option><option>150 DPI</option><option>72 DPI</option></select>
-        </div>
-      </details>
-      <details className="inspector-section">
-        <summary>Wrap text</summary>
-        <div className="body">
-          <div style={{ display: 'flex', gap: 6 }}>
-            {['None','Wrap','Top','Behind','In front'].map((w, i) => (
-              <button key={w} className={`btn btn-sm ${w === 'Wrap' ? 'btn-primary' : 'btn-secondary'}`}>{w}</button>
-            ))}
-          </div>
-        </div>
-      </details>
-      <details className="inspector-section">
-        <summary>Position</summary>
-        <div className="body">
-          <div className="field-row">
-            <div><label className="label">X</label><input className="input" defaultValue="32 mm" /></div>
-            <div><label className="label">Y</label><input className="input" defaultValue="58 mm" /></div>
-          </div>
-        </div>
-      </details>
-      <details className="inspector-section">
-        <summary>Effects</summary>
-        <div className="body">
-          <label className="label">Opacity</label>
-          <input type="range" min={0} max={100} defaultValue={100} style={{ width: '100%' }} />
-          <label className="label" style={{ marginTop: 8 }}>Corner radius</label>
-          <input className="input" defaultValue="0 mm" />
-        </div>
-      </details>
-      <details className="inspector-section" open>
-        <summary>Print check</summary>
-        <div className="body">
-          <div className="banner banner-success"><span>✓ No issues found</span></div>
-        </div>
-      </details>
-    </aside>
   );
 }
 

@@ -15,48 +15,52 @@ const MD_WORDMARK          = './brands/muhammad-danish-wordmark.png';
  *  <Brand size={28} />                            — square app icon
  *  <Brand wordmark />                             — full UrduOfDani wordmark banner
  *  <Brand wordmark twoTone />                     — same banner (real PNG is already two-tone)
- *  <Brand parent />                               — DaniLabs parent-brand mark (32 px)
  *  <Brand personal />                             — Muhammad Danish personal wordmark
- *
- * The real PNGs ship in resources/ and are served from /resources/* at runtime.
- * The Brand component is a thin <img> wrapper that lets the OS handle scaling
- * and the browser cache handle repeat loads.
+ *  <Brand parent />                               — DaniLabs "D" mark on navy
+ *  <Brand parent light />                         — DaniLabs "D" mark on light
+ *  <Brand mark />                                 — inline "D" mark, navy
  */
-export default function Brand({ size, wordmark, twoTone, parent, personal, light, className, style, alt, ...rest }) {
-  let src, width, height, defaultAlt;
-
+export default function Brand({ size = 28, wordmark, twoTone, parent, personal, light, mark, className, style, alt, ...rest }) {
   if (wordmark) {
-    src = URDUOF_DANI_WORDMARK;
-    width  = size || 600;
-    height = Math.round(width * (400 / 1200));
-    defaultAlt = 'UrduOfDani — Created by Dani';
-  } else if (parent) {
-    src = light ? DANILABS_ICON_LIGHT : DANILABS_ICON;
-    width  = size || 32;
-    height = width;
-    defaultAlt = 'DaniLabs';
-  } else if (personal) {
-    src = MD_WORDMARK;
-    width  = size || 280;
-    height = Math.round(width * (300 / 1200));
-    defaultAlt = 'Muhammad Danish — WordPress Developer';
-  } else {
-    src = URDUOF_DANI_ICON;
-    width  = size || 28;
-    height = width;
-    defaultAlt = 'UrduOfDani';
+    return (
+      <img src={URDUOF_DANI_WORDMARK}
+           alt={alt || 'UrduOfDani — Created by Dani'}
+           className={className} style={{ height: size, ...style }} {...rest} />
+    );
   }
-
+  if (personal) {
+    return (
+      <img src={MD_WORDMARK}
+           alt={alt || 'Muhammad Danish — DaniLabs'}
+           className={className} style={{ height: size, ...style }} {...rest} />
+    );
+  }
+  if (parent) {
+    return (
+      <img src={light ? DANILABS_ICON_LIGHT : DANILABS_ICON}
+           alt={alt || 'DaniLabs'}
+           className={className} style={{ height: size, width: size, ...style }} {...rest} />
+    );
+  }
+  if (mark) {
+    return (
+      <span
+        className={className}
+        style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: size, height: size, borderRadius: size * 0.22,
+          background: 'linear-gradient(135deg, var(--brand-navy-900), var(--brand-emerald-700))',
+          color: 'white', fontWeight: 800, fontSize: size * 0.45, ...style,
+        }}
+        {...rest}
+      >U</span>
+    );
+  }
   return (
-    <img
-      src={src}
-      alt={alt || defaultAlt}
-      width={width}
-      height={height}
-      className={className}
-      style={{ display: 'inline-block', verticalAlign: 'middle', ...style }}
-      draggable={false}
-      {...rest}
-    />
+    <img src={URDUOF_DANI_ICON}
+         alt={alt || 'UrduOfDani'}
+         className={className}
+         style={{ width: size, height: size, borderRadius: size * 0.18, ...style }}
+         {...rest} />
   );
 }
