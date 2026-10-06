@@ -5,7 +5,23 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { build, check, suggest, norm } from '../src/renderer/lib/spell.js';
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = dirname(fileURLToPath(import.meta.url)) + '/..';
+
+function walk(dir, exts) {
+  const out = [];
+  for (const name of readdirSync(dir)) {
+    if (name === 'node_modules' || name.startsWith('.')) continue;
+    const p = join(dir, name);
+    const s = statSync(p);
+    if (s.isDirectory()) out.push(...walk(p, exts));
+    else if (exts.some(e => name.endsWith(e))) out.push(p);
+  }
+  return out;
+}
 
 test('spell.js: normalization unifies Arabic and Persian forms', () => {
   assert.equal(norm('كِتاب'), norm('کتاب'));
@@ -400,4 +416,28 @@ test('ci workflow: runs audit + tests + build on every push', () => {
   assert.match(yml, /npm run audit/,          'should run npm run audit');
   assert.match(yml, /npm test/,               'should run npm test');
   assert.match(yml, /npm run build/,          'should run npm run build');
+});
+
+test('renderer JSX: every React hook used is also imported from "react"', () => {
+  // Regression: App.jsx used useState() without importing it, which threw
+  // ReferenceError at mount and produced a blank white screen. The
+  // package.json / npm test won't catch this; only a static check on
+  // every .jsx file does.
+  const HOOKS = ['useState', 'useEffect', 'useMemo', 'useRef', 'useCallback',
+                 'useLayoutEffect', 'useReducer', 'useContext', 'useImperativeHandle'];
+  const jsxFiles = [
+    ...walk(join(ROOT, 'src/renderer'), ['.jsx']),
+  ];
+  for (const f of jsxFiles) {
+    const text = readFileSync(f, 'utf8');
+    // Find the first 'import ... from "react"' (or 'react-dom') line.
+    const reactImport = text.match(/import\s+[\w\s{},*]+\s+from\s+['"]react['"]/);
+    const importNames = reactImport ? reactImport[0] : '';
+    for (const hook of HOOKS) {
+      const used = new RegExp('\\b' + hook + '\\s*\\(').test(text);
+      if (used && !importNames.includes(hook)) {
+        assert.fail(`${f} uses ${hook}() but does not import it from 'react'`);
+      }
+    }
+  }
 });

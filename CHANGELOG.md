@@ -2,6 +2,30 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.8 — 2026-10-06
+
+**White-screen fix.** The Electron app was launching but the renderer
+displayed nothing because `App.jsx`, `HelpPage.jsx`, `PerformancePage.jsx`,
+and `SettingsPage.jsx` all used `useState()` without importing it from
+`react`. The component threw `ReferenceError: useState is not defined`
+on the very first render, React bailed, and the user saw only the
+title bar.
+
+### Fixed
+- `App.jsx` — added `useState` to the React import.
+- `HelpPage.jsx` — added `useState` to the React import.
+- `PerformancePage.jsx` — added `useState` to the React import.
+- `SettingsPage.jsx` — added `useState` to the React import.
+
+### Added
+- **New regression test** in `tests/smoke.test.mjs` that walks every
+  `.jsx` file under `src/renderer/` and fails if any React hook
+  (`useState`, `useEffect`, `useMemo`, `useRef`, `useCallback`,
+  `useLayoutEffect`, `useReducer`, `useContext`, `useImperativeHandle`)
+  is called without being imported from `react`. This is the kind of
+  bug `npm test` cannot catch on its own; only a static check on
+  every component file catches it.
+
 ## 1.1.7 — 2026-10-06
 
 Re-published with correctly-versioned artifacts. The v1.1.6 release shipped
