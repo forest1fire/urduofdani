@@ -47,6 +47,14 @@ npm run dist:linux  # produces AppImage + .deb
 npm run dist:mac    # produces a .dmg (must run on macOS)
 ```
 
+## Health checks
+
+```bash
+npm test            # 29 smoke tests, no fixtures needed
+npm run audit       # walk src/ for missing deps, orphan pages, console.*, TODO/FIXME, alt=, .gitignore
+npm run build       # production build into dist/
+```
+
 ## What you get
 
 - **27 fully-implemented screens** — every reference mockup in `brands/` is a real, clickable React page.
