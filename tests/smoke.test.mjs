@@ -394,6 +394,32 @@ test('component library: ships modern primitives (button, card, chip, kbd, toast
   }
 });
 
+test('HomePage: ships the rich dashboard (hero stats, today focus, pinned, activity, shortcuts, footer)', () => {
+  const src = readFileSync('src/renderer/pages/HomePage.jsx', 'utf8');
+  for (const marker of [
+    "hero-rich",            // rich hero variant
+    "hero-stats",           // 4 stat cards
+    "Today's focus",        // today's focus card
+    "Pinned",               // pinned section
+    "Recent activity",      // activity timeline
+    "Keyboard shortcuts",   // shortcuts panel
+    "Tip of the day",       // tip card
+    "BUILD_INFO",           // build info
+    "greeting()",           // time-of-day greeting
+    "togglePin",            // pin/unpin
+    "TEMPLATES_HOME",       // template data
+    "Quick start",          // quick start section
+    "setAutosaves",         // autosave polling
+  ]) {
+    assert.ok(src.includes(marker), `HomePage should include "${marker}"`);
+  }
+});
+
+test('HomePage: supports pinned documents via localStorage', () => {
+  const src = readFileSync('src/renderer/pages/HomePage.jsx', 'utf8');
+  assert.ok(src.includes('uod.pinned'), 'HomePage should read/write pinned IDs in localStorage as "uod.pinned"');
+});
+
 test('all 23 inner pages use the new design system (no legacy page-header div, no legacy emerald/slate CSS vars)', () => {
   const pagesDir = 'src/renderer/pages';
   const files = readdirSync(pagesDir).filter(f => f.endsWith('.jsx'));

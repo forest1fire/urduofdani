@@ -259,7 +259,7 @@ a.link:hover { text-decoration: underline; }
 .grid-2     { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); }
 .grid-3     { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
 .grid-4     { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); }
-.grid-auto  { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--sp-4); }
+.grid-auto  { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 240px), 1fr)); gap: var(--sp-4); }
 .grid-auto-sm { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--sp-3); }
 .grid-auto-lg { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--sp-5); }
 
@@ -1094,3 +1094,191 @@ kbd {
 .py-4 { padding-top: var(--sp-4); padding-bottom: var(--sp-4); }
 .text-center { text-align: center; }
 .w-100 { width: 100%; }
+
+/* ================================================================ */
+/* HOME PAGE — rich dashboard                                         */
+/* ================================================================ */
+
+.home-page { background: var(--color-bg); }
+
+/* --- Hero (rich variant) ----------------------------------------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-2xl);
+  background: linear-gradient(135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 70%, var(--color-text)) 100%);
+  color: white;
+  padding: var(--sp-8) var(--sp-8);
+  box-shadow: var(--shadow-lg);
+}
+.hero-rich { min-height: 380px; }
+.hero-content { position: relative; z-index: 2; }
+
+.hero-pattern { position: absolute; inset: 0; pointer-events: none; }
+.hero-pattern-mesh {
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(198, 155, 71, 0.30) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(15, 76, 58, 0.40) 0%, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(247, 245, 239, 0.12) 0%, transparent 30%);
+}
+.hero-pattern-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+.hero-pattern-glow {
+  position: absolute;
+  top: -20%; right: -10%;
+  width: 60%; height: 60%;
+  background: radial-gradient(circle, rgba(198, 155, 71, 0.25) 0%, transparent 60%);
+  filter: blur(40px);
+  animation: hero-glow 8s ease-in-out infinite alternate;
+}
+@keyframes hero-glow {
+  0%   { transform: translate(0, 0)     scale(1); }
+  100% { transform: translate(-30px, 30px) scale(1.1); }
+}
+
+.hero-greeting {
+  display: flex; align-items: flex-start; gap: var(--sp-5);
+  margin: var(--sp-6) 0 var(--sp-4);
+}
+.hero-greeting h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.15;
+  margin: 0;
+  color: white;
+  letter-spacing: -0.02em;
+}
+.hero-greeting .subtitle {
+  font-size: var(--fs-15);
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 56ch;
+  margin: 0;
+}
+
+.hero-actions {
+  display: flex; gap: var(--sp-2);
+  flex-wrap: wrap;
+  margin-top: var(--sp-4);
+}
+.hero-cta-primary {
+  background: white;
+  color: var(--color-primary);
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08);
+}
+.hero-cta-primary:hover {
+  background: var(--color-bg-sunken);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.12);
+}
+.hero-cta-secondary {
+  background: rgba(255, 255, 255, 0.10);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
+  font-weight: 500;
+}
+.hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  padding: var(--sp-3);
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(12px);
+}
+.hero-stat {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--r-md);
+  transition: background var(--dur-fast) ease;
+}
+.hero-stat:hover { background: rgba(255, 255, 255, 0.10); }
+.hero-stat-icon {
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: var(--r-md);
+  color: white;
+}
+.hero-stat-value {
+  font-size: var(--fs-20);
+  font-weight: 700;
+  line-height: 1;
+  color: white;
+}
+.hero-stat-label {
+  font-size: var(--fs-12);
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+/* --- Activity row ------------------------------------------------- */
+.activity-row {
+  display: flex; align-items: center; gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--dur-fast) ease;
+}
+.activity-row:last-child { border-bottom: none; }
+.activity-row:hover { background: var(--color-bg-sunken); }
+.activity-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* --- Shortcut card ----------------------------------------------- */
+.shortcut-card {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4) !important;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--dur-fast) ease;
+}
+.shortcut-card:hover {
+  transform: translateX(2px);
+  border-color: var(--color-primary) !important;
+}
+
+/* --- Pinned section badge --------------------------------------- */
+.section-head h2 {
+  display: flex; align-items: center; gap: var(--sp-2);
+}
+
+/* --- Hero responsive --------------------------------------------- */
+@media (max-width: 768px) {
+  .hero { padding: var(--sp-6) var(--sp-4); }
+  .hero-greeting { flex-direction: column; gap: var(--sp-3); }
+  .hero-greeting span:first-child { font-size: 36px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .hero-stats { grid-template-columns: 1fr; }
+}

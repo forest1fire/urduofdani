@@ -2,6 +2,71 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.2 — 2026-10-06
+
+**Rich home dashboard.** The Home page is now a real dashboard with
+greeting, quick stats, today's-focus callout, pinned documents, recent
+activity timeline, clickable keyboard shortcuts, build-info footer,
+and a fully animated gradient hero.
+
+### Added (HomePage)
+- **Animated gradient hero** with mesh background, animated glow, and
+  radial gradients (Pakistani emerald → navy → gold).
+- **Time-of-day greeting** that switches by hour in both English and
+  Urdu (e.g. "Good afternoon, Dani" + "دوپہر بخیر", with a sun/moon
+  emoji).
+- **Live date/time + platform** in the top-right of the hero.
+- **Hero status chips**: version (v1.2.2), channel (stable), live
+  autosave count.
+- **4-card stats row** at the bottom of the hero: Documents · Pages ·
+  Pinned · Drafts (Drafts highlights in gold when there are unsaved
+  drafts).
+- **"Today's focus" callout** — a hero-coloured card that adapts:
+  - If there are unsaved drafts → "Pick up where you left off" with
+    a "Restore latest draft" button.
+  - Else if there's a recent doc → "Continue with {name}" with an
+    "Open" button.
+- **Pinned documents section** — a row of pin-styled thumbs with
+  per-card pin/unpin toggle. Pin state is persisted in
+  `localStorage` under `uod.pinned`.
+- **Recent activity timeline** — list of last 5 documents with
+  coloured dot, language chip, and "open" arrow.
+- **Clickable keyboard shortcuts** — 6 cards (New / Open / Save /
+  Cmd-K / PDF / Settings) that actually trigger their action when
+  clicked.
+- **Tip-of-the-day card** in the right rail.
+- **2-column bottom layout** — keyboard shortcuts (2-col grid) on the
+  left, recovered-drafts + tip card stacked on the right.
+- **Build-info footer** — `v1.2.2 · a37f41c · stable · © 2026
+  Muhammad Danish [Dani] · DaniLabs · MIT — free for everyone` with
+  GitHub + email links.
+- **2 new template cards** (Travel Brochure, Restaurant Menu) for a
+  total of 8 on the home page.
+- **Better empty state** for the recent documents grid — different
+  copy when the search returns nothing vs. when there are no docs at
+  all.
+
+### Added (CSS)
+- `.hero` rich variant (`.hero-rich`, `.hero-pattern`,
+  `.hero-pattern-mesh`, `.hero-pattern-grid`, `.hero-pattern-glow`,
+  `.hero-greeting`, `.hero-stats`, `.hero-stat`).
+- `.activity-row` + `.activity-dot` for the timeline.
+- `.shortcut-card` for the clickable keyboard chips.
+- `.grid-auto` now respects a `--min` CSS custom property so callers
+  can override the column min-width inline.
+- `@keyframes hero-glow` for the 8s animated glow.
+
+### Added (tests)
+- 2 new smoke tests: HomePage ships the rich dashboard markers; the
+  HomePage supports pinned documents via `localStorage`.
+- **53 / 53 tests pass.**
+
+### Verified
+- `npm test` → **53 / 53 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200; new HomePage
+  served via HMR.
+
 ## 1.2.1 — 2026-10-06
 
 **Polish every page.** 1.2.0 redid the chrome (TitleBar, TopBar, SideNav,
