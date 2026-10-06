@@ -2,6 +2,44 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.6 — 2026-10-06
+
+**First published release.** The release pipeline was working, but no
+`v*` tag had ever been pushed, so the workflow had never fired. Pushed
+`v1.1.6` and verified that the Windows NSIS installer, Linux AppImage,
+and Linux .deb all build and ship to a real GitHub Release. The macOS
+.dmg step cannot run from a non-macOS runner; that job is correctly
+marked `continue-on-error: true` and does not block the release.
+
+### Fixed
+- `extraResources` referenced `templates/`, which doesn't exist in the
+  repo. `electron-builder` would have failed the very first build.
+  Replaced with the real directories: `plugins/`, `samples/`, `brands/`.
+- The build jobs didn't verify the tree was green before spending CI
+  minutes on three cross-platform builds. Added a **Pre-flight** job
+  that runs `npm run audit` and `npm test` first; all three build jobs
+  now `need: [preflight]`.
+
+### Added
+- **Pre-flight job** in `.github/workflows/release.yml` — `npm ci
+  --ignore-scripts` + `npm run audit` + `npm test`. Fails the whole
+  release in seconds if the tree is dirty.
+- **Linux build dependencies** installed explicitly via
+  `apt-get install -y libarchive-tools fakeroot rpm` so the AppImage
+  and .deb can be packaged on a clean `ubuntu-22.04` runner.
+- **3 new smoke tests** guarding the release-pipeline invariants
+  (extraResources paths exist, release workflow has the expected
+  triggers, ci workflow runs audit + tests + build).
+
+### First published artifacts
+
+Tag `v1.1.6` published at
+https://github.com/forest1fire/urduofdani/releases/tag/v1.1.6:
+
+- 🪟 **UrduOfDani-Setup-1.1.5.exe** — Windows NSIS installer (88 MB)
+- 🐧 **UrduOfDani-1.1.5.AppImage** — Linux portable (117 MB)
+- 🐧 **urduofdani_1.1.5_amd64.deb** — Debian/Ubuntu (76 MB)
+
 ## 1.1.5 — 2026-10-06
 
 Free-for-everyone round. The MIT License text grants the right to use,
