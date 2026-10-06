@@ -58,6 +58,9 @@ export const Icon = {
   Minimize:   make(<><path d="M5 19h14" /></>),
   Maximize:   make(<><rect x="5" y="5" width="14" height="14" rx="1" /></>),
   Restore:    make(<><rect x="7" y="7" width="12" height="12" rx="1" /><path d="M5 15V5h10" /></>),
+  Mail:       make(<><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>),
+  Heart:      make(<><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10Z" /></>),
+  Coffee:     make(<><path d="M3 8h14v6a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8Z" /><path d="M17 10h2a2 2 0 0 1 0 4h-2" /><path d="M7 4c0 1.5 1 1.5 1 3M11 4c0 1.5 1 1.5 1 3" /></>),
 };
 
 export default Icon;

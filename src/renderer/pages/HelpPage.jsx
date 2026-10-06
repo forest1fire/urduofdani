@@ -100,6 +100,60 @@ export default function HelpPage() {
               <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Icon.Help_O style={{ color: 'var(--slate-500)' }} /> App information</span>
               <Icon.Chevron style={{ color: 'var(--slate-300)' }} />
             </button>
+            <a
+              href="mailto:hello.danilabs@gmail.com?subject=UrduOfDani%20support"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 8, width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: 6, textDecoration: 'none', color: 'inherit' }}
+              onMouseEnter={e => e.currentTarget.style.background='var(--slate-50)'}
+              onMouseLeave={e => e.currentTarget.style.background='transparent'}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Icon.Mail style={{ color: 'var(--slate-500)' }} /> Contact &amp; support</span>
+              <Icon.Chevron style={{ color: 'var(--slate-300)' }} />
+            </a>
+          </div>
+
+          <div
+            style={{
+              marginTop: 16,
+              padding: 12,
+              borderRadius: 8,
+              background: 'linear-gradient(135deg, var(--emerald-50), #fff)',
+              border: '1px solid var(--emerald-100)',
+              textAlign: 'left',
+            }}
+          >
+            <h4 style={{ margin: '0 0 4px', color: 'var(--emerald-600)', fontSize: 13 }}>
+              <Icon.Coffee style={{ marginRight: 4, verticalAlign: '-2px' }} />
+              Support UrduOfDani
+            </h4>
+            <p style={{ margin: '0 0 8px', color: 'var(--slate-500)', fontSize: 12, lineHeight: 1.4 }}>
+              If this app saves you time, consider buying a coffee for the
+              team. Urdu desktop publishing tools are rare — every cup helps
+              keep the project alive.
+            </p>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <a
+                href="https://www.buymeacoffee.com/forest1fire"
+                target="_blank" rel="noopener noreferrer"
+                className="btn btn-primary btn-sm"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Buy a coffee
+              </a>
+              <a
+                href="https://github.com/sponsors/forest1fire"
+                target="_blank" rel="noopener noreferrer"
+                className="btn btn-secondary btn-sm"
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Sponsor
+              </a>
+            </div>
+            <a
+              href="mailto:hello.danilabs@gmail.com?subject=UrduOfDani%20donation"
+              style={{ display: 'block', marginTop: 8, fontSize: 11, color: 'var(--slate-500)', textAlign: 'center' }}
+            >
+              hello.danilabs@gmail.com
+            </a>
           </div>
         </aside>
       </div>

@@ -2,6 +2,72 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.4 — 2026-10-06
+
+Brand consolidation + support round. The repo had two parallel brand folders
+(`brands/` and `resources/`), which caused duplicate PNGs, broken
+`/resources/...` references in the renderer, and a stale `apple-touch-icon`
+404. Everything now lives under `brands/` and ships correctly to the .exe.
+
+### Changed
+- **`brands/` is now the single source of truth for brand assets.** The
+  duplicate `resources/` folder is removed (`git rm`). `src/renderer/Brand.jsx`,
+  `index.html`, and `package.json` (electron-builder `icon` / `win.icon` /
+  `linux.icon` / `mac.icon`) all point at `brands/urduofdani-icon.png` /
+  `brands/urduofdani-wordmark.png` now.
+- **`package.json` author email** is now `hello.danilabs@gmail.com`.
+- **README, `docs/BRANDS.md`, `docs/DESIGN-SYSTEM.md`** all updated to point
+  at the canonical paths. Added a "Contact" section in `docs/BRANDS.md`.
+- **`scripts/copy-assets.mjs`** — new build step. `npm run build` now runs
+  `vite build && node scripts/copy-assets.mjs`, which copies `brands/`,
+  `samples/`, and `plugins/` into `dist/` so the renderer can load them at
+  runtime (Vite only inlines files it imports as modules).
+- **`electron-builder` `files` glob** now includes `brands/**/*` and
+  `samples/**/*` so the icon and the sample plugin packages ship in the
+  Windows .exe, Linux AppImage/.deb, and macOS .dmg.
+
+### Added
+- **Donate section in Help → About.** Buy a coffee / Sponsor links +
+  `hello.danilabs@gmail.com` contact. Uses new `Icon.Coffee`, `Icon.Mail`,
+  `Icon.Heart` components in `src/renderer/components/Icons.jsx`.
+
+## 1.1.3 — 2026-10-06
+
+Quality round. Synced the version reported by the build to match the latest
+CHANGELOG entry, added a CI workflow that runs on every push, and tightened
+the smoke-test coverage so future refactors cannot silently regress the
+spell-check, document format, or electron-builder config.
+
+### Fixed
+- **`package.json` was at `1.1.1` while `CHANGELOG.md` already documented `1.1.2`.**
+  Bumped to `1.1.2` and updated `index.html`'s `generator` meta to match. The
+  in-app version is now what the changelog claims.
+- **Two smoke tests were over-specific.** Both pinned a hard-coded `1.1.1` in
+  the version regex. They now match any semver, so a future `npm version`
+  won't break CI.
+
+### Added
+- **`.github/workflows/ci.yml`** — runs `npm run audit`, `npm test`, and
+  `npm run build` on every push to `main` and on every pull request. Also
+  verifies the built artifacts exist and the Python spell-check sidecar
+  loads. Catches regressions that local checks would miss.
+- **10 new smoke tests** covering:
+  - `spell.js` does not throw on empty / punctuation / whitespace input.
+  - `spell.js` returns correct word positions and offsets for unknown tokens.
+  - `.udani` round-trip preserves `meta.title`, `page.size`, `page.orientation`,
+    and the DaniLabs credit.
+  - `emptyDocument()` ships an Urdu sample so a new doc is never blank.
+  - `package.json`'s `electron-builder` config bundles `LICENSE` / `CHANGELOG.md`
+    and declares both Windows + Linux icons.
+  - `vite.config.js` uses a relative `base: "./"` (so the .exe runs from
+    `Program Files` without 404s on `/assets/...`).
+  - `index.html` actually loads `src/renderer/main.jsx`.
+  - `App.jsx` mounts `<Toast/>` so the user sees save / open / PDF feedback.
+  - Every script referenced in `README.md` is actually defined in `package.json`.
+  - `CHANGELOG.md`'s top version heading matches `package.json`.
+- **`docs/DESIGN-SYSTEM.md`** updated to reference the real `brands/` and
+  `resources/` paths (the old text mentioned deleted SVG files).
+
 ## 1.1.2 — 2026-10-06
 
 Audit round. The repo was working but had a few quiet issues: a couple of

@@ -1,13 +1,22 @@
 # Brand assets
 
-The 6 official brand files live in `brands/` at the repo root. The production
-assets are copied to `resources/` so Vite can serve them from `/resources/*`
-at runtime, and `electron-builder` can pick them up for the desktop installer.
+The 6 official brand files live in `brands/` at the repo root. They are the
+single source of truth and ship in three places:
+
+1. **GitHub README** — GitHub renders `brands/urduofdani-wordmark.png` directly from the repo.
+2. **The web / Electron renderer** — `npm run build` runs `scripts/copy-assets.mjs`,
+   which copies `brands/`, `samples/`, and `plugins/` into `dist/`. The renderer
+   loads them from `/brands/*` via `src/renderer/components/Brand.jsx`.
+3. **The packaged .exe / .dmg / .AppImage** — `electron-builder`'s `files` glob
+   in `package.json` includes `brands/**/*`, so the icon at
+   `brands/urduofdani-icon.png` is the icon for the Windows NSIS installer,
+   the Linux AppImage, the macOS .dmg, the Linux .deb, the dock icon, and
+   the `appId` entry.
 
 | File | Purpose | Used as |
 |---|---|---|
-| `urduofdani-icon.png` | App icon (emerald pen, rounded plate) | `resources/icon.png` for Electron / favicon / apple-touch |
-| `urduofdani-wordmark.png` | "UrduOfDani — Created by Dani" banner | `resources/wordmark-1100.png`, README banner |
+| `urduofdani-icon.png` | App icon (emerald pen, rounded plate) | `brands/urduofdani-icon.png` for Electron / favicon / apple-touch |
+| `urduofdani-wordmark.png` | "UrduOfDani — Created by Dani" banner | README banner, OG image, in-app Brand component |
 | `danilabs-icon.png` | DaniLabs "D" mark on navy | About card, parent-brand badge |
 | `danilabs-icon-light.png` | DaniLabs "D" mark on dark | About card, light-background variant |
 | `danilabs-wordmark.svg` | "DaniLabs" animated header SVG | Marketing site (not currently in app) |
@@ -19,3 +28,8 @@ at runtime, and `electron-builder` can pick them up for the desktop installer.
 - **Typography** — system sans for UI; Noto Nastaliq Urdu / Noto Naskh Arabic for Urdu body text.
 - **Direction** — RTL for Urdu, LTR for English; ⌘K / Ctrl+K command palette.
 - **Credit** — "Muhammad Danish [Dani] · DaniLabs" in every page footer, the Help/About panel, and the PDF export footer.
+
+## Contact
+
+- **Support & feedback** — [hello.danilabs@gmail.com](mailto:hello.danilabs@gmail.com)
+- **GitHub** — [forest1fire/urduofdani](https://github.com/forest1fire/urduofdani)

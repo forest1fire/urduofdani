@@ -220,14 +220,15 @@ test('index.html: declares theme-color, OG tags, generator, and app-name', () =>
   assert.match(src, /og:title/,            'should declare OG title');
   assert.match(src, /og:image/,            'should declare OG image');
   assert.match(src, /application-name/,    'should set application-name');
-  assert.match(src, /UrduOfDani 1\.1\.1/,  'should set generator meta');
+  assert.match(src, /UrduOfDani 1\.\d+\.\d+/, 'should set generator meta with a version');
 });
 
 test('package.json: declares pdf-lib and @pdf-lib/fontkit (PDF export deps)', () => {
   const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
   assert.ok(pkg.dependencies['pdf-lib'],         'pdf-lib should be in dependencies');
   assert.ok(pkg.dependencies['@pdf-lib/fontkit'], '@pdf-lib/fontkit should be in dependencies');
-  assert.equal(pkg.version, '1.1.1',             'package.json version should be 1.1.1');
+  // Version is whatever's current — just verify it parses as semver.
+  assert.match(pkg.version, /^\d+\.\d+\.\d+$/, 'package.json version should be semver');
 });
 
 test('scripts/audit.mjs: runs and reports clean state', () => {
@@ -243,4 +244,102 @@ test('useDocActions: PDF-export error log is prefixed for grep-ability', () => {
   const src = readFileSync('src/renderer/lib/useDocActions.js', 'utf8');
   assert.match(src, /\[udani\] PDF export failed:/,
     'should log PDF errors with a [udani] prefix so they can be filtered');
+});
+
+// --- defensive round: regression tests for issues that bit us -------------
+
+test('spell.js: check() does not throw on empty or whitespace input', () => {
+  // The editor fires `check()` on every keystroke; it must never throw.
+  // Build a small dictionary so check() is meaningful.
+  const set = build(['اردو', 'زبان', 'خوبصورتی', 'ایک', 'نمونہ']);
+  for (const input of ['', ' ', '\n', '  \t  ', '!@#$%^&*()']) {
+    const r = check(set, input);
+    assert.ok(Array.isArray(r), 'should return an array');
+    assert.equal(r.length, 0,     'should have no misses for empty / punctuation input');
+  }
+});
+
+test('spell.js: check() returns word positions for unrecognised tokens', () => {
+  const set = build(['اردو', 'زبان']);
+  // "خوبصو" is a plausible Arabic-script typo; "ژوب" is rare-ish. Neither is in our set.
+  const misses = check(set, 'اردو خوبصو ژوب زبان');
+  assert.equal(misses.length, 2, 'should flag the two unknown Arabic-script words');
+  assert.equal(misses[0].word, 'خوبصو');
+  assert.equal(misses[1].word, 'ژوب');
+  assert.equal(typeof misses[0].start, 'number');
+  assert.equal(typeof misses[1].end,   'number');
+  assert.ok(misses[0].start < misses[0].end, 'end should be greater than start');
+});
+
+test('document.js: round-trip preserves meta title and page size', async () => {
+  const { emptyDocument, serialize, parse } = await import('../src/renderer/lib/document.js');
+  const doc = emptyDocument('میگزین', { size: 'A5', orientation: 'landscape' });
+  const json = serialize(doc);
+  const back = parse(json);
+  assert.equal(back.meta.title, 'میگزین', 'meta.title survives round-trip');
+  assert.equal(back.meta.page.size,        'A5',         'page size survives round-trip');
+  assert.equal(back.meta.page.orientation, 'landscape',  'orientation survives round-trip');
+  assert.equal(back.meta.author, 'Muhammad Danish [Dani] · DaniLabs', 'credit is preserved');
+});
+
+test('document.js: emptyDocument() seeds an Urdu sample (so a new doc is not blank)', async () => {
+  const { emptyDocument } = await import('../src/renderer/lib/document.js');
+  const doc = emptyDocument();
+  // At least one page should have a frame with non-empty content text.
+  const hasUrdu = doc.pages.some(p => p.frames.some(f => f.content && f.content.length > 0));
+  assert.ok(hasUrdu, 'emptyDocument() should seed at least one frame with Urdu sample text');
+});
+
+test('package.json: every documented script is mentioned in README', () => {
+  // We only require that the *documented* scripts (in README) are runnable.
+  // Capture the first word after "npm run" and stop at any non-identifier char.
+  const read = readFileSync('README.md', 'utf8');
+  const documented = [...read.matchAll(/npm run ([A-Za-z0-9_:-]+)/g)].map(m => {
+    // Trim trailing colon (e.g. "npm run build:" doesn't exist) or period.
+    return m[1].replace(/[:.]$/, '');
+  });
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  for (const name of documented) {
+    if (name === 'start') continue;     // a few npm idioms we don't expose
+    assert.ok(pkg.scripts[name], `documented script "${name}" should be in package.json`);
+  }
+});
+
+test('CHANGELOG.md: latest entry version matches package.json', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  const cl  = readFileSync('CHANGELOG.md', 'utf8');
+  // First version header that appears in the file is the latest.
+  // Allow "## 1.1.2" or "## [1.1.2] — date" styles.
+  const m = cl.match(/^##\s+\[?(\d+\.\d+\.\d+)\]?/m);
+  assert.ok(m, 'CHANGELOG should have a version heading');
+  assert.equal(m[1], pkg.version, `CHANGELOG top version (${m[1]}) should match package.json (${pkg.version})`);
+});
+
+test('App.jsx: Toast component is mounted (so .udani-save success messages actually render)', () => {
+  const src = readFileSync('src/renderer/App.jsx', 'utf8');
+  assert.match(src, /<Toast\b/,
+    'App.jsx should mount <Toast/> so the user sees save/open/PDF feedback');
+});
+
+test('index.html: loads renderer/main.jsx (the actual entry point)', () => {
+  const src = readFileSync('index.html', 'utf8');
+  assert.match(src, /src=["']\/src\/renderer\/main\.jsx["']/,
+    'index.html should reference the real renderer entry point');
+});
+
+test('vite.config.js: declares a relative base path (so the .exe can be launched from Program Files)', () => {
+  const src = readFileSync('vite.config.js', 'utf8');
+  assert.match(src, /base:\s*['"]\.\/['"]/,
+    'vite.config.js should use a relative base path for desktop installs');
+});
+
+test('electron-builder config: bundles docs and packages the app icon', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  const b   = pkg.build || {};
+  const files = b.files || [];
+  const all  = files.join('\n');
+  assert.ok(/LICENSE/.test(all),     'electron-builder files should include LICENSE');
+  assert.ok(/CHANGELOG/.test(all),   'electron-builder files should include CHANGELOG.md');
+  assert.ok(b.win && b.win.icon,     'Windows icon should be declared');
+  assert.ok(b.linux && b.linux.icon, 'Linux icon should be declared');
 });

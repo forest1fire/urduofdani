@@ -1,11 +1,11 @@
 {
   "name": "urduofdani",
   "productName": "UrduOfDani",
-  "version": "1.1.1",
+  "version": "1.1.4",
   "description": "Modern Urdu word-processor and desktop publishing suite. Like InPage, but built for today.",
   "author": {
     "name": "Muhammad Danish [Dani]",
-    "email": "danilabs@example.com",
+    "email": "hello.danilabs@gmail.com",
     "url": "https://github.com/forest1fire/urduofdani"
   },
   "license": "MIT",
@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "concurrently -k -n vite,electron -c cyan,magenta \"vite\" \"wait-on http://localhost:5173 && cross-env UD_DEV=1 electron .\"",
     "dev:web": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-assets.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 5173",
     "dist:win": "electron-builder --win --x64 --publish never",
     "dist:mac": "electron-builder --mac --publish never",
@@ -44,12 +44,14 @@
     "appId": "com.danilabs.urduofdani",
     "productName": "UrduOfDani",
     "directories": { "output": "release" },
-    "icon": "resources/icon.png",
+    "icon": "brands/urduofdani-icon.png",
     "files": [
       "src/main/**/*",
       "src/preload/**/*",
       "dist/**/*",
       "vendor/**/*",
+      "brands/**/*",
+      "samples/**/*",
       "package.json",
       "LICENSE",
       "README.md",
@@ -61,7 +63,7 @@
     ],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "icon": "resources/icon.png",
+      "icon": "brands/urduofdani-icon.png",
       "artifactName": "UrduOfDani-Setup-${version}.${ext}"
     },
     "nsis": {
@@ -72,12 +74,12 @@
     "linux": {
       "target": ["AppImage", "deb"],
       "category": "Office",
-      "icon": "resources/icon.png"
+      "icon": "brands/urduofdani-icon.png"
     },
     "mac": {
       "target": ["dmg"],
       "category": "public.app-category.productivity",
-      "icon": "resources/icon.png"
+      "icon": "brands/urduofdani-icon.png"
     }
   }
 }

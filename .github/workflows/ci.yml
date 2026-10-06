@@ -1,0 +1,55 @@
+name: ci
+
+# Continuous integration: runs on every push to main and on every PR.
+# Verifies the codebase with the same checks a maintainer would run locally.
+#
+# Created by Muhammad Danish [Dani] · DaniLabs.
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: audit + tests + build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Repo audit
+        run: npm run audit
+
+      - name: Smoke tests
+        run: npm test
+
+      - name: Build renderer
+        run: npm run build
+
+      - name: Verify built CSS + JS
+        run: |
+          test -f dist/index.html
+          test -f dist/assets/index-*.css
+          test -f dist/assets/index-*.js
+          test -f dist/assets/pdf-*.js || echo "::warning::PDF chunk not built (expected if pdf-lib is unused)"
+
+      - name: Verify Python spell-check engine is still vendored
+        run: |
+          test -f vendor/urduofdani_engine.py
+          test -f vendor/urdu_database.compact.gz
+          python3 vendor/urduofdani_engine.py --info | tee /tmp/udani-info.txt
+          grep -q "words" /tmp/udani-info.txt

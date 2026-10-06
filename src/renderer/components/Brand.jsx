@@ -1,13 +1,13 @@
 import React from 'react';
 
-// Brand asset paths — served by Vite from /resources/.
+// Brand asset paths — served by Vite from /brands/.
 // The PNGs are the real brand files committed to brands/ in the repo root,
-// and Vite copies them to /resources/ via the build pipeline.
-const URDUOF_DANI_ICON     = './resources/icon.png';
-const URDUOF_DANI_WORDMARK = './resources/wordmark-1100.png';
-const DANILABS_ICON        = './resources/danilabs-icon.png';
-const DANILABS_ICON_LIGHT  = './resources/danilabs-icon-light.png';
-const MD_WORDMARK          = './resources/muhammad-danish-wordmark.png';
+// and `npm run build` copies them into dist/brands/ via scripts/copy-assets.mjs.
+const URDUOF_DANI_ICON     = './brands/urduofdani-icon.png';
+const URDUOF_DANI_WORDMARK = './brands/urduofdani-wordmark.png';
+const DANILABS_ICON        = './brands/danilabs-icon.png';
+const DANILABS_ICON_LIGHT  = './brands/danilabs-icon-light.png';
+const MD_WORDMARK          = './brands/muhammad-danish-wordmark.png';
 
 /**
  * <Brand /> — UrduOfDani brand surface.
