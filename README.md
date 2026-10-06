@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="resources/wordmark-1100.png" alt="UrduOfDani" width="600"/>
+<!-- <img src="resources/wordmark-1100.png" alt="UrduOfDani" width="600"/> -->
 
 **Modern Urdu word-processor & desktop publishing. Like InPage, but built for today.**
 
