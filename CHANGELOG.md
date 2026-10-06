@@ -2,6 +2,74 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.4 — 2026-10-06
+
+**Full responsive audit.** The app now adapts cleanly from 320px
+phones up to 4K displays. The big fix: at half-screen widths
+(900-1399px), the inspector is now a **toggleable drawer** (Ctrl+.)
+instead of always-on, so the main content has room to breathe on
+laptop screens.
+
+### Fixed
+- **Inspector at half-screen (900-1399px) was eating too much space**
+  — squeezed the main area to ~360px. Now the inspector is hidden by
+  default and slides in as a right-side drawer when the user clicks
+  the new Layers icon in the topbar. A semi-transparent backdrop
+  appears behind the drawer; clicking it closes.
+- **Inline 3-column grids in pages were hardcoded** — `HelpPage`,
+  `NewDocPage`, `SpellCheckPage`, `ShortcutsPage`, `HomePage` all
+  had `style={{ gridTemplateColumns: '240px minmax(0, 1fr) 320px' }}`
+  which broke the responsive 2col/3col rules. Now CSS attribute
+  selectors `div[style*="grid-template-columns: 240px"]` etc.
+  collapse them to a single column at < 1200px.
+- **Topbar overflowed on narrow screens** — text labels on tab names,
+  Open/Save/PDF buttons, and even the search box were eating
+  horizontal space. At < 1200px the labels hide, the search shrinks
+  to 180px, and the avatar moves closer.
+- **Statusbar was too long for half-screen** — the right-side credits
+  and the language chip wrapped or pushed everything. Now the
+  lesser-used status items (`Page N of N`, `Auto-save`, `UTF-8 · RTL`)
+  hide at narrow widths.
+- **Hero stats wrapped awkwardly on small viewports** — 4 stats
+  became 2×2 at < 1200px instead of 4-across.
+
+### Added
+- **`Ctrl+.` keyboard shortcut** to toggle the inspector drawer.
+- **Layers icon button** in the topbar that highlights when the
+  inspector is open (`.active` state with primary-soft background).
+- **Inspector backdrop** — semi-transparent dark overlay that closes
+  the drawer on click.
+- **`@media (prefers-reduced-motion: reduce)`** — disables all
+  animations and transitions for users who request it.
+- **`@media (max-height: 480px) and (max-width: 900px)`** — landscape
+  phone mode: hides the statusbar, shrinks the hero, makes the
+  bottom-bar room larger.
+- **`half-screen` class on `.app-shell`** — programmatically applied
+  when `isNarrow || (isWide && !isXWide)`, hides the 7th status item
+  and switches hero stats to 2×2.
+- **More explicit breakpoints** in `responsive.css`:
+  - `< 560px` — tiny / mobile (bottom-sheet sidenav, mobile bottom bar)
+  - `560-899px` — tablet (no activity bar, single-column sidenav)
+  - `900-1199px` — narrow / half-screen at 1080p
+  - `1200-1399px` — standard laptop / half-screen at 1440p (inspector = drawer)
+  - `1400-1919px` — standard desktop (full inspector)
+  - `≥ 1920px` — wide desktop (wide inspector, max-width 1600px content)
+- **`div[style*="..."]` CSS overrides** for hardcoded inline 3-column
+  grids on pages like HelpPage, NewDocPage, SpellCheckPage, ShortcutsPage.
+
+### Added (tests)
+- 3 new smoke tests: App.jsx inspector drawer + Ctrl+. binding;
+  TopBar ships the inspector toggle button; responsive.css ships
+  6 breakpoints + reduced-motion + landscape phones + inline-style
+  collapse.
+- **59 / 59 tests pass.**
+
+### Verified
+- `npm test` → **59 / 59 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200; HMR
+  serving the new layout.
+
 ## 1.2.3 — 2026-10-06
 
 **Collapsible sidebar with three modes.** The sidebar can now be in

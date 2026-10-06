@@ -87,6 +87,8 @@ function Shell() {
     try { return localStorage.getItem('uod:sidenavMode') || 'full'; }
     catch { return 'full'; }
   });
+  // Inspector drawer (only shown as an overlay at narrow widths).
+  const [inspectorOpen, setInspectorOpen] = useState(false);
 
   // Cycle: full → icon → hidden → full
   const cycleSidenav = () => {
@@ -107,6 +109,7 @@ function Shell() {
       if (k === 'escape') { dispatch({ type: 'close-cmd' }); return; }
       if (k === ',') { e.preventDefault(); dispatch({ type: 'set-route', route: 'settings' }); return; }
       if (k === 'b') { e.preventDefault(); cycleSidenav(); return; }
+      if (k === '.') { e.preventDefault(); setInspectorOpen(o => !o); return; }
       if (k === '1') { e.preventDefault(); setActivityView('home');     return; }
       if (k === '2') { e.preventDefault(); setActivityView('editor');   return; }
       if (k === '3') { e.preventDefault(); setActivityView('review');   return; }
@@ -181,16 +184,21 @@ function Shell() {
 
   const route = ROUTES[state.route] || ROUTES.home;
   const Page = route.Page;
-  const showInspector = route.inspector && !viewport.isMobile && !viewport.isTablet;
+  // Inspector shows by default only on wide viewports (≥ 1400px).
+  // Below that, it becomes a toggleable drawer (Ctrl+.) so the main
+  // content has room to breathe on half-screen / laptop windows.
+  const isHalfScreen   = viewport.isNarrow || (viewport.isWide && !viewport.isXWide);
+  const showInspector  = !!route.inspector && (viewport.isXWide || inspectorOpen);
+  const showInspectorBtn = !!route.inspector && !viewport.isMobile && !viewport.isTablet;
   const showActivity = !viewport.isMobile;     // hide activity bar on phones
   const showSideNav   = !viewport.isMobile && sidenavMode !== 'hidden';
   const isWideViewport = viewport.isXWide;
   const docName = state.documents.find(d => d.id === state.activeDocId)?.name;
 
   return (
-    <div className={`app-shell sidenav-${sidenavMode}`}>
+    <div className={`app-shell sidenav-${sidenavMode}${isHalfScreen ? ' half-screen' : ''}`}>
       <TitleBar docName={docName} />
-      <TopBar />
+      <TopBar onToggleInspector={showInspectorBtn ? () => setInspectorOpen(o => !o) : null} inspectorOpen={inspectorOpen} />
       <div className={`app-shell-body${showInspector ? ' has-inspector' : ''}${isWideViewport && showInspector ? ' inspector-wide' : ''}`}>
         {showActivity && (
           <ActivityBar
@@ -201,10 +209,13 @@ function Shell() {
           />
         )}
         {viewport.isMobile && sidenavOpen && <div className="sidenav-backdrop" onClick={() => setSidenavOpen(false)} />}
+        {!viewport.isXWide && inspectorOpen && (
+          <div className="inspector-backdrop" onClick={() => setInspectorOpen(false)} />
+        )}
         {showSideNav && (
           <SideNav view={activityView} mode={sidenavMode} />
         )}
-        <main className="main-area" role="main" onClick={() => setSidenavOpen(false)}>
+        <main className="main-area" role="main" onClick={() => { setSidenavOpen(false); if (!viewport.isXWide) setInspectorOpen(false); }}>
           <Page />
         </main>
         {showInspector && <Inspector route={state.route} />}

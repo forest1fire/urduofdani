@@ -391,6 +391,39 @@ test('App.jsx: supports sidebar collapse via Ctrl+B and three modes (full/icon/h
   assert.ok(src.includes("cycleSidenav"), 'App.jsx should define a cycleSidenav function');
 });
 
+test('App.jsx: inspector becomes a drawer at < 1400px (default closed) and panel at ≥ 1400px', () => {
+  const src = readFileSync('src/renderer/App.jsx', 'utf8');
+  assert.ok(src.includes('inspectorOpen'), 'App.jsx should track inspectorOpen state');
+  assert.ok(src.includes('setInspectorOpen'), 'App.jsx should provide setInspectorOpen');
+  assert.ok(src.includes("k === '.'"), 'App.jsx should bind Ctrl+. to toggle inspector');
+  assert.ok(src.includes('isXWide || inspectorOpen'), 'App.jsx should show inspector when isXWide or open');
+  assert.ok(src.includes('onToggleInspector'), 'App.jsx should pass onToggleInspector to TopBar');
+});
+
+test('TopBar: ships an inspector toggle button when a toggle handler is provided', () => {
+  const src = readFileSync('src/renderer/components/TopBar.jsx', 'utf8');
+  assert.ok(src.includes('onToggleInspector'), 'TopBar should accept onToggleInspector prop');
+  assert.ok(src.includes('Toggle inspector'), 'TopBar should render a Toggle inspector button');
+});
+
+test('responsive.css: ships 6 breakpoints, inspector drawer, reduced-motion, landscape phones', () => {
+  const src = readFileSync('src/renderer/styles/responsive.css', 'utf8');
+  for (const marker of [
+    '@media (max-width: 559.98px)',     // tiny / mobile
+    '@media (min-width: 560px) and (max-width: 899.98px)', // tablet
+    '@media (min-width: 900px) and (max-width: 1199.98px)', // narrow / half-screen
+    '@media (min-width: 1200px) and (max-width: 1399.98px)', // standard laptop
+    '@media (min-width: 1400px) and (max-width: 1919.98px)', // standard desktop
+    '@media (min-width: 1920px)',        // wide
+    'inspector-backdrop',                // inspector drawer
+    'prefers-reduced-motion',            // a11y
+    'max-height: 480px',                 // landscape phones
+    'div[style*="grid-template-columns: 240px"]',  // collapse hardcoded 3-col
+  ]) {
+    assert.ok(src.includes(marker), `responsive.css should include "${marker}"`);
+  }
+});
+
 test('SideNav: supports icon-only mode with hover tooltips', () => {
   const src = readFileSync('src/renderer/components/SideNav.jsx', 'utf8');
   assert.ok(src.includes("mode === 'icon'"), 'SideNav should branch on mode === "icon"');

@@ -1,23 +1,57 @@
 /* UrduOfDani responsive layout — fluid grids, breakpoints, mobile patterns.
    Breakpoints:
      < 560px   : tiny / mobile
-     560-899px : tablet (single column, no sidenav)
-     900-1199  : narrow desktop (single sidebar)
-     1200-1919 : standard desktop (sidebar + inspector)
+     560-899   : tablet (single column, no sidenav)
+     900-1199  : narrow desktop (half-screen at 1080p = ~960px)
+     1200-1399 : standard laptop (half-screen at 1440p = ~720px) → inspector is drawer
+     1400-1919 : standard desktop (full inspector visible)
      ≥ 1920    : wide desktop (wide inspector, larger spacing)
    Also: dvh/dvw for full-height on mobile browsers, no horizontal scroll. */
 
 html, body { height: 100%; }
 #root { min-height: 100vh; min-height: 100dvh; }
 
-/* ----- Activity bar: hide labels, icon-only ----- */
+/* ----- Inspector: drawer at < 1400px, panel at ≥ 1400px ----- */
+@media (max-width: 1399.98px) {
+  .inspector {
+    position: fixed;
+    right: 0;
+    top: calc(var(--titlebar-h) + var(--topbar-h));
+    bottom: var(--statusbar-h);
+    z-index: 90;
+    width: 320px;
+    max-width: 90vw;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    transition: transform 200ms ease;
+    border-left: 1px solid var(--color-border);
+  }
+  .app-shell-body.has-inspector .inspector {
+    transform: translateX(0);
+  }
+  .inspector-backdrop {
+    position: fixed;
+    top: calc(var(--titlebar-h) + var(--topbar-h));
+    left: 0; right: 0; bottom: var(--statusbar-h);
+    background: rgba(0, 0, 0, 0.32);
+    z-index: 89;
+    animation: fade-in 200ms ease;
+  }
+  .app-shell-body.has-inspector { grid-template-columns: var(--activitybar-w) var(--sidebar-w) minmax(0, 1fr); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ----- Activity bar: hide on tiny, keep as icon strip elsewhere ----- */
 @media (max-width: 899.98px) {
   .activitybar { display: none; }
   .app-shell-body { grid-template-columns: var(--sidebar-w) minmax(0, 1fr) !important; }
   .app-shell-body.has-inspector { grid-template-columns: var(--sidebar-w) minmax(0, 1fr) !important; }
 }
 
-/* ----- Sidenav collapses to a bottom-sheet trigger on mobile ----- */
+/* ----- Sidenav collapses to a bottom-sheet on tiny (mobile) ----- */
 @media (max-width: 559.98px) {
   .sidenav {
     position: fixed; top: var(--titlebar-h); left: 0; bottom: var(--statusbar-h); z-index: 100;
@@ -34,42 +68,90 @@ html, body { height: 100%; }
   .page-body, .page-header { padding: var(--sp-4) var(--sp-4); }
   .page { padding-bottom: 64px; } /* leave room for mobile bottom bar */
   .topbar { padding: 0 var(--sp-2); }
-  .topbar-search { width: 140px; }
+  .topbar-search { display: none; }
   .topbar-logo span { display: none; }
-  .hero { padding: var(--sp-8) var(--sp-4); border-radius: var(--r-lg); }
-  .hero h1 { font-size: var(--fs-28); }
+  .topbar-tab span:not(.close-x) { display: none; }
+  .hero { padding: var(--sp-6) var(--sp-4); border-radius: var(--r-lg); }
+  .hero h1 { font-size: var(--fs-24); }
   .grid-3, .grid-4, .grid-auto, .grid-auto-lg { grid-template-columns: 1fr; }
   .grid-2 { grid-template-columns: 1fr; }
   .page-2col, .page-3col { grid-template-columns: 1fr; }
   .cmdk { max-width: 95vw; }
   .cmdk-backdrop { padding-top: 4vh; }
+  /* collapse all inline-style page-3col/2col */
+  div[style*="grid-template-columns: 240px"],
+  div[style*="grid-template-columns: 220px"],
+  div[style*="grid-template-columns: 260px"],
+  div[style*="grid-template-columns: 340px"] { grid-template-columns: 1fr !important; }
 }
 
-/* ----- Tablet (single column, no inspector) ----- */
+/* ----- Tablet (560-899): single column, no activity bar ----- */
 @media (min-width: 560px) and (max-width: 899.98px) {
   .app-shell-body { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
   .app-shell-body.has-inspector { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
-  .page-body, .page-header { padding: var(--sp-5) var(--sp-6); }
+  .page-body, .page-header { padding: var(--sp-4) var(--sp-5); }
   .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-auto { grid-template-columns: repeat(2, 1fr); }
   .page-2col { grid-template-columns: 1fr; }
   .page-3col { grid-template-columns: 1fr; }
+  div[style*="grid-template-columns: 240px"],
+  div[style*="grid-template-columns: 220px"],
+  div[style*="grid-template-columns: 260px"],
+  div[style*="grid-template-columns: 340px"] { grid-template-columns: 1fr !important; }
 }
 
-/* ----- Narrow desktop (900-1199) ----- */
+/* ----- Half-screen narrow (900-1199): no inline 3-col, narrower padding ----- */
 @media (min-width: 900px) and (max-width: 1199.98px) {
-  .app-shell-body.has-inspector { grid-template-columns: var(--activitybar-w) var(--sidebar-w) minmax(0, 1fr) var(--inspector-w); }
-  .page-body, .page-header { padding: var(--sp-5) var(--sp-6); }
+  .app-shell-body { grid-template-columns: var(--activitybar-w) var(--sidebar-w) minmax(0, 1fr); }
+  .page-body, .page-header { padding: var(--sp-4) var(--sp-5); }
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-auto { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .grid-auto { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  .page-2col { grid-template-columns: 1fr; }
+  .page-3col { grid-template-columns: 1fr; }
+  /* collapse inline 3-cols with hardcoded 320px right */
+  div[style*="grid-template-columns: 240px"],
+  div[style*="grid-template-columns: 220px"],
+  div[style*="grid-template-columns: 260px"] { grid-template-columns: 1fr !important; }
+  /* topbar: hide tab text labels, keep icons */
+  .topbar-tab span:not(.close-x) { display: none; }
+  .topbar-btn { padding: 0 8px; }
+  .topbar-btn span { display: none; }
+  .topbar-btn.btn-icon { padding: 0 6px; }
+  .topbar-search { width: 180px; }
+  /* statusbar: hide some items */
+  .statusbar .status-item:nth-child(n+5):nth-child(-n+7) { display: none; }
+  /* hero: smaller stats */
+  .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  .hero h1 { font-size: 32px; }
+  /* shortcuts page: 1 col */
+  .grid-3[style*="minmax(0, 1fr) 340px"] { grid-template-columns: 1fr !important; }
 }
 
-/* ----- Standard desktop (1200-1919) ----- */
-@media (min-width: 1200px) and (max-width: 1919.98px) {
+/* ----- Standard laptop (1200-1399): full shell, inspector drawer ----- */
+@media (min-width: 1200px) and (max-width: 1399.98px) {
+  .app-shell-body { grid-template-columns: var(--activitybar-w) var(--sidebar-w) minmax(0, 1fr); }
+  .page-body, .page-header { padding: var(--sp-5) var(--sp-6); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(3, 1fr); }
+  .grid-auto { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  /* collapse inline 3-cols with hardcoded 320px right */
+  div[style*="grid-template-columns: 240px"],
+  div[style*="grid-template-columns: 220px"],
+  div[style*="grid-template-columns: 260px"],
+  div[style*="grid-template-columns: 340px"] { grid-template-columns: 1fr !important; }
+  /* statusbar: drop version credit */
+  .statusbar .status-item:nth-child(8) { display: none; }
+  /* hero: smaller stats */
+  .hero-stats { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ----- Standard desktop (1400-1919): full inspector ----- */
+@media (min-width: 1400px) and (max-width: 1919.98px) {
   .app-shell-body.has-inspector { grid-template-columns: var(--activitybar-w) var(--sidebar-w) minmax(0, 1fr) var(--inspector-w); }
   .page-body, .page-header { padding: var(--sp-6) var(--sp-8); }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-auto { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 }
 
 /* ----- Wide (1920+) ----- */
@@ -78,6 +160,27 @@ html, body { height: 100%; }
   .page-body { max-width: 1600px; }
   .grid-4 { grid-template-columns: repeat(4, 1fr); }
   .grid-auto { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+}
+
+/* ----- Landscape phones / very small height ----- */
+@media (max-height: 480px) and (max-width: 900px) {
+  .hero { padding: var(--sp-4); min-height: 0; }
+  .hero h1 { font-size: var(--fs-20); }
+  .hero-greeting { margin: var(--sp-2) 0; }
+  .hero-stats { grid-template-columns: repeat(4, 1fr) !important; padding: var(--sp-2); }
+  .hero-stat-value { font-size: var(--fs-16); }
+  .page { padding-bottom: 80px; }
+  .statusbar { display: none; }
+}
+
+/* ----- Reduce motion ----- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ----- Mobile bottom bar (alternative to activity bar) ----- */
@@ -122,3 +225,8 @@ img, svg, video { max-width: 100%; }
 .flex-col { display: flex; flex-direction: column; }
 .flex-1   { flex: 1; min-width: 0; min-height: 0; }
 .center   { display: flex; align-items: center; justify-content: center; }
+
+/* ----- Half-screen helper class (programmatically applied) ----- */
+.app-shell.half-screen .statusbar .status-item:nth-child(7) { display: none; }
+.app-shell.half-screen .hero-stats { grid-template-columns: repeat(2, 1fr); }
+.app-shell.half-screen .page-body { padding-left: var(--sp-5); padding-right: var(--sp-5); }

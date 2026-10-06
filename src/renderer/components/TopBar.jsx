@@ -19,7 +19,7 @@ import { useDocActions } from '../lib/useDocActions.js';
  *   Ctrl/Cmd + K   — open command palette (handled in App)
  *   Ctrl/Cmd + 1..6 — switch activity view
  */
-export default function TopBar() {
+export default function TopBar({ onToggleInspector, inspectorOpen }) {
   const { state, dispatch } = useStore();
   const { save, openFile, exportPdf, newDoc } = useDocActions();
   const [saved, setSaved] = useState(true);
@@ -117,6 +117,16 @@ export default function TopBar() {
           {state.lang === 'en' ? 'اردو' : 'EN'}
         </span>
       </button>
+
+      {onToggleInspector && (
+        <button className={`topbar-btn btn-icon ${inspectorOpen ? ' active' : ''}`}
+                title={`${inspectorOpen ? 'Hide' : 'Show'} inspector panel (Ctrl+.)`}
+                aria-label="Toggle inspector"
+                aria-pressed={!!inspectorOpen}
+                onClick={onToggleInspector}>
+          <Icon.Layers style={{ width: 14, height: 14 }} />
+        </button>
+      )}
 
       <button className="avatar avatar-sm" title="Profile — Muhammad Danish [Dani]"
               onClick={() => dispatch({ type: 'set-route', route: 'help' })}
