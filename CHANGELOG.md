@@ -2,6 +2,45 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.2 — 2026-10-06
+
+Audit round. The repo was working but had a few quiet issues: a couple of
+production dependencies were missing from `package.json`, theme/scale choices
+were not persisted across reloads, and there was no quick way to re-audit the
+codebase. All fixed.
+
+### Fixed
+- **`pdf-lib` and `@pdf-lib/fontkit` were used by `src/renderer/lib/pdf.js` but
+  were not declared in `package.json`.** A fresh `npm ci` install would have
+  left PDF export broken. Both are now real `dependencies`.
+- **Theme and UI scale did not survive a reload.** `Store.jsx` always booted
+  with `theme: 'light'` and `scale: 100`, regardless of the user's last
+  choice. They now read `udani:theme` and `udani:scale` from `localStorage`
+  on mount, and `App.jsx` writes them back whenever they change.
+- **The PDF export catch block logged bare `console.error(e)`.** Now prefixed
+  with `[udani]` so the message can be filtered in dev consoles and won't be
+  swallowed by strict production error reporters.
+
+### Added
+- **`scripts/audit.mjs`** — `npm run audit` walks `src/`, checks for orphan
+  pages, missing dependencies, console calls, TODO/FIXME markers, missing
+  `alt=` attributes, and `.gitignore` coverage. Fails non-zero on real
+  issues. The audit confirmed the codebase is clean before this commit.
+- **`index.html`** now declares `theme-color` (light + dark media queries),
+  Open Graph (`og:title`, `og:description`, `og:image`), `application-name`,
+  and a `generator` meta pointing to the running version. The app icon will
+  now tint the system status bar / browser chrome correctly.
+- **6 new tests** in `tests/smoke.test.mjs` (now **29 / 29 passing**), covering:
+  the theme/scale persistence round-trip, the meta-tag presence,
+  `pdf-lib` + `@pdf-lib/fontkit` in `dependencies`, the audit script
+  itself, and the `[udani]`-prefixed PDF error log.
+
+### Housekeeping
+- `package.json` `version` bumped to **1.1.1** (was `1.0.0`).
+- `electron-builder` `files` list now includes `LICENSE`, `README.md`, and
+  `CHANGELOG.md` so the built installer carries the same metadata that ships
+  in the repo.
+
 ## 1.1.1 — 2026-10-06
 
 Aggressive repo cleanup. Repo shrunk from ~80 MB to 9.9 MB.

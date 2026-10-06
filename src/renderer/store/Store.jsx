@@ -20,11 +20,13 @@ const initialDocuments = [
   },
 ];
 
+const _persisted = loadPersistedPrefs();
+
 const initialState = {
   route: 'home',
   lang: 'en',         // UI language: en | ur
-  theme: 'light',     // light | dark | system
-  scale: 100,
+  theme: _persisted.theme || 'light',  // restored from localStorage on boot
+  scale: _persisted.scale || 100,      // restored from localStorage on boot
   palette: {
     navy: '#102A43', emerald: '#008F76', ivory: '#F7F5EF', gold: '#C69B47', slate: '#64748B', white: '#FFFFFF',
   },
@@ -80,6 +82,19 @@ const initialState = {
     ], current: 0,
   },
 };
+
+// Read persisted settings from localStorage (theme + UI scale). SSR-safe.
+function loadPersistedPrefs() {
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') return {};
+  const out = {};
+  try {
+    const theme = localStorage.getItem('udani:theme');
+    if (theme === 'light' || theme === 'dark' || theme === 'system') out.theme = theme;
+    const scale = parseInt(localStorage.getItem('udani:scale') || '', 10);
+    if (Number.isFinite(scale) && scale >= 50 && scale <= 200) out.scale = scale;
+  } catch { /* localStorage may be disabled */ }
+  return out;
+}
 
 function reducer(state, action) {
   switch (action.type) {

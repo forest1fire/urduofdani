@@ -196,3 +196,51 @@ test('EditorPage: edits flow back into store + autosave on blur', () => {
   assert.match(src, /autosaveDoc/,      'should call autosaveDoc on edit');
   assert.match(src, /contentEditable/,  'should mark title/body as contentEditable');
 });
+
+// --- 1.1.1 audit round: persistence + a11y + dependencies ------------------
+
+test('Store: reads theme + scale from localStorage on boot (persistence)', () => {
+  const src = readFileSync('src/renderer/store/Store.jsx', 'utf8');
+  assert.match(src, /loadPersistedPrefs/, 'should define loadPersistedPrefs');
+  assert.match(src, /udani:theme/,        'should read udani:theme key');
+  assert.match(src, /udani:scale/,        'should read udani:scale key');
+  assert.match(src, /_persisted\.theme \|\| 'light'/, 'should merge persisted theme into initialState');
+});
+
+test('App.jsx: writes theme + scale to localStorage on change (persistence)', () => {
+  const src = readFileSync('src/renderer/App.jsx', 'utf8');
+  assert.match(src, /udani:theme/,         'should write to udani:theme on change');
+  assert.match(src, /udani:scale/,         'should write to udani:scale on change');
+  assert.match(src, /localStorage\.setItem/, 'should call localStorage.setItem');
+});
+
+test('index.html: declares theme-color, OG tags, generator, and app-name', () => {
+  const src = readFileSync('index.html', 'utf8');
+  assert.match(src, /theme-color/,         'should set theme-color for status bar');
+  assert.match(src, /og:title/,            'should declare OG title');
+  assert.match(src, /og:image/,            'should declare OG image');
+  assert.match(src, /application-name/,    'should set application-name');
+  assert.match(src, /UrduOfDani 1\.1\.1/,  'should set generator meta');
+});
+
+test('package.json: declares pdf-lib and @pdf-lib/fontkit (PDF export deps)', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  assert.ok(pkg.dependencies['pdf-lib'],         'pdf-lib should be in dependencies');
+  assert.ok(pkg.dependencies['@pdf-lib/fontkit'], '@pdf-lib/fontkit should be in dependencies');
+  assert.equal(pkg.version, '1.1.1',             'package.json version should be 1.1.1');
+});
+
+test('scripts/audit.mjs: runs and reports clean state', () => {
+  const src = readFileSync('scripts/audit.mjs', 'utf8');
+  assert.match(src, /walk\(/,         'should walk src/ for source files');
+  assert.match(src, /package\.json/,  'should read package.json');
+  assert.match(src, /TODO\|FIXME\|XXX/, 'should detect TODO / FIXME / XXX markers');
+  assert.match(src, /console\./,      'should flag console calls for review');
+  assert.match(src, /gitignore/,      'should check .gitignore coverage');
+});
+
+test('useDocActions: PDF-export error log is prefixed for grep-ability', () => {
+  const src = readFileSync('src/renderer/lib/useDocActions.js', 'utf8');
+  assert.match(src, /\[udani\] PDF export failed:/,
+    'should log PDF errors with a [udani] prefix so they can be filtered');
+});

@@ -63,7 +63,7 @@ export function useDocActions() {
       dispatch({ type: 'toast', t: { kind: 'ok', msg: 'Exported ' + name } });
       return { ok: true, name };
     } catch (e) {
-      console.error(e);
+      console.error('[udani] PDF export failed:', e);
       dispatch({ type: 'toast', t: { kind: 'error', msg: 'PDF failed: ' + e.message } });
       return { ok: false, error: e.message };
     }

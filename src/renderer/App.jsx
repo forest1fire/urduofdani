@@ -91,6 +91,17 @@ function Shell() {
     document.body.style.zoom = String(state.scale / 100);
   }, [state.theme, state.scale]);
 
+  // Persist theme + scale to localStorage so the user's choice survives
+  // reloads. Failure is silent (private mode, quota exceeded, etc).
+  useEffect(() => {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('udani:theme', state.theme);
+        localStorage.setItem('udani:scale', String(state.scale));
+      }
+    } catch { /* ignore */ }
+  }, [state.theme, state.scale]);
+
   // Track viewport size so we can skip rendering the side nav / inspector at
   // sizes where they'd be hidden by CSS. (CSS still hides them as a fallback.)
   useEffect(() => {
