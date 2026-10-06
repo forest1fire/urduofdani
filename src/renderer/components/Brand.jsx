@@ -1,7 +1,8 @@
 import React from 'react';
 
 // Brand asset paths — served by Vite from /resources/.
-// The PNGs are the real brand files committed to design/brands/.
+// The PNGs are the real brand files committed to brands/ in the repo root,
+// and Vite copies them to /resources/ via the build pipeline.
 const URDUOF_DANI_ICON     = './resources/icon.png';
 const URDUOF_DANI_WORDMARK = './resources/wordmark-1100.png';
 const DANILABS_ICON        = './resources/danilabs-icon.png';

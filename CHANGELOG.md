@@ -2,6 +2,27 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.1 — 2026-10-06
+
+Aggressive repo cleanup. Repo shrunk from ~80 MB to 9.9 MB.
+
+### Removed
+- **`archive/`** — old InPage 2012 reference zip, old UrduOfDani-0.6.0 source zip, the original `Readmefirst` text.
+- **All 26 reference mockup PNGs** (the design/01-…26-…png files, ~36 MB). They were conceptual-only; the React pages are the actual delivered UI.
+- **`design/brands/md-monogram.png`** — 1.8 MB, never referenced by any code.
+- **`resources/icon-source.png`** and **`resources/wordmark-source.png`** — duplicate copies of the brand files.
+- **`resources/icon-{32,48,64,128,256,512}.png`** — sizes that no code referenced (the app uses the 1024×1024 `icon.png` everywhere).
+
+### Renamed / moved
+- **`design/INVENTORY.md`** → `docs/BRANDS.md` (the file was about brand assets, not mockups; rewrote it to match the now-6 brand files).
+- **`design/brands/`** → `brands/` (top-level; the `design/` parent was emptied so we removed the indirection).
+- `md-monogram.png` references removed from `CHANGELOG.md` and `docs/BRANDS.md`.
+- `design/brands/...` references updated to `brands/...` in `README.md`, `CHANGELOG.md`, and `docs/BRANDS.md`.
+
+### Result
+- Repo size: **~80 MB → 9.9 MB** (excluding `node_modules/` and `.git/`).
+- Repo layout: 9 top-level entries (was 12). Brand assets live at `brands/`, the running app pulls them from `resources/`.
+
 ## 1.1.0 — 2026-10-06
 
 End-to-end document I/O and PDF export. The libraries existed but were never wired in.
@@ -29,10 +50,10 @@ End-to-end document I/O and PDF export. The libraries existed but were never wir
 Real brand assets from the DaniLabs design system.
 
 ### Added
-- **`design/brands/`** — 7 official brand files from the user:
+- **`brands/`** — 6 official brand files from the user:
   - `urduofdani-icon.png` / `urduofdani-wordmark.png` — the actual app icon and wordmark (replacing the SVG approximations)
   - `danilabs-icon.png` / `danilabs-icon-light.png` / `danilabs-wordmark.svg` — the parent DaniLabs brand
-  - `muhammad-danish-wordmark.png` / `md-monogram.png` — the personal brand of Muhammad Danish [Dani]
+  - `muhammad-danish-wordmark.png` — the personal brand of Muhammad Danish [Dani]
 - **`resources/`** now serves the real PNGs:
   - `icon.png` / `icon-{32,48,64,128,256,512}.png` / `favicon-{16,32}.png` / `apple-touch-icon.png` from the real `urduofdani-icon.png`
   - `wordmark-1100.png` / `wordmark-600.png` from the real `urduofdani-wordmark.png`

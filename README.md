@@ -14,7 +14,7 @@
 
 <div align="center">
 
-<img src="design/brands/danilabs-icon.png" alt="DaniLabs" width="64"/>
+<img src="brands/danilabs-icon.png" alt="DaniLabs" width="64"/>
 
 **A DaniLabs product · by [Muhammad Danish](https://github.com/forest1fire)**
 
@@ -46,7 +46,7 @@ npm run dist:mac    # produces a .dmg (must run on macOS)
 
 ## What you get
 
-- **27 fully-implemented screens** — every reference mockup in `design/` is a real, clickable React page.
+- **27 fully-implemented screens** — every reference mockup in `brands/` is a real, clickable React page.
 - **Offline Urdu spell-check** — the vendored `urduofdani-dictionry` engine with 15,848 audited words.
 - **Responsive layout** — fluid grids at 560 / 900 / 1200 / 1920 px breakpoints for split-screen and narrow windows.
 - **Plugin system** — `.udaniplugin` zip packages with a documented manifest format and three working sample plugins.
@@ -66,7 +66,7 @@ npm run dist:mac    # produces a .dmg (must run on macOS)
 
 ```
 .
-├── design/                       26 reference mockups + INVENTORY.md
+├── brands/                       6 official brand PNGs (icon, wordmark, parent, personal)
 ├── archive/                      Old source zip, InPage 2012 reference, README-FIRST
 ├── docs/
 │   ├── DESIGN-SYSTEM.md          Tokens, components, layout patterns
