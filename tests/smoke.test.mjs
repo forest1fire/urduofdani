@@ -343,3 +343,29 @@ test('electron-builder config: bundles docs and packages the app icon', () => {
   assert.ok(b.win && b.win.icon,     'Windows icon should be declared');
   assert.ok(b.linux && b.linux.icon, 'Linux icon should be declared');
 });
+
+test('LICENSE: is MIT and grants the right to sell copies free of charge', () => {
+  const lic = readFileSync('LICENSE', 'utf8');
+  assert.match(lic, /MIT License/,           'should be the MIT License');
+  assert.match(lic, /free of charge/,         'should say "free of charge"');
+  assert.match(lic, /sell/,                  'should grant the right to sell copies');
+  assert.match(lic, /Muhammad Danish \[Dani\]/,
+    'should preserve the DaniLabs / Muhammad Danish [Dani] copyright');
+});
+
+test('NOTICE: declares UrduOfDani is free for everyone', () => {
+  const notice = readFileSync('NOTICE', 'utf8');
+  assert.match(notice, /free for everyone/i,     'should declare the app is free for everyone');
+  assert.match(notice, /MIT/,                    'should reference the MIT license');
+  assert.match(notice, /hello\.danilabs@gmail\.com/, 'should keep the contact email');
+  assert.match(notice, /Muhammad Danish \[Dani\]/,
+    'should preserve the DaniLabs / Muhammad Danish [Dani] credit');
+});
+
+test('README: surfaces the "free for everyone" intent at the top', () => {
+  const readme = readFileSync('README.md', 'utf8');
+  assert.match(readme, /free for everyone/i,
+    'README should explicitly say the app is free for everyone');
+  assert.match(readme, /NOTICE/,
+    'README should link to NOTICE');
+});

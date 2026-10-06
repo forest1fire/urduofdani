@@ -2,6 +2,40 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.5 — 2026-10-06
+
+Free-for-everyone round. The MIT License text grants the right to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software free of charge — but the project's intent (free as in
+price *and* free as in freedom, no paywall, no premium edition) was only
+documented implicitly. Made it explicit in three places: a new
+[`NOTICE`](./NOTICE) file, a top-of-README banner, and a rewritten
+"Support" card in Help → About.
+
+### Added
+- **[`NOTICE`](./NOTICE)** — plain-English statement of intent. The MIT
+  License is on the right; the project's wish is on the left: *UrduOfDani
+  is free for everyone*. Covers download, study, modification,
+  redistribution, forking, and resale; lists the only asks (keep the
+  credit; if you improve it, share it; if you sell it, don't lock the
+  free edition down).
+- **README banner** — a single line under the tagline, in bold:
+  *"100% free for everyone — forever. No paywall, no upsell, no premium
+  edition."*
+- **README License section** now points at both `LICENSE` and `NOTICE`.
+- **3 new smoke tests** guarding the intent:
+  - `LICENSE` still says "MIT License", "free of charge", grants the
+    right to sell, and keeps the DaniLabs credit.
+  - `NOTICE` exists, says "free for everyone", references MIT, and keeps
+    the contact email + creator credit.
+  - `README` surfaces "free for everyone" and links to `NOTICE`.
+
+### Changed
+- **Help → About → Support card** now leads with *"UrduOfDani is — and
+  always will be — free for everyone"* and clarifies that Buy-a-Coffee /
+  Sponsor are an *optional* way to say thanks, not a feature unlock.
+- `docs/BRANDS.md` adds a short "Licensing" section pointing at NOTICE.
+
 ## 1.1.4 — 2026-10-06
 
 Brand consolidation + support round. The repo had two parallel brand folders

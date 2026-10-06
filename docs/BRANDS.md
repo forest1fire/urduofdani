@@ -33,3 +33,9 @@ single source of truth and ship in three places:
 
 - **Support & feedback** — [hello.danilabs@gmail.com](mailto:hello.danilabs@gmail.com)
 - **GitHub** — [forest1fire/urduofdani](https://github.com/forest1fire/urduofdani)
+
+## Licensing
+
+UrduOfDani is **free for everyone** under the MIT License. The full intent
+(why, what is and isn't restricted, the credit ask) is in [`NOTICE`](../NOTICE)
+at the repo root.

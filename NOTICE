@@ -1,0 +1,41 @@
+NOTICE — UrduOfDani is free for everyone
+========================================
+
+UrduOfDani is released under the MIT License, which grants every person the
+right to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, free of charge.
+
+The intention behind this project — and the explicit wish of its creator,
+Muhammad Danish [Dani] · DaniLabs — is that **UrduOfDani remains free for
+everyone**: free as in price, free as in freedom.
+
+- ✅ Free to download and use, in any context (personal, educational,
+  commercial, government, NGO).
+- ✅ Free to study, modify, and improve. If you fix a bug or add a feature,
+  please open a pull request so everyone benefits.
+- ✅ Free to redistribute. Ship it on a USB stick, mirror it, package it
+  for your distro, or include it in a larger toolkit.
+- ✅ Free to fork. Build a custom flavour for your community; just keep
+  the MIT copyright notice intact.
+- ✅ Free to sell. The MIT License explicitly permits commercial
+  redistribution; resale is allowed, encouraged when it serves users who
+  cannot pay online, and never opposed.
+
+The only asks, in return, are:
+
+1. **Keep the credit.** The "Muhammad Danish [Dani] · DaniLabs" line in the
+   PDF footer, the in-app About card, and the README is required by the
+   MIT License and by the project's values. It is how the work is
+   attributed.
+2. **If you improve it, share it back.** Open a PR, or describe the change
+   in an issue. The spell-check engine, the .udani file format, and the
+   brand assets are all reusable.
+3. **If you sell it, don't lock it down.** Do not turn the free edition
+   into a paid-only build. The free edition is the edition; paid support
+   and bespoke features are fine, but the core product stays free.
+
+For support, contributions, or to say hello:
+hello.danilabs@gmail.com
+https://github.com/forest1fire/urduofdani
+
+— Muhammad Danish [Dani] · DaniLabs

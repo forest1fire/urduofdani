@@ -4,6 +4,8 @@
 
 **Modern Urdu word-processor & desktop publishing. Like InPage, but built for today.**
 
+***100% free for everyone — forever. No paywall, no upsell, no premium edition.***
+
 *Created by **Muhammad Danish [Dani] · DaniLabs***
 
 [Live preview](https://5173-ce10610a.e2b.app) ·
@@ -150,4 +152,7 @@ git push origin v1.0.1
 
 ## License
 
-MIT — see `LICENSE`.
+**UrduOfDani is free for everyone** — MIT License, see [`LICENSE`](./LICENSE)
+for the legal text and [`NOTICE`](./NOTICE) for the project's intent (no
+paywall, no premium edition, no resale restrictions beyond keeping the
+credit intact).

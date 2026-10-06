@@ -125,10 +125,13 @@ export default function HelpPage() {
               <Icon.Coffee style={{ marginRight: 4, verticalAlign: '-2px' }} />
               Support UrduOfDani
             </h4>
+            <p style={{ margin: '0 0 4px', color: 'var(--slate-700)', fontSize: 12, fontWeight: 600, lineHeight: 1.4 }}>
+              UrduOfDani is — and always will be — free for everyone.
+            </p>
             <p style={{ margin: '0 0 8px', color: 'var(--slate-500)', fontSize: 12, lineHeight: 1.4 }}>
-              If this app saves you time, consider buying a coffee for the
-              team. Urdu desktop publishing tools are rare — every cup helps
-              keep the project alive.
+              The buttons below are an <em>optional</em> way to say thanks
+              and help cover server costs. They unlock no features, change
+              no behaviour, and the app is identical with or without them.
             </p>
             <div style={{ display: 'flex', gap: 6 }}>
               <a
@@ -149,7 +152,7 @@ export default function HelpPage() {
               </a>
             </div>
             <a
-              href="mailto:hello.danilabs@gmail.com?subject=UrduOfDani%20donation"
+              href="mailto:hello.danilabs@gmail.com?subject=UrduOfDani%20hello"
               style={{ display: 'block', marginTop: 8, fontSize: 11, color: 'var(--slate-500)', textAlign: 'center' }}
             >
               hello.danilabs@gmail.com
