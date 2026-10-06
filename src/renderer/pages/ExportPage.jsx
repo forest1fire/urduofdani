@@ -43,7 +43,7 @@ export default function ExportPage() {
           </div>
         </aside>
         <main>
-          <div className="page-sheet" style={{ width: 360, margin: '0 auto', minHeight: 480 }}>
+          <div className="page-sheet" style={{ margin: '0 auto', minHeight: 480 }}>
             <div style={{ fontFamily: 'var(--font-urdu)', fontSize: 18, color: 'var(--navy-900)', textAlign: 'center', margin: '8px 0' }}>اردو کی خوبصورتی</div>
             <div className="urdu rtl" style={{ fontSize: 12, lineHeight: 1.8 }}>
               <p>اردو کی خوبصورتی اس کی روائیت میں ہے۔ یہ زبان صرف ایک زبان نہیں بلکہ ایک ایسی تہذیب اور ثقافت ہے جو صدیوں سے چلی آ رہی ہے۔ اس کے الفاظ اپنے اندر ایک گہرائی رکھتے ہیں جو اسے دوسری زبانوں سے ممتاز کرتی ہے۔</p>

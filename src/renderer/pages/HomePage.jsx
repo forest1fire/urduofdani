@@ -32,7 +32,7 @@ export default function HomePage() {
               <h2 style={{ margin: 0, fontSize: 22, color: 'var(--navy-900)' }}>Recent documents</h2>
               <div style={{ position: 'relative' }}>
                 <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
-                <input className="input" placeholder="Search recent documents…" style={{ paddingLeft: 32, width: 280 }} />
+                <input className="input" placeholder="Search recent documents…" style={{ paddingLeft: 32, minWidth: 200, maxWidth: 320, width: '100%' }} />
               </div>
             </div>
             <p style={{ color: 'var(--slate-500)', margin: '0 0 12px' }}>Pick up where you left off.</p>
