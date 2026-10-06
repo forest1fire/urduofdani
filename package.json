@@ -1,0 +1,67 @@
+{
+  "name": "urduofdani",
+  "productName": "UrduOfDani",
+  "version": "1.0.0",
+  "description": "Modern Urdu word-processor and desktop publishing suite. Like InPage, but built for today.",
+  "author": {
+    "name": "Muhammad Danish [Dani]",
+    "email": "danilabs@example.com",
+    "url": "https://github.com/forest1fire/urduofdani"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "src/main/index.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k -n vite,electron -c cyan,magenta \"vite\" \"wait-on http://localhost:5173 && cross-env UD_DEV=1 electron .\"",
+    "dev:web": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5173",
+    "dist:win": "electron-builder --win --x64 --publish never",
+    "dist:mac": "electron-builder --mac --publish never",
+    "dist:linux": "electron-builder --linux --publish never",
+    "dist:dir": "electron-builder --dir",
+    "engine": "python3 vendor/urduofdani_engine.py",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.10",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "concurrently": "^9.1.0",
+    "wait-on": "^8.0.1",
+    "cross-env": "^7.0.3"
+  },
+  "build": {
+    "appId": "com.danilabs.urduofdani",
+    "productName": "UrduOfDani",
+    "directories": { "output": "release" },
+    "files": [
+      "src/main/**/*",
+      "src/preload/**/*",
+      "dist/**/*",
+      "vendor/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "templates", "to": "templates" },
+      { "from": "plugins",   "to": "plugins" }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "artifactName": "UrduOfDani-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false, "perMachine": false, "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true, "createStartMenuShortcut": true,
+      "shortcutName": "UrduOfDani"
+    },
+    "linux": { "target": ["AppImage", "deb"], "category": "Office" },
+    "mac":   { "target": ["dmg"], "category": "public.app-category.productivity" }
+  }
+}

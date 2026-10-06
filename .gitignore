@@ -1,0 +1,16 @@
+node_modules/
+dist/
+release/
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# Keep the dictionary databases vendored but not the rebuild caches
+vendor/__pycache__/
+*.pyc
+.cache/
+
+# Local sandbox artefacts
+.arena/
+.local/

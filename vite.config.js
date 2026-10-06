@@ -1,0 +1,25 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  base: './',
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: false,
+    allowedHosts: true, // accept any Host header (preview is proxied through e2b.app)
+    cors: true
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: false
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: true,
+    target: 'es2020'
+  }
+});
