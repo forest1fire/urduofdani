@@ -14,7 +14,7 @@ export default function FindReplacePage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Find &amp; replace</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr 280px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside className="card">
           <div className="tabs" style={{ padding: 0 }}>
             <button className={`tab${tab === 'find' ? ' active' : ''}`} onClick={() => setTab('find')}>Find</button>

@@ -28,7 +28,7 @@ export default function UnicodeConverterPage() {
         <select className="select" style={{ width: 240 }}><option>Unicode (UTF-8)</option></select>
         <button className="btn btn-secondary" style={{ marginLeft: 'auto' }}><Icon.Doc /> Paste text</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: 16 }}>
         <div className="card">
           <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Original text</h3>
           <textarea className="textarea with-rtl" value={src} onChange={e => setSrc(e.target.value)}

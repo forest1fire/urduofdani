@@ -22,7 +22,7 @@ export default function PagesManagerPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Page manager</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           {[['all', 'All pages', 12], ['master', 'Master pages', 2], ['sections', 'Sections', 3]].map(([id, l, n]) => (
             <button key={id} className={`sidenav-item ${id === 'all' ? 'active' : ''}`}>
@@ -46,7 +46,7 @@ export default function PagesManagerPage() {
               <input className="input" placeholder="Go to page…" style={{ paddingLeft: 32 }} />
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div className="grid-3" style={{ gap: 16 }}>
             {SAMPLE.map(p => (
               <div key={p.id} className={`card card-hoverable${p.id === sel ? ' selected' : ''}`}
                    style={{ padding: 8, position: 'relative' }} onClick={() => setSel(p.id)}>
@@ -80,7 +80,7 @@ export default function PagesManagerPage() {
           </div>
           <hr style={{ margin: '20px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
           <h4 style={{ margin: 0 }}>Insert pages</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 8, marginTop: 8 }}>
             <div><label className="label">Count</label><input type="number" className="input" defaultValue={1} /></div>
             <div><label className="label">Position</label><select className="select"><option>After page {page.id}</option><option>Before page {page.id}</option><option>End of document</option></select></div>
           </div>

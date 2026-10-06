@@ -1,0 +1,215 @@
+/* UrduOfDani — responsive layout rules.
+   Mobile/tablet first; we add capabilities as the viewport grows.
+   Breakpoints (kept narrow because this is a desktop app):
+     --bp-sm   560px   single column, side nav hidden, inspector hidden
+     --bp-md   900px   side nav appears, side rail collapsed to icons
+     --bp-lg  1200px   inspector appears
+     --bp-xl  1600px   full desktop layout
+*/
+
+:root {
+  --bp-sm: 560px;
+  --bp-md: 900px;
+  --bp-lg: 1200px;
+  --bp-xl: 1600px;
+}
+
+/* ---------- App shell ---------- */
+.app-shell {
+  grid-template-rows: var(--topbar-h) minmax(0, 1fr);
+  min-height: 0;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+}
+.app-shell-body {
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.app-shell-body.has-inspector {
+  grid-template-columns: var(--side-w) minmax(0, 1fr) var(--inspector-w);
+}
+
+/* Mobile: hide side nav & inspector, single column. */
+@media (max-width: 899.98px) {
+  .app-shell-body { grid-template-columns: minmax(0, 1fr) !important; }
+  .app-shell-body.has-inspector { grid-template-columns: minmax(0, 1fr) !important; }
+  .sidenav { display: none; }
+  .inspector { display: none; }
+  .main-area { width: 100%; }
+}
+
+/* Narrow desktop: keep side nav as icons only. */
+@media (min-width: 900px) and (max-width: 1199.98px) {
+  :root { --side-w: 56px; --inspector-w: 0px; }
+  .app-shell-body.has-inspector { grid-template-columns: var(--side-w) minmax(0, 1fr) var(--inspector-w); }
+  .sidenav { padding: var(--space-3) 4px; }
+  .sidenav-item { justify-content: center; padding: 10px 6px; font-size: 0; }
+  .sidenav-item span:not(.icon) { display: none; }
+  .sidenav-item .icon { font-size: 18px; }
+  .sidenav-footer { display: none; }
+  .inspector { display: none; }
+}
+
+/* Default ≥1200px: full layout. */
+@media (min-width: 1200px) {
+  :root { --side-w: 220px; --inspector-w: 320px; }
+  .inspector { display: block; }
+}
+
+/* Very large: cap content width, give the canvas more room. */
+@media (min-width: 1920px) {
+  :root { --side-w: 240px; --inspector-w: 360px; }
+  .main-area { max-width: 100%; }
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  height: auto;
+  min-height: var(--topbar-h);
+  padding: 6px var(--space-3);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.topbar-tabs { flex-wrap: nowrap; }
+.topbar-spacer { flex: 1 1 auto; min-width: 8px; }
+.topbar-search { min-width: 0; flex: 0 1 220px; }
+@media (max-width: 899.98px) {
+  .topbar-search { display: none; }
+}
+
+/* ---------- Generic responsive 3-column page shell ---------- */
+.page-3col {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+.page-2col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+.page-1col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1199.98px) {
+  .page-3col { grid-template-columns: 200px minmax(0, 1fr); }
+  .page-3col > .col-aside-r { display: none; }
+}
+@media (max-width: 899.98px) {
+  .page-3col { grid-template-columns: minmax(0, 1fr); }
+  .page-3col > .col-aside-l { display: none; }
+  .page-2col { grid-template-columns: minmax(0, 1fr); }
+  .page-2col > .col-aside-r { display: none; }
+}
+
+/* Page header — wraps on narrow screens. */
+.page-header { flex-wrap: wrap; gap: 12px; }
+.page-title { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+
+/* ---------- Card grids (auto-fit) ---------- */
+.grid-1, .grid-2, .grid-3, .grid-4, .grid-6 {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.grid-1 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-6 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+
+/* ---------- Form grids ---------- */
+.grid-form-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-form-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 899.98px) {
+  .grid-form-3, .grid-form-4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 559.98px) {
+  .grid-form-3, .grid-form-4 { grid-template-columns: 1fr; }
+}
+
+/* ---------- Tables → scroll horizontally on narrow screens ---------- */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Editor ---------- */
+.editor-grid {
+  display: grid;
+  grid-template-columns: 52px 220px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+@media (max-width: 1199.98px) {
+  .editor-grid { grid-template-columns: 52px minmax(0, 1fr); }
+  .editor-grid > .editor-rail-pages { display: none; }
+}
+@media (max-width: 899.98px) {
+  .editor-grid { grid-template-columns: minmax(0, 1fr); }
+  .editor-grid > .editor-tool-rail { display: none; }
+}
+
+.toolbar { flex-wrap: wrap; gap: 8px; }
+
+.spread {
+  flex-wrap: wrap;
+}
+.page-sheet {
+  width: min(380px, 100%) !important;
+  min-width: 0;
+}
+
+/* ---------- Plugins / templates / help grids ---------- */
+.plugin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.cmd-box { width: min(560px, 92vw); }
+.modal { width: min(960px, 95vw); max-height: 95vh; }
+
+.table { table-layout: fixed; }
+.table th, .table td { word-break: break-word; }
+
+.input, .select, .textarea, .btn { max-width: 100%; min-width: 0; }
+.field-row { grid-template-columns: 1fr 1fr; }
+@media (max-width: 559.98px) {
+  .field-row { grid-template-columns: 1fr; }
+}
+
+.inspector { max-width: 100%; overflow-x: hidden; }
+
+.kbd-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 4px;
+}
+@media (max-width: 559.98px) {
+  .kbd-row { grid-template-columns: repeat(auto-fit, minmax(32px, 1fr)); }
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}

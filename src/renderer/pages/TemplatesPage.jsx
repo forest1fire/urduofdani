@@ -47,7 +47,7 @@ export default function TemplatesPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         {filtered.slice(0, 6).map(t => (
           <div key={t.id} className={`card card-hoverable${selected === t.id ? ' selected' : ''}`}
                style={{ padding: 0, overflow: 'hidden' }} onClick={() => setSelected(t.id)}>

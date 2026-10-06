@@ -44,7 +44,7 @@ export default function KeyboardPracticePage() {
           <span>On</span>
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <main>
           <section className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>

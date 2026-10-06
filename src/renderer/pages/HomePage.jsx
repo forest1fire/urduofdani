@@ -25,7 +25,7 @@ export default function HomePage() {
         <button className="btn btn-secondary btn-lg"><Icon.Doc /> Open document</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <div>
           <section className="card" style={{ marginBottom: 16 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
@@ -62,7 +62,7 @@ export default function HomePage() {
               </button>
             </div>
             <p style={{ color: 'var(--slate-500)', margin: '0 0 16px' }}>Beautiful designs to help you get started.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div className="grid-3" style={{ gap: 16 }}>
               {[
                 { id: 't1', title: 'Urdu Book',          sub: 'A clean and elegant book layout',     bg: 'linear-gradient(135deg,#F7F5EF,#E7E2D1)', border: '#C69B47' },
                 { id: 't2', title: 'Editorial Magazine', sub: 'Stylish magazine for articles and stories', bg: 'linear-gradient(135deg,#102A43,#243B53)', border: '#243B53' },

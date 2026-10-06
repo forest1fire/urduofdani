@@ -37,7 +37,7 @@ export default function HelpPage() {
           <button className="btn btn-primary btn-sm" onClick={() => dispatch({ type: 'set-lang', lang: 'en' })}>EN</button>
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           {TOPICS.map(t => (
             <button key={t.id} className={`sidenav-item${tab === t.id ? ' active' : ''}`} onClick={() => setTab(t.id)}>
@@ -51,7 +51,7 @@ export default function HelpPage() {
             <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
             <input className="input" placeholder="Search help topics" style={{ paddingLeft: 32 }} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 16 }}>
+          <div className="grid-3" style={{ gap: 16, marginTop: 16 }}>
             {GUIDES.map(g => (
               <div key={g.title} className="card card-hoverable" style={{ textAlign: 'center', padding: 24 }}>
                 <div style={{ width: 64, height: 64, background: 'var(--emerald-50)', borderRadius: 12, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--emerald-500)', fontSize: 28 }}>

@@ -54,8 +54,8 @@ export default function EditorPage() {
         <button className="btn btn-primary btn-sm">↩ RTL</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '52px 220px 1fr', flex: 1, minHeight: 0 }}>
-        <aside style={{ background: 'var(--white)', borderRight: '1px solid var(--slate-100)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 0', gap: 4 }}>
+      <div className="editor-grid" style={{ flex: 1, minHeight: 0 }}>
+        <aside className="editor-tool-rail" style={{ background: 'var(--white)', borderRight: '1px solid var(--slate-100)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 0', gap: 4 }}>
           {[
             { id: 'select', icon: Icon.Arrow },
             { id: 'text',   icon: Icon.Type  },
@@ -70,7 +70,7 @@ export default function EditorPage() {
           ))}
         </aside>
 
-        <aside style={{ background: 'var(--white)', borderRight: '1px solid var(--slate-100)', display: 'flex', flexDirection: 'column' }}>
+        <aside className="editor-rail-pages" style={{ background: 'var(--white)', borderRight: '1px solid var(--slate-100)', display: 'flex', flexDirection: 'column' }}>
           <div className="tabs" style={{ padding: 0 }}>
             {['Pages', 'Layers', 'Assets'].map(t => (
               <button key={t} className={`tab${tab === t.toLowerCase() ? ' active' : ''}`} onClick={() => setTab(t.toLowerCase())}>{t}</button>
@@ -78,7 +78,7 @@ export default function EditorPage() {
           </div>
           <div style={{ padding: 12, overflow: 'auto', flex: 1 }}>
             {tab === 'pages' && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <div className="grid-2" style={{ gap: 8 }}>
                 {Array.from({ length: 8 }).map((_, i) => (
                   <div key={i} className={`card card-hoverable${i === 2 ? ' selected' : ''}`} style={{ padding: 6 }}>
                     <div style={{ aspectRatio: '0.71', background: 'var(--ivory-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--slate-100)' }}>
@@ -100,7 +100,7 @@ export default function EditorPage() {
               </div>
             )}
             {tab === 'assets' && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <div className="grid-2" style={{ gap: 8 }}>
                 {['Mountain.jpg', 'Garden.jpg', 'Architecture.jpg', 'Pattern.png'].map(a => (
                   <div key={a} className="card" style={{ padding: 4 }}>
                     <div style={{ aspectRatio: '1.4', background: 'linear-gradient(135deg,#d1f2eb,#fff7e6)', borderRadius: 4 }} />

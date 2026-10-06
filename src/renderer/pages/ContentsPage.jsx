@@ -38,7 +38,7 @@ export default function ContentsPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Contents &amp; footnotes</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <div className="tabs" style={{ padding: 0 }}>
             <button className={`tab${tab === 'toc' ? ' active' : ''}`} onClick={() => setTab('toc')}>Table of contents</button>

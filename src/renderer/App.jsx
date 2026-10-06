@@ -63,6 +63,12 @@ const ROUTES = {
 
 function Shell() {
   const { state, dispatch } = useStore();
+  const [viewport, setViewport] = useState(() => ({
+    isMobile:  typeof window !== 'undefined' && window.matchMedia('(max-width: 899.98px)').matches,
+    isNarrow:  typeof window !== 'undefined' && window.matchMedia('(min-width: 900px) and (max-width: 1199.98px)').matches,
+    isWide:    typeof window !== 'undefined' && window.matchMedia('(min-width: 1200px)').matches,
+    isXWide:   typeof window !== 'undefined' && window.matchMedia('(min-width: 1920px)').matches,
+  }));
 
   // Keyboard shortcut: Ctrl/Cmd + K opens the palette.
   useEffect(() => {
@@ -85,16 +91,45 @@ function Shell() {
     document.body.style.zoom = String(state.scale / 100);
   }, [state.theme, state.scale]);
 
+  // Track viewport size so we can skip rendering the side nav / inspector at
+  // sizes where they'd be hidden by CSS. (CSS still hides them as a fallback.)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const queries = [
+      { key: 'isMobile', mq: window.matchMedia('(max-width: 899.98px)') },
+      { key: 'isNarrow', mq: window.matchMedia('(min-width: 900px) and (max-width: 1199.98px)') },
+      { key: 'isWide',   mq: window.matchMedia('(min-width: 1200px)') },
+      { key: 'isXWide',  mq: window.matchMedia('(min-width: 1920px)') },
+    ];
+    const update = () => {
+      const next = {};
+      for (const { key, mq } of queries) next[key] = mq.matches;
+      setViewport(prev => ({ ...prev, ...next }));
+    };
+    update();
+    for (const { mq } of queries) {
+      if (mq.addEventListener) mq.addEventListener('change', update);
+      else mq.addListener(update);
+    }
+    return () => {
+      for (const { mq } of queries) {
+        if (mq.removeEventListener) mq.removeEventListener('change', update);
+        else mq.removeListener(update);
+      }
+    };
+  }, []);
+
   const route = ROUTES[state.route] || ROUTES.home;
   const Page = route.Page;
   const shell = route.shell;
-  const showInspector = shell === 'editor' || shell === 'tool';
+  const showInspector = (shell === 'editor' || shell === 'tool') && !viewport.isMobile && !viewport.isNarrow;
+  const showSideNav    = !viewport.isMobile;
 
   return (
     <div className="app-shell">
       <TopBar />
       <div className={`app-shell-body ${showInspector ? 'has-inspector' : ''}`}>
-        <SideNav mode={shell} />
+        {showSideNav && <SideNav mode={shell} />}
         <main className="main-area" role="main">
           <Page />
         </main>

@@ -30,7 +30,7 @@ export default function TablesPage() {
           <select className="select" style={{ width: 130 }}><option>Right to left</option><option>Left to right</option></select>
         </span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr 280px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <h3 style={{ margin: 0 }}>Pages</h3>
           {[1, 2, 3].map(i => (
@@ -75,7 +75,7 @@ export default function TablesPage() {
         </main>
         <aside className="card">
           <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Table properties</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 8, marginTop: 8 }}>
             <div><label className="label">Rows</label><input type="number" className="input" defaultValue={5} /></div>
             <div><label className="label">Columns</label><input type="number" className="input" defaultValue={4} /></div>
           </div>
@@ -97,7 +97,7 @@ export default function TablesPage() {
           </div>
           <details style={{ marginTop: 8 }}><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Alignment</summary></details>
           <details open style={{ marginTop: 8 }}><summary style={{ fontWeight: 600, color: 'var(--navy-900)' }}>Table styles</summary>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, marginTop: 6 }}>
+            <div className="grid-form-3" style={{ gap: 6, marginTop: 6 }}>
               {[['plain','Plain'], ['emerald','Emerald'], ['striped','Striped']].map(([id, l]) => (
                 <button key={id} className={`card card-hoverable${tab === id ? ' selected' : ''}`}
                         style={{ padding: 6, textAlign: 'center' }}

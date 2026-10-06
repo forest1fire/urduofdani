@@ -28,7 +28,7 @@ export default function PluginsPage() {
           <select className="select"><option>All</option><option>Productivity</option><option>Typography</option></select>
         </div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+      <div className="grid-4" style={{ gap: 12 }}>
         {state.plugins.map(p => (
           <div key={p.id} className="card">
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

@@ -16,13 +16,13 @@ export default function ShapesPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Shape builder</h1>
       </div>
       <p style={{ color: 'var(--slate-500)' }}>Add simple shapes to your document and customize them.</p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <main>
           <div style={{ position: 'relative' }}>
             <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
             <input className="input" placeholder="Search shapes…" style={{ paddingLeft: 32 }} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
+          <div className="grid-4" style={{ gap: 12, marginTop: 16 }}>
             {SHAPES.map(s => (
               <div key={s.id} className={`card card-hoverable${sel === s.id ? ' selected' : ''}`}
                    style={{ padding: 16, textAlign: 'center' }} onClick={() => setSel(s.id)}>
@@ -55,7 +55,7 @@ export default function ShapesPage() {
           </div>
           <label className="label" style={{ marginTop: 8 }}>Border width</label>
           <select className="select"><option>1 pt</option><option>2 pt</option></select>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginTop: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 6, marginTop: 8 }}>
             <div><label className="label">Width</label><input className="input" defaultValue="60 mm" /></div>
             <div><label className="label">Height</label><input className="input" defaultValue="30 mm" /></div>
           </div>

@@ -24,7 +24,7 @@ export default function FontsPage() {
         </div>
         <button className="btn btn-primary btn-lg"><Icon.Plus /> Add fonts</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <main>
           <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
             <div style={{ position: 'relative', flex: 1 }}>

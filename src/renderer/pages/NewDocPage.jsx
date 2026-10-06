@@ -42,7 +42,7 @@ export default function NewDocPage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Document type</h3>
           <p style={{ margin: '4px 0 16px', color: 'var(--slate-500)' }}>Choose a starting point.</p>
@@ -75,7 +75,7 @@ export default function NewDocPage() {
           <section className="card" style={{ marginBottom: 16 }}>
             <h4 style={{ margin: 0, color: 'var(--navy-900)' }}>Page</h4>
             <p style={{ margin: '4px 0 12px', color: 'var(--slate-500)' }}>Set the size and basic page options.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+            <div className="grid-form-3">
               <div>
                 <label className="label">Size</label>
                 <select className="select" value={size} onChange={e => setSize(e.target.value)}>
@@ -101,7 +101,7 @@ export default function NewDocPage() {
           <section className="card" style={{ marginBottom: 16 }}>
             <h4 style={{ margin: 0, color: 'var(--navy-900)' }}>Layout</h4>
             <p style={{ margin: '4px 0 12px', color: 'var(--slate-500)' }}>Define margins and column settings.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 16, alignItems: 'flex-end' }}>
+            <div className="grid-form-4" style={{ alignItems: 'flex-end' }}>
               <div>
                 <label className="label">Margins (all sides)</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -135,7 +135,7 @@ export default function NewDocPage() {
           <section className="card" style={{ marginBottom: 16 }}>
             <h4 style={{ margin: 0, color: 'var(--navy-900)' }}>Writing</h4>
             <p style={{ margin: '4px 0 12px', color: 'var(--slate-500)' }}>Set the language and text direction.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 16 }}>
+            <div className="grid-form-4" style={{ gap: 16 }}>
               <div>
                 <label className="label">Language</label>
                 <select className="select"><option>Urdu</option><option>Arabic</option><option>English</option></select>

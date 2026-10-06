@@ -35,7 +35,7 @@ export default function StylesPage() {
         </div>
         <button className="btn btn-primary btn-lg"><Icon.Plus /> New style</button>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr 360px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <div className="tabs" style={{ padding: 0 }}>
             <button className={`tab${tab === 'paragraph' ? ' active' : ''}`} onClick={() => setTab('paragraph')}>Paragraph styles</button>
@@ -61,18 +61,18 @@ export default function StylesPage() {
         <main>
           <div className="card">
             <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Edit {sel.name}</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginTop: 12 }}>
+            <div className="grid-form-3" style={{ marginTop: 12 }}>
               <div><label className="label">Font</label><select className="select" value={style.font} onChange={e => setStyle({ ...style, font: e.target.value })}><option>Noto Nastaliq Urdu</option><option>Noto Naskh Arabic</option></select></div>
               <div><label className="label">Size</label><select className="select" value={style.size} onChange={e => setStyle({ ...style, size: e.target.value })}><option>14 pt</option><option>18 pt</option><option>24 pt</option></select></div>
               <div><label className="label">Weight</label><select className="select"><option>Regular</option><option>Bold</option></select></div>
             </div>
             <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
               <div><label className="label">Paragraph direction</label><select className="select"><option>Right to left (RTL)</option><option>Left to right (LTR)</option></select></div>
               <div><label className="label">Alignment</label><select className="select"><option>Justified</option><option>Right</option><option>Left</option><option>Center</option></select></div>
             </div>
             <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }}>
+            <div className="grid-form-3">
               <div><label className="label">Line spacing</label><select className="select"><option>1.0</option><option>1.5</option><option>2.0</option></select></div>
               <div><label className="label">Space before</label><select className="select"><option>0 pt</option><option>4 pt</option><option>8 pt</option></select></div>
               <div><label className="label">Space after</label><select className="select"><option>0 pt</option><option>4 pt</option><option>8 pt</option></select></div>

@@ -42,7 +42,7 @@ export default function QRPage() {
       </div>
       <h2 style={{ margin: 0 }}>Add a QR code to your page</h2>
       <p style={{ color: 'var(--slate-500)' }}>Create a code for a link or text.</p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <main>
           <div className="chip-row">
             <button className={`chip${tab === 'link' ? ' active' : ''}`} onClick={() => setTab('link')}><Icon.Link /> Link</button>
@@ -51,7 +51,7 @@ export default function QRPage() {
           <label className="label" style={{ marginTop: 16 }}>Website address</label>
           <input className="input" value={url} onChange={e => setUrl(e.target.value)} />
           <h4 style={{ marginTop: 16 }}>Appearance</h4>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          <div className="grid-2" style={{ gap: 16 }}>
             <div><label className="label">Foreground color</label>
               <select className="select" value={fg} onChange={e => setFg(e.target.value)}><option value="navy">Navy</option><option value="emerald">Emerald</option><option value="black">Black</option></select>
             </div>
@@ -59,7 +59,7 @@ export default function QRPage() {
               <select className="select" value={bg} onChange={e => setBg(e.target.value)}><option value="white">White</option><option value="ivory">Ivory</option></select>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16, marginTop: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginTop: 16 }}>
             <div><label className="label">Physical size</label><div style={{ display: 'flex' }}><input className="input" defaultValue="30" /><select className="select"><option>mm</option><option>cm</option></select></div></div>
             <div><label className="label">Margin (quiet zone)</label><div style={{ display: 'flex' }}><input className="input" defaultValue="4" /><select className="select"><option>modules</option></select></div></div>
             <div><label className="label">Error correction</label><select className="select"><option>Medium</option><option>Low</option><option>High</option></select></div>

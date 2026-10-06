@@ -14,7 +14,7 @@ export default function ColorsShapesPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Colors &amp; shapes</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           {tab === 'colors' ? [
             ['doc','Document colors', true], ['pal','Saved palettes', false], ['recent','Recent colors', false]
@@ -46,7 +46,7 @@ export default function ColorsShapesPage() {
                 </div>
                 <button className="btn btn-primary"><Icon.Plus /> Add color</button>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 12, marginTop: 16 }}>
+              <div className="grid-6" style={{ gap: 12, marginTop: 16 }}>
                 {state.colors.map(col => (
                   <div key={col.id} className={`card card-hoverable${sel === col.id ? ' selected' : ''}`}
                        style={{ padding: 8, textAlign: 'center' }} onClick={() => setSel(col.id)}>
@@ -83,7 +83,7 @@ export default function ColorsShapesPage() {
               <label className="label" style={{ marginTop: 8 }}>Hex</label>
               <input className="input" defaultValue={c.hex} />
               <label className="label" style={{ marginTop: 8 }}>RGB</label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 6 }}>
                 <input className="input" defaultValue="0" /><input className="input" defaultValue="143" /><input className="input" defaultValue="118" />
               </div>
               <label className="label" style={{ marginTop: 8 }}>Opacity</label>
@@ -106,7 +106,7 @@ export default function ColorsShapesPage() {
               </div>
               <label className="label" style={{ marginTop: 8 }}>Border width</label>
               <select className="select"><option>1 pt</option><option>0.5 pt</option><option>2 pt</option></select>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginTop: 8 }}>
+              <div className="grid-2" style={{ gap: 6, marginTop: 8 }}>
                 <div><label className="label">Width</label><input className="input" defaultValue="60 mm" /></div>
                 <div><label className="label">Height</label><input className="input" defaultValue="30 mm" /></div>
               </div>
@@ -139,7 +139,7 @@ function ShapesBody({ sel, setSel }) {
         <Icon.Search style={{ position: 'absolute', top: 10, left: 10, color: 'var(--slate-300)' }} />
         <input className="input" placeholder="Search shapes…" style={{ paddingLeft: 32 }} />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginTop: 16 }}>
+      <div className="grid-4" style={{ gap: 12, marginTop: 16 }}>
         {SHAPES.map(s => (
           <div key={s.id} className={`card card-hoverable${sel === s.id ? ' selected' : ''}`}
                style={{ padding: 16, textAlign: 'center' }} onClick={() => setSel(s.id)}>

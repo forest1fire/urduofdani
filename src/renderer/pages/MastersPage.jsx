@@ -19,7 +19,7 @@ export default function MastersPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Masters</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           {MASTERS.map(x => (
             <div key={x.id} className={`card card-hoverable${x.id === sel ? ' selected' : ''}`}
@@ -69,7 +69,7 @@ export default function MastersPage() {
           </div>
           <hr style={{ margin: '12px 0', border: 0, borderTop: '1px solid var(--slate-100)' }} />
           <strong>Margins (all pages)</strong>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginTop: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: 6, marginTop: 6 }}>
             {['Top','Bottom','Inside','Outside'].map((l, i) => (
               <div key={l}>
                 <label className="label" style={{ fontSize: 12 }}>{l}</label>

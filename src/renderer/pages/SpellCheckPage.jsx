@@ -49,7 +49,7 @@ export default function SpellCheckPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Spelling</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <h3 style={{ margin: 0, color: 'var(--navy-900)' }}>Pages</h3>
           {[1, 2, 3].map(i => (
@@ -111,7 +111,7 @@ export default function SpellCheckPage() {
             </button>
           ))}
           {current && <button className="btn btn-primary" style={{ width: '100%', marginTop: 8 }}>Replace</button>}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginTop: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 6, marginTop: 6 }}>
             <button className="btn btn-secondary" onClick={() => setIdx(i => Math.min(unknown.length - 1, i + 1))}>Ignore once</button>
             <button className="btn btn-secondary" onClick={() => setIdx(i => Math.min(unknown.length - 1, i + 1))}>Add to dictionary</button>
           </div>

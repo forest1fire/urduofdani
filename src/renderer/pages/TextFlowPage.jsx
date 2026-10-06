@@ -19,7 +19,7 @@ export default function TextFlowPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Text flow</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           <h3 style={{ margin: 0 }}>Story frames</h3>
           <div style={{ marginTop: 12 }}>

@@ -23,7 +23,7 @@ export default function ImagesPage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Images &amp; assets</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 320px', gap: 24 }}>
+      <div className="page-3col" style={{ padding: '16px 32px' }}>
         <aside>
           {[['all','All assets'],['images','Images'],['shapes','Shapes'],['saved','Saved blocks']].map(([id, l]) => (
             <button key={id} className={`sidenav-item ${id === tab ? 'active' : ''}`} onClick={() => setTab(id)}>
@@ -49,7 +49,7 @@ export default function ImagesPage() {
             <button className="btn btn-secondary"><Icon.Tiles /></button>
             <button className="btn btn-secondary"><Icon.Layers /></button>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+          <div className="grid-3" style={{ gap: 12 }}>
             {ASSETS.map(x => (
               <div key={x.id} className={`card card-hoverable${sel === x.id ? ' selected' : ''}`}
                    style={{ padding: 8 }} onClick={() => setSel(x.id)}>

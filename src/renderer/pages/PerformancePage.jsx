@@ -12,7 +12,7 @@ export default function PerformancePage() {
         <h1 className="page-title" style={{ marginLeft: 16 }}>Performance</h1>
         <div style={{ marginLeft: 'auto' }}><Icon.Help_O /> Help</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: 24 }}>
+      <div className="page-2col" style={{ padding: '16px 32px' }}>
         <main>
           <h2 style={{ margin: 0 }}>Performance</h2>
           <p style={{ color: 'var(--slate-500)' }}>Balance editing speed and preview detail.</p>
