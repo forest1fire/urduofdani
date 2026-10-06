@@ -2,6 +2,27 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.1.7 — 2026-10-06
+
+Re-published with correctly-versioned artifacts. The v1.1.6 release shipped
+the right code but with `1.1.5` in the artifact filenames (the bump to
+1.1.6 happened in the same commit that fixed the release workflow, so the
+build had already used 1.1.5 by the time the workflow ran). v1.1.7
+re-builds the installers with the correct 1.1.6 version embedded.
+
+### Changed
+- `package.json` version: `1.1.5` → `1.1.6`.
+- `index.html` `generator` meta: `1.1.5` → `1.1.6`.
+
+### Published artifacts
+
+Tag `v1.1.7` published at
+https://github.com/forest1fire/urduofdani/releases/tag/v1.1.7:
+
+- 🪟 **UrduOfDani-Setup-1.1.6.exe** — Windows NSIS installer (88 MB)
+- 🐧 **UrduOfDani-1.1.6.AppImage** — Linux portable (117 MB)
+- 🐧 **urduofdani_1.1.6_amd64.deb** — Debian/Ubuntu (76 MB)
+
 ## 1.1.6 — 2026-10-06
 
 **First published release.** The release pipeline was working, but no
