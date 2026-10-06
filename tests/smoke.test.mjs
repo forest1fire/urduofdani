@@ -416,6 +416,57 @@ test('TopBar: ships an inspector toggle button when a toggle handler is provided
   assert.ok(src.includes('Toggle inspector'), 'TopBar should render a Toggle inspector button');
 });
 
+test('templates.js: ships 15 production templates across 6 categories', () => {
+  const src = readFileSync('src/renderer/lib/templates.js', 'utf8');
+  for (const marker of [
+    'TEMPLATES',
+    'getTemplateById',
+    'getFeaturedTemplates',
+    'getCategories',
+    'templateToDocument',
+    'pageSize',              // helper
+    'SAMPLE_URDU_PROSE',
+    'SAMPLE_URDU_POETRY',
+    'SAMPLE_URDU_ARTICLE',
+    'SAMPLE_LTRS_PROSE',
+    'SAMPLE_LTRS_REPORT',
+    'SAMPLE_LTRS_INVITE',
+    'SAMPLE_LTRS_CV',
+    'SAMPLE_LTRS_BROCHURE',
+    't-book-urdu',         // book
+    't-mag-edit',          // magazine
+    't-card-wed',          // card
+    't-news-school',       // newsletter
+    't-poster-event',      // poster
+    't-rpt-res',           // report
+    't-cv-pro',            // cv
+    't-brochure-travel',   // brochure
+    't-poetry',            // poetry
+    't-resume-modern',     // resume
+    't-news-corp',         // corporate news
+  ]) {
+    assert.ok(src.includes(marker), `templates.js should include "${marker}"`);
+  }
+});
+
+test('TemplatesPage: ships a featured row, category filter, search, preview modal, and rich grid', () => {
+  const src = readFileSync('src/renderer/pages/TemplatesPage.jsx', 'utf8');
+  for (const marker of [
+    'getFeaturedTemplates',
+    'getCategories',
+    'templateToDocument',
+    'Featured',
+    'FeaturedCard',
+    'TemplateCard',
+    'PreviewModal',
+    'setPreview',
+    'open-doc-data',
+    "set-route', route: 'editor'",
+  ]) {
+    assert.ok(src.includes(marker), `TemplatesPage should include "${marker}"`);
+  }
+});
+
 test('EditorPage: ships a ribbon-style toolbar with 6 tabs, 8 page sizes, 8 fonts, 3 themes, and a ruler', () => {
   const src = readFileSync('src/renderer/pages/EditorPage.jsx', 'utf8');
   for (const marker of [

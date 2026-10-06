@@ -2,6 +2,80 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.2.6 — 2026-10-06
+
+**Real template gallery.** The Templates page is now a proper
+gallery with 15 production-quality templates that actually open
+as fully-formed documents in the editor.
+
+### Added (templates.js)
+- **15 production templates** across 6 categories:
+  - **Books (2)**: Urdu Book (A5, 4 pages), Poetry Collection (A5, 4 pages)
+  - **Magazines (2)**: Editorial Magazine (A4, 4 pages), Tech Magazine (A4, 3 pages)
+  - **Cards (2)**: Wedding Invitation (A5, 1 page), Business Card (DL, 1 page)
+  - **Newsletters (2)**: School Newsletter (A4, 4 pages), Corporate News (A4, 1 page)
+  - **Posters (2)**: Event Poster (A3, 1 page), Mosque Poster (A3, 1 page)
+  - **Reports (3)**: Research Report (A4, 4 pages), Annual Report (A4, 4 pages), Professional CV (A4, 1 page), Modern Resume (A4, 1 page), Travel Brochure (A4 landscape, 1 page)
+- Each template has:
+  - **Multi-page structure** (1-4 pages each)
+  - **Multi-frame layout** (cover, contents, body, back cover, etc.)
+  - **Real Urdu content** (prose, poetry, articles) + English where applicable
+  - **Custom palette** (bg / fg / accent / secondary)
+  - **Page size + orientation** (A5 / A4 / A3 / Letter / DL)
+  - **Direction** (RTL or LTR)
+  - **Featured flag** (3 templates marked as featured)
+- **Helper functions**:
+  - `getTemplateById(id)` — look up by slug
+  - `getFeaturedTemplates()` — get the 3 featured ones
+  - `getCategories()` — get categories with counts
+  - `templateToDocument(t)` — convert to the emptyDocument-style
+    structure used by the editor
+
+### Added (TemplatesPage)
+- **Featured row** with 3 large highlighted cards at the top
+  (Urdu Book, Wedding Invitation, Editorial Magazine).
+- **Category chips with counts** ("All 15", "Books 2",
+  "Magazines 2", "Cards 2", "Newsletters 2", "Posters 2",
+  "Reports 3").
+- **Search input** that matches title, subtitle, and Urdu title.
+- **Empty state** when no templates match.
+- **Preview modal** — clicking any template (or "Preview" button)
+  opens a modal showing:
+  - All pages as small previews with their actual frame layouts
+  - Page count, size, orientation, palette, and time-to-fill chips
+  - Long description
+  - "Cancel" and "Create from this template" buttons
+- **Two card types**:
+  - `FeaturedCard` — large, with hero image area, badge, and
+    inline "Use" button.
+  - `TemplateCard` — standard grid card with "Preview" + "Use"
+    buttons, page size chip, RTL/LTR indicator.
+- **"Use template" action** — converts the template to a real
+  document and dispatches `open-doc-data` + `set-route: editor`,
+  so the user lands in the editor with the document already open.
+- **"Want a custom template?" callout** at the bottom inviting
+  requests to `hello.danilabs@gmail.com`.
+
+### Added (CSS)
+- `.modal-card`, `.modal-header`, `.modal-body`, `.modal-footer`
+  with fade-in animation.
+- `.tpl-card`, `.tpl-preview`, `.tpl-chip`, `.tpl-lines`,
+  `.tpl-line` (long/med/short variants) — polished template
+  preview with hover lift + border highlight.
+- Responsive: modal collapses to 95vw on mobile; padding shrinks.
+
+### Added (tests)
+- 2 new smoke tests: templates.js ships 15 templates across 6
+  categories with all helpers; TemplatesPage ships a featured row,
+  category filter, search, preview modal, and rich grid.
+- **64 / 64 tests pass.**
+
+### Verified
+- `npm test` → **64 / 64 pass**.
+- `npm run build` → green.
+- Live preview at `http://localhost:5173/` → HTTP 200; HMR
+  serving the new templates.
+
 ## 1.2.5 — 2026-10-06
 
 **Editor upgrade — Word / InPage / CorelDRAW inspired.** The editor
