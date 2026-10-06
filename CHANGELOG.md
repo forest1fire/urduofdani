@@ -2,6 +2,34 @@
 
 All notable changes to **UrduOfDani** are documented in this file.
 
+## 1.0.1 — 2026-10-06
+
+Repo hygiene + brand identity + auto-`.exe` release pipeline.
+
+### Added
+- **Brand assets.** Brand-true SVG logo and wordmark in `resources/`:
+  - `logo-icon.svg` — emerald pen, viewBox 0 0 512 512
+  - `logo-wordmark.svg` — UrduOfDani + "Created by Dani"
+  - `icon.png` (1024×1024) for Electron, plus 32 / 48 / 64 / 128 / 256 / 512 px PNGs
+  - `favicon-16/32.png`, `apple-touch-icon.png`
+  - 600 / 1100 px wordmark PNGs for the README
+- **`src/renderer/components/Brand.jsx`** — `<Brand size />` and `<Brand wordmark twoTone />` ship the brand inline, recolourable, and free of PNG dependencies.
+- **Auto-release pipeline.** `.github/workflows/release.yml` now also:
+  - Adds a `build-mac` job (skips cleanly when no `macos` runner is available)
+  - Publishes a GitHub Release with `softprops/action-gh-release@v2` on every `v*` tag, attaching all three OS installers
+  - Supports `workflow_dispatch` for manual dry-runs
+- **`<Brand>` used in the UI.** Top bar logo slot, Home page hero, Help/About card.
+
+### Changed
+- **Repository layout.** 26 mockup PNGs moved from the repo root into `design/` (with semantic names) and the inventory doc moved to `design/INVENTORY.md`. Old source ZIPs and `Readmefirst` moved to `archive/`. The repo root now contains only top-level config.
+- **`.gitignore`** now ignores `dist/`, `release/`, `node_modules/`, OS/editor cruft, Python caches.
+- **`package.json` `build.icon`** points at `resources/icon.png` for Windows, macOS, and Linux.
+- **`index.html`** now links the SVG favicon, PNG fallbacks, and the apple-touch-icon.
+- **`README.md`** rewritten with the new banner, restructured layout, and a "How to cut a release" section.
+
+### Tests
+- 12/12 smoke tests pass (6 spell + engine + 6 responsive CSS / App).
+
 ## 1.0.0 — 2026-10-06
 
 First end-to-end release. Built by Arena Agent in a single session.
