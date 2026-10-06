@@ -41,6 +41,7 @@
     "appId": "com.danilabs.urduofdani",
     "productName": "UrduOfDani",
     "directories": { "output": "release" },
+    "icon": "resources/icon.png",
     "files": [
       "src/main/**/*",
       "src/preload/**/*",
@@ -54,6 +55,7 @@
     ],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "resources/icon.png",
       "artifactName": "UrduOfDani-Setup-${version}.${ext}"
     },
     "nsis": {
@@ -61,7 +63,15 @@
       "createDesktopShortcut": true, "createStartMenuShortcut": true,
       "shortcutName": "UrduOfDani"
     },
-    "linux": { "target": ["AppImage", "deb"], "category": "Office" },
-    "mac":   { "target": ["dmg"], "category": "public.app-category.productivity" }
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office",
+      "icon": "resources/icon.png"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.productivity",
+      "icon": "resources/icon.png"
+    }
   }
 }

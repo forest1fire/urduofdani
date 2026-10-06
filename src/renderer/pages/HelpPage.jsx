@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import Brand from '../components/Brand.jsx';
 
 const TOPICS = [
   { id: 'getting-started', label: 'Getting started', Icon: Icon.Book },
@@ -75,12 +76,16 @@ export default function HelpPage() {
           </div>
         </main>
         <aside className="card" style={{ textAlign: 'center' }}>
-          <div style={{ width: 96, height: 96, background: 'var(--emerald-500)', margin: '0 auto', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Icon.Pen style={{ color: '#fff', fontSize: 48 }} />
+          <div style={{ margin: '0 auto' }}>
+            <Brand size={96} />
           </div>
           <h2 style={{ margin: '12px 0 0', color: 'var(--navy-900)' }}>UrduOfDani</h2>
-          <p style={{ color: 'var(--slate-500)', margin: '4px 0 16px' }}>Urdu writing &amp; publishing</p>
-          <h4 style={{ margin: 0 }}>Created by Dani</h4>
+          <p style={{ color: 'var(--slate-500)', margin: '4px 0 4px' }}>Urdu writing &amp; publishing</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+            <h4 style={{ margin: 0 }}>Created by</h4>
+            <h4 style={{ margin: 0, color: 'var(--emerald-600)' }}>Muhammad Danish [Dani]</h4>
+          </div>
+          <p style={{ color: 'var(--slate-500)', fontSize: 12, margin: '2px 0 0' }}>DaniLabs</p>
           <span className="chip" style={{ background: 'var(--emerald-50)', color: 'var(--emerald-600)', marginTop: 8 }}>Design concept</span>
           <div style={{ marginTop: 16, textAlign: 'left' }}>
             <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 8, width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: 6 }} onMouseEnter={e => e.currentTarget.style.background='var(--slate-50)'} onMouseLeave={e => e.currentTarget.style.background='transparent'}>

@@ -1,5 +1,7 @@
 # UrduOfDani Design System
 
+> **Brand identity** — emerald pen (`#008F76` / `#14B89A`) on ivory / navy. Wordmark: **UrduOfDani** (emerald) + **CREATED BY DANI** (navy) + emerald underline. Source: `resources/logo-icon.svg` and `resources/logo-wordmark.svg`. The icon is bundled at `resources/icon.png` (1024×1024) and shipped in the Electron app.
+
 A practical reference for every UI token, every component variant, and every interaction pattern used
 in UrduOfDani. All tokens are mirrored in `src/renderer/styles/tokens.css` (the single source of truth).
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from './Icons.jsx';
+import Brand from './Brand.jsx';
 
 export default function TopBar() {
   const { state, dispatch } = useStore();
@@ -9,7 +10,7 @@ export default function TopBar() {
   return (
     <header className="topbar" role="banner">
       <div className="topbar-logo">
-        <Icon.Pen className="pen" />
+        <Brand size={22} />
         <span>UrduOfDani</span>
       </div>
 

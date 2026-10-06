@@ -1,12 +1,21 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
 release/
+
+# OS / editor cruft
 .DS_Store
-*.log
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+*~
 .idea/
 .vscode/
 
-# Keep the dictionary databases vendored but not the rebuild caches
+# Python caches
 vendor/__pycache__/
 *.pyc
 .cache/

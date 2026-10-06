@@ -1,16 +1,20 @@
 import React from 'react';
 import { useStore } from '../store/Store.jsx';
 import Icon from '../components/Icons.jsx';
+import Brand from '../components/Brand.jsx';
 
 export default function HomePage() {
   const { state, dispatch } = useStore();
 
   return (
     <div className="page" style={{ padding: 32, background: 'var(--white)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24 }}>
-        <div>
-          <h1 className="page-title" style={{ fontSize: 44, marginBottom: 8 }}>Start something beautiful in Urdu</h1>
-          <p style={{ color: 'var(--slate-500)', fontSize: 18, margin: 0 }}>Create, open and continue your documents.</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <Brand size={48} />
+          <div>
+            <h1 className="page-title" style={{ fontSize: 44, marginBottom: 8 }}>Start something beautiful in Urdu</h1>
+            <p style={{ color: 'var(--slate-500)', fontSize: 18, margin: 0 }}>Create, open and continue your documents.</p>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: 4, background: 'var(--slate-50)', padding: 4, borderRadius: 8 }}>
           <button className="btn btn-sm btn-ghost">Urdu</button>
