@@ -369,3 +369,35 @@ test('README: surfaces the "free for everyone" intent at the top', () => {
   assert.match(readme, /NOTICE/,
     'README should link to NOTICE');
 });
+
+test('electron-builder extraResources: every source directory exists', () => {
+  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+  const er  = pkg.build && pkg.build.extraResources;
+  if (!Array.isArray(er)) return;   // no extraResources is fine
+  for (const entry of er) {
+    const from = typeof entry === 'string' ? entry : entry.from;
+    assert.ok(existsSync(from),
+      `electron-builder extraResources.from = "${from}" but that directory does not exist`);
+  }
+});
+
+test('release workflow: triggers on v* tag and on workflow_dispatch', () => {
+  const yml = readFileSync('.github/workflows/release.yml', 'utf8');
+  assert.match(yml, /tags:\s*\n\s*-\s*['"]v\*['"]/,  'should listen on v* tag push');
+  assert.match(yml, /workflow_dispatch/,             'should accept manual dispatch');
+  assert.match(yml, /build-windows/,                 'should have a Windows build job');
+  assert.match(yml, /dist:win/,                      'should call npm run dist:win for Windows');
+  assert.match(yml, /dist:linux/,                    'should call npm run dist:linux for Linux');
+  assert.match(yml, /dist:mac/,                      'should call npm run dist:mac for macOS');
+  assert.match(yml, /action-gh-release@v2/,          'should publish via softprops/action-gh-release');
+  assert.match(yml, /contents:\s*write/,             'should declare contents: write permission');
+});
+
+test('ci workflow: runs audit + tests + build on every push', () => {
+  const yml = readFileSync('.github/workflows/ci.yml', 'utf8');
+  assert.match(yml, /push:/,                  'should trigger on push');
+  assert.match(yml, /pull_request:/,          'should trigger on pull_request');
+  assert.match(yml, /npm run audit/,          'should run npm run audit');
+  assert.match(yml, /npm test/,               'should run npm test');
+  assert.match(yml, /npm run build/,          'should run npm run build');
+});

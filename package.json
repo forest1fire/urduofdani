@@ -58,8 +58,9 @@
       "CHANGELOG.md"
     ],
     "extraResources": [
-      { "from": "templates", "to": "templates" },
-      { "from": "plugins",   "to": "plugins" }
+      { "from": "plugins",   "to": "plugins" },
+      { "from": "samples",   "to": "samples" },
+      { "from": "brands",    "to": "brands" }
     ],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
